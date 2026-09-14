@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fixture de Olimpiadas - Sede SMP</title>
+  <link href="https://googleapis.com" rel="stylesheet">
+  <!-- STYLES_PLACEHOLDER -->
+</head>
+<body>
+<div class="app-container">
+  
+  <!-- Encabezado del Fixture Arena -->
+  <div class="header">
+    <span class="institution">INNOVA SCHOOLS - SAN MARTÍN DE PORRES</span>
+    <h1 class="title">FIXTURE DE OLIMPIADAS</h1>
+    <p class="subtitle">Filtrado en cascada por fases semanales y roles de partidos por recreos</p>
+  </div>
+
+  <!-- SELECTOR CRONOLÓGICO SUPERIOR DE SEMANAS -->
+  <div class="smp-week-selector">
+    <button onclick="cambiarSemana(1, this)" class="btn-week active">Semana 1 (Preliminares)</button>
+    <button onclick="cambiarSemana(2, this)" class="btn-week">Semana 2 (Preliminares)</button>
+    <button onclick="cambiarSemana(3, this)" class="btn-week">Semana 3 (Preliminares)</button>
+    <button onclick="cambiarSemana(4, this)" class="btn-week" style="color: #fbbf24; border-color: rgba(251, 191, 36, 0.2);">🏆 FINALES (Día Central)</button>
+  </div>
+
+  <!-- BOTONERA DINÁMICA DE DÍAS (CÁPSULAS REDONDEADAS) -->
+  <div class="container-fixture-days" id="botoneraDias"></div>
+
+  <!-- PANEL RECEPTOR DE PARTIDOS EN VIVO -->
+  <div class="smp-grid-games" id="panelPartidos"></div>
+
+  <!-- MENÚ GENERAL DE CRISTAL LÍQUIDO INFERIOR -->
+  <div class="smp-menu-grid">
+    <a href="/registrar" class="smp-menu-btn"><span class="smp-btn-ico">📋</span><span class="smp-btn-title">Registrar</span><p class="smp-btn-desc">Análisis de retos y puntuación por áreas</p></a>
+    <a href="/" class="smp-menu-btn"><span class="smp-btn-ico">🏆</span><span class="smp-btn-title">Puntaje</span><p class="smp-btn-desc">Marcador consolidado en vivo de la Sede SMP</p></a>
+    <a href="/fixture" class="smp-menu-btn" style="border-color: var(--color-smp-neon); background: rgba(0, 242, 254, 0.02);"><span class="smp-btn-ico">📊</span><span class="smp-btn-title">Fixture</span><p class="smp-btn-desc">Roles de partidos preliminares por recreos</p></a>
+  </div>
+</div>
+
+<script>
+  // MATRIZ INSTITUCIONAL UNIFICADA EXTRAÍDA COMPLETA DE TU SHEET
+  const dbPartidos = [
+    // === SEMANA 1 ===
+    { s:1, f:'2026-09-14', t:'Lun 14', h:'09:35 - 09:55', d:'🥇 CONEBALL', e:'BLANCO VS VERDE', c:'Infantil (3º y 4º)', a:'DAVID', r:'M. Gurrionero, G. Huaman, N. Aguilar, D. Quirica' },
+    { s:1, f:'2026-09-14', t:'Lun 14', h:'09:55 - 10:15', d:'🏀 BÁSQUET', e:'BLANCO VS VERDE', c:'Junior (5º y 6º)', a:'DAVID', r:'D. Quirica, J. Romero, K. Armas' },
+    { s:1, f:'2026-09-14', t:'Lun 14', h:'10:55 - 11:15', d:'🏀 BÁSQUET', e:'BLANCO VS VERDE', c:'Juvenil A (7º y 8º)', a:'ENRIQUE ALCAZAR', r:'J. Esteban, D. Sajami, K. Caballero, D. Liviapoma' },
+    { s:1, f:'2026-09-14', t:'Lun 14', h:'11:15 - 11:35', d:'🥇 CONEBALL', e:'BLANCO VS VERDE', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ 9A / DAVID', r:'Tutores, Cotutores y Volantes SMP' },
+    { s:1, f:'2026-09-14', t:'Lun 14', h:'12:55 - 13:15', d:'🏀 BÁSQUET', e:'BLANCO VS VERDE', c:'Juvenil B (9º a 11º)', a:'ENRIQUE ALCAZAR 9C', r:'S. Ramirez, M. Nuñez, K. Caballero, D. Liviapoma' },
+
+    { s:1, f:'2026-09-15', t:'Mar 15', h:'09:35 - 09:55', d:'🥇 CONEBALL', e:'ANARANJADO VS AZUL', c:'Infantil (3º y 4º)', a:'DAVID', r:'M. Gurrionero, L. Natividad, V. Valverde, D. Sajami' },
+    { s:1, f:'2026-09-15', t:'Mar 15', h:'09:55 - 10:15', d:'🏀 BÁSQUET MIXTO', e:'ANARANJADO VS AZUL', c:'Junior (5º y 6º)', a:'DAVID', r:'G. Huaman, P. Coronado, K. Sopla, M. Castillo' },
+    { s:1, f:'2026-09-15', t:'Mar 15', h:'10:55 - 11:15', d:'🏀 BÁSQUET MIXTO', e:'ANARANJADO VS AZUL', c:'Juvenil A (7º y 8º)', a:'ENRIQUE ALCAZAR', r:'M. Nuñez, K. Caballero, D. Sajami' },
+    { s:1, f:'2026-09-15', t:'Mar 15', h:'11:15 - 11:35', d:'🥇 CONEBALL', e:'ANARANJADO VS AZUL', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ / DAVID', r:'Tutores, Cotutores y Volantes SMP' },
+    { s:1, f:'2026-09-15', t:'Mar 15', h:'12:55 - 13:15', d:'🏀 BÁSQUET MIXTO', e:'ANARANJADO VS AZUL', c:'Juvenil B (9º a 11º)', a:'ENRIQUE ALCAZAR', r:'K. Ramos, L. Figueroa, S. Ramirez' },
+
+    { s:1, f:'2026-09-16', t:'Mié 16', h:'09:35 - 09:55', d:'🤾 BALONMANO', e:'BLANCO VS VERDE', c:'Infantil (3º y 4º)', a:'MARIO NUÑEZ', r:'M. Alarcon, K. Armas, J. Romero, V. Valverde' },
+    { s:1, f:'2026-09-16', t:'Mié 16', h:'09:55 - 10:15', d:'🤾 BALONMANO', e:'BLANCO VS VERDE', c:'Junior (5º y 6º)', a:'MARIO NUÑEZ', r:'D. Sajami, L. Gambini, D. Quirica' },
+    { s:1, f:'2026-09-16', t:'Mié 16', h:'10:55 - 11:15', d:'🤾 BALONMANO', e:'BLANCO VS VERDE', c:'Juvenil A (7º y 8º)', a:'MARIO NUÑEZ', r:'L. Figueroa, K. Ramos, P. Coronado' },
+    { s:1, f:'2026-09-16', t:'Mié 16', h:'11:15 - 11:35', d:'🤾 BALONMANO', e:'BLANCO VS VERDE', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ 8A / DAVID', r:'Tutores, Cotutores y Volantes SMP' },
+    { s:1, f:'2026-09-16', t:'Mié 16', h:'12:55 - 13:15', d:'🤾 BALONMANO', e:'BLANCO VS VERDE', c:'Juvenil B (9º a 11º)', a:'MARIO NUÑEZ', r:'D. Sajami, K. Sopla, P. Coronado' },
+
+    { s:1, f:'2026-09-17', t:'Jue 17', h:'09:35 - 09:55', d:'🤾 BALONMANO', e:'ANARANJADO VS AZUL', c:'Infantil (3º y 4º)', a:'DAVID', r:'L. Natividad, D. Sajami, K. Armas, V. Valverde' },
+    { s:1, f:'2026-09-17', t:'Jue 17', h:'09:55 - 10:15', d:'🤾 BALONMANO', e:'ANARANJADO VS AZUL', c:'Junior (5º y 6º)', a:'DAVID', r:'L. Gambini, J. Romero, K. Armas, P. Coronado' },
+    { s:1, f:'2026-09-17', t:'Jue 17', h:'10:55 - 11:15', d:'🤾 BALONMANO', e:'ANARANJADO VS AZUL', c:'Juvenil A (7º y 8º)', a:'ENRIQUE ALCAZAR', r:'D. Sajami, Dayanara, D. Liviapoma' },
+    { s:1, f:'2026-09-17', t:'Jue 17', h:'11:15 - 11:35', d:'🤾 BALONMANO', e:'ANARANJADO VS AZUL', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ / DAVID 9C', r:'Tutores, Cotutores y Volantes SMP' },
+    { s:1, f:'2026-09-17', t:'Jue 17', h:'12:55 - 13:15', d:'🤾 BALONMANO', e:'ANARANJADO VS AZUL', c:'Juvenil B (9º a 11º)', a:'MARIO NUÑEZ', r:'D. Sajami, D. Quirica 9C, L. Gambini' },
+
+    { s:1, f:'2026-09-18', t:'Vie 18', h:'09:35 - 09:55', d:'🏐 VÓLEY', e:'ANARANJADO VS AZUL', c:'Infantil (3º y 4º)', a:'MARIO NUÑEZ', r:'L. Gambini, K. Sopla, M. Reynaga, V. Valverde' },
+    { s:1, f:'2026-09-18', t:'Vie 18', h:'09:55 - 10:15', d:'🏐 VÓLEY', e:'ANARANJADO VS AZUL', c:'Junior (5º y 6º)', a:'MARIO NUÑEZ', r:'K. Caballero, G. Huaman, N. Aguilar, L. Gambini' },
+    { s:1, f:'2026-09-18', t:'Vie 18', h:'10:55 - 11:15', d:'🏐 VÓLEY', e:'ANARANJADO VS AZUL', c:'Juvenil A (7º y 8º)', a:'ENRIQUE ALCAZAR', r:'D. Liviapoma, P. Coronado, G. Huaman, J. Esteban' },
+    { s:1, f:'2026-09-18', t:'Vie 18', h:'11:15 - 11:35', d:'🏐 PASABOLA', e:'ANARANJADO VS AZUL', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ 9B', r:'Tutores, Cotutores y Volantes SMP' },
+    { s:1, f:'2026-09-18', t:'Vie 18', h:'12:55 - 13:15', d:'🏐 VÓLEY', e:'ANARANJADO VS AZUL', c:'Juvenil B (9º a 11º)', a:'ENRIQUE ALCAZAR', r:'L. Figueroa, M. Nuñez, S. Ramirez, L. Delao' },
+
+    // === SEMANA 2 ===
+    { s:2, f:'2026-09-21', t:'Lun 21', h:'09:35 - 09:55', d:'🏐 VÓLEY', e:'BLANCO VS VERDE', c:'Infantil (3º y 4º)', a:'DAVID', r:'M. Gurrionero, G. Huaman, N. Aguilar, L. Gambini' },
+    { s:2, f:'2026-09-21', t:'Lun 21', h:'09:55 - 10:15', d:'🏐 VÓLEY', e:'BLANCO VS VERDE', c:'Junior (5º y 6º)', a:'DAVID', r:'D. Quirica, J. Romero, K. Armas' },
+    { s:2, f:'2026-09-21', t:'Lun 21', h:'10:55 - 11:15', d:'🏐 VÓLEY', e:'BLANCO VS VERDE', c:'Juvenil A (7º y 8º)', a:'KATTY RAMOS', r:'J. Esteban, D. Sajami, K. Caballero, D. Liviapoma' },
+    { s:2, f:'2026-09-21', t:'Lun 21', h:'11:15 - 11:35', d:'🏐 VÓLEY', e:'BLANCO VS VERDE', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ 9A / DAVID', r:'Tutores, Cotutores y Volantes' },
+    { s:2, f:'2026-09-21', t:'Lun 21', h:'12:55 - 13:15', d:'🏐 VÓLEY', e:'BLANCO VS VERDE', c:'Juvenil B (9º a 11º)', a:'KATTY RAMOS', r:'Saira, M. Nuñez, K. Caballero, D. Liviapoma' },
+
+    { s:2, f:'2026-09-22', t:'Mar 22', h:'09:35 - 09:55', d:'⚽ FUTSAL', e:'VERDE VS AZUL', c:'Infantil (3º y 4º)', a:'DAVID', r:'M. Gurrionero, L. Natividad, V. Valverde' },
+    { s:2, f:'2026-09-22', t:'Mar 22', h:'09:55 - 10:15', d:'⚽ FUTSAL', e:'VERDE VS AZUL', c:'Junior (5º y 6º)', a:'Karl Sopla', r:'P. Coronado, G. Huaman, M. Castillo' },
+    { s:2, f:'2026-09-22', t:'Mar 22', h:'10:55 - 11:15', d:'⚽ FUTSAL', e:'VERDE VS AZUL', c:'Juvenil A (7º y 8º)', a:'Larry Delao 10B', r:'M. Nuñez, D. Sajami, K. Caballero, E. Alcazar' },
+    { s:2, f:'2026-09-22', t:'Mar 22', h:'11:15 - 11:35', d:'⚽ FUTSAL', e:'VERDE VS AZUL', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ / DAVID', r:'Tutores y Cotutores' },
+    { s:2, f:'2026-09-22', t:'Mar 22', h:'12:55 - 13:15', d:'⚽ FUTSAL', e:'VERDE VS AZUL', c:'Juvenil B (9º a 11º)', a:'ENRIQUE ALCAZAR', r:'K. Ramos, L. Figueroa, S. Ramirez' },
+
+    { s:2, f:'2026-09-23', t:'Mié 23', h:'09:35 - 09:55', d:'⚽ FUTSAL', e:'BLANCO VS ANARANJADO', c:'Infantil (3º y 4º)', a:'MARIO NUÑEZ', r:'M. Alarcon, K. Armas, J. Romero, V. Valverde' },
+    { s:2, f:'2026-09-23', t:'Mié 23', h:'09:55 - 10:15', d:'⚽ FUTSAL', e:'BLANCO VS ANARANJADO', c:'Junior (5º y 6º)', a:'MARIO', r:'D. Sajami, L. Gambini, D. Quirica' },
+    { s:2, f:'2026-09-23', t:'Mié 23', h:'10:55 - 11:15', d:'⚽ FUTSAL', e:'BLANCO VS ANARANJADO', c:'Juvenil A (7º y 8º)', a:'Larry Delao 10A', r:'L. Figueroa, M. Nuñez, K. Ramos, P. Coronado' },
+    { s:2, f:'2026-09-23', t:'Mié 23', h:'11:15 - 11:35', d:'⚽ FUTSAL', e:'BLANCO VS ANARANJADO', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ 8A / DAVID', r:'Tutores y Cotutores' },
+    { s:2, f:'2026-09-23', t:'Mié 23', h:'12:55 - 13:15', d:'⚽ FUTSAL', e:'BLANCO VS ANARANJADO', c:'Juvenil B (9º a 11º)', a:'ENRIQUE ALCAZAR', r:'D. Sajami, K. Sopla, P. Coronado' },
+
+    // === SEMANA 3 ===
+    { s:3, f:'2026-09-25', t:'Vie 25', h:'08:00 A 09:35', d:'🏳️ BIENVENIDA / APERTURA', e:'DESFILE DE LAS HOUSE', c:'TODAS LAS CATEGORÍAS', a:'LARRY DELAO / MESA: DAVID Y MARIO', r:'M. Gurrionero, G. Huaman, N. Aguilar, L. Gambini' },
+    { s:3, f:'2026-09-25', t:'Vie 25', h:'10:55 - 11:15', d:'🤸 DRILL GIMNÁSTICO', e:'PRESENTACIÓN CENTRAL', c:'TODAS LAS HOUSE', a:'MESA DE CONTROL', r:'Cuerpo Docente Sede SMP' },
+    { s:3, f:'2026-09-25', t:'Vie 25', h:'11:15 - 11:35', d:'🤝 ENCUENTRO DE PADRES', e:'JUEGOS DE CONFRATERNIDAD', c:'COMUNIDAD FAMILIAR', a:'COMISIÓN OLÍMPICA', r:'Tutores y Personal de Apoyo' },
+    { s:3, f:'2026-09-28', t:'Lun 28', h:'09:35 - 13:15', d:'🤾 3er y 4to BALONMANO', e:'LLAVES DE CONSOLACIÓN', c:'TODAS LAS CATEGORÍAS', a:'DAVID', r:'M. Gurrionero, G. Huaman, N. Aguilar, L. Gambini' },
+    { s:3, f:'2026-09-29', t:'Mar 29', h:'08:00 A 09:20', d:'🏃 ATLETISMO / VELOCIDAD', e:'CARRERAS Y RELEVOS', c:'Promesas (1º y 2º)', a:'LARRY DELAO / MESA: DAVID Y MARIO', r:'Tutores de Primaria' },
+    { s:3, f:'2026-10-01', t:'Jue 01', h:'08:40 A 09:00', d:'🎪 GYNKANA OFICIAL', e:'EL PISO ES LAVA / AROS', c:'Promesas / Infantil', a:'KATTY / MESA: DAVID Y MARIO', r:'Profesores de Apoyo Asignados' },
+
+  ];
+
+            let semanaActiva = 1;
+
+  // Forzamos la carga inicial del Lunes de la Semana 1 de forma estricta
+  window.addEventListener('load', () => { 
+    filtrarPartidos('2026-09-14', document.getElementById('btn-inicial-smp')); 
+  });
+
+  function cambiarSemana(num, btn) {
+    // 1. Apagamos el estado activo de los botones superiores de semanas
+    document.querySelectorAll('.smp-week-selector .btn-week').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    semanaActiva = num;
+    
+    const botonera = document.getElementById('botoneraDias');
+    const panel = document.getElementById('panelPartidos');
+
+    // 2. MAQUETACIÓN MANUAL BLINDADA: Forzamos la botonera exacta por cada pestaña
+    if (num === 1) {
+      botonera.innerHTML = `
+        <button id="btn-inicial-smp" onclick="filtrarPartidos('2026-09-14', this)" class="btn-glass active">Lun 14</button>
+        <button onclick="filtrarPartidos('2026-09-15', this)" class="btn-glass">Mar 15</button>
+        <button onclick="filtrarPartidos('2026-09-16', this)" class="btn-glass">Mié 16</button>
+        <button onclick="filtrarPartidos('2026-09-17', this)" class="btn-glass">Jue 17</button>
+        <button onclick="filtrarPartidos('2026-09-18', this)" class="btn-glass">Vie 18</button>
+      `;
+      filtrarPartidos('2026-09-14', botonera.querySelector('.btn-glass'));
+    } 
+    else if (num === 2) {
+      botonera.innerHTML = `
+        <button onclick="filtrarPartidos('2026-09-21', this)" class="btn-glass active">Lun 21</button>
+        <button onclick="filtrarPartidos('2026-09-22', this)" class="btn-glass">Mar 22</button>
+        <button onclick="filtrarPartidos('2026-09-23', this)" class="btn-glass">Mié 23</button>
+        <button onclick="filtrarPartidos('2026-09-24', this)" class="btn-glass">Jue 24</button>
+        <button onclick="filtrarPartidos('2026-09-25', this)" class="btn-glass">Vie 25</button>
+      `;
+      filtrarPartidos('2026-09-21', botonera.querySelector('.btn-glass'));
+    } 
+    else if (num === 3) {
+      botonera.innerHTML = `
+        <button onclick="filtrarPartidos('2026-09-28', this)" class="btn-glass active">Lun 28</button>
+        <button onclick="filtrarPartidos('2026-09-29', this)" class="btn-glass">Mar 29</button>
+        <button onclick="filtrarPartidos('2026-10-01', this)" class="btn-glass">Jue 01</button>
+      `;
+      filtrarPartidos('2026-09-28', botonera.querySelector('.btn-glass'));
+    } 
+    else if (num === 4) {
+      botonera.innerHTML = `<span style="font-size:11px; font-weight:800; color:#fbbf24; letter-spacing:1px; text-transform:uppercase;">🔥 JORNADA CENTRAL DE CLAUSURA EN CAMPO GENERAL NATIVO</span>`;
+      filtrarPartidos('2026-10-02', null);
+    }
+  }
+
+  function filtrarPartidos(fechaFiltro, btn) {
+    // Apagamos los botones de días de la botonera actual
+    document.querySelectorAll('.container-fixture-days .btn-glass').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    const panel = document.getElementById('panelPartidos');
+    
+    // Filtramos la base de datos cruzando de forma rígida la semana y el día
+    const filtrados = dbPartidos.filter(p => p.s === semanaActiva && p.f === fechaFiltro && p.e.trim() !== "");
+
+    let html = '';
+    
+    if (filtrados.length === 0) {
+      panel.innerHTML = `
+        <div style="text-align:center; padding:40px; color:#475569; font-size:13px; font-weight:600;">
+          ⏳ LLAVES EN DEFINICIÓN CLASIFICATORIA<br>
+          <span style="font-size:11px; color:#64748b; font-weight:500; display:block; margin-top:4px;">Los roles aparecerán automáticamente apenas concluyan los encuentros de las semanas previas.</span>
+        </div>`;
+      return;
+    }
+
+    filtrados.forEach(p => {
+      let colorEstado = semanaActiva === 4 ? '#fbbf24' : '#38bdf8';
+      let textoEstado = semanaActiva === 4 ? '🏆 Finales' : '⚔️ Programado';
+      
+      html += `
+        <div class="smp-game-row" style="display:flex; flex-direction:column; align-items:stretch; gap:12px; margin-bottom:12px; ${semanaActiva === 4 ? 'border-color: rgba(251, 191, 36, 0.25); background: rgba(251, 191, 36, 0.01);' : ''}">
+          <div style="display:flex; align-items:center; width:100%; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+            <div class="smp-time-badge" style="${semanaActiva === 4 ? 'color:#fbbf24; border-color: rgba(251, 191, 36, 0.2);' : ''}"><span>${p.h}</span></div>
+            <div class="info-block" style="flex-grow:1; margin-left:5px; min-width:200px;">
+              <h4 style="margin: 0; font-size: 11px; color: #475569; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">
+                ${p.c} — <span style="color: ${colorEstado}; font-weight: 900;">${p.d}</span>
+              </h4>
+              <p class="game-match-text" style="margin: 3px 0 0 0; font-size: 16px; font-weight: 900; tracking-tight: -0.3px; color: #ffffff;">
+                ${p.e}
+              </p>
+            </div>
+            <div class="arb-badge" style="text-align: right; min-width: 110px; background: rgba(255,255,255,0.01); padding: 5px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.03);">
+              <span style="font-size: 9px; font-weight: 900; color: #fbbf24; display: block; letter-spacing: 0.5px; text-transform:uppercase;">Árbitro</span>
+              <span style="font-size: 12px; color: #e2e8f0; font-weight: 700; display: block; margin-top: 1px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">📢 ${p.a || 'POR DESIGNAR'}</span>
+            </div>
+          </div>
+          <div style="background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.03); border-radius: 8px; padding: 10px 14px; font-size: 12px;">
+            <span style="font-size: 9px; font-weight: 800; color: var(--color-smp-neon); display:block; letter-spacing: 1px; text-transform:uppercase; margin-bottom:2px;">📋 Profesores de Apoyo (Mesa / Actas / Control)</span>
+            <span style="color: #94a3b8; font-weight: 500; line-height: 1.4;">${p.r || 'Asignación general de delegados'}</span>
+          </div>
+        </div>`;
+    });
+    panel.innerHTML = html;
+  }
+</script>
+</body>
+</html>
+
+

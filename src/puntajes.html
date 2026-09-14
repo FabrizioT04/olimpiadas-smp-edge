@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Olimpiadas Sede SMP</title>
+  <link href="https://googleapis.com" rel="stylesheet">
+  <!-- STYLES_PLACEHOLDER -->
+</head>
+<body>
+<div class="app-container">
+  <div class="header">
+    <span class="institution">INNOVA SCHOOLS - SAN MARTÍN DE PORRES</span>
+    <h1 class="title">OLIMPIADAS ESCOLARES 2026</h1>
+    <p class="subtitle">Dashboard de control general y podio acumulado de las Houses</p>
+  </div>
+
+  <div class="smp-podium-grid" id="smpContenedorPodio">
+    <div class="smp-card smp-card-blue" id="smp-blue" data-score="0"><div class="smp-mascot-shield">🐬</div><div><p class="smp-house-label">BLUE HOUSE</p><h4 class="smp-house-title">DOLPHINS</h4></div><div><span class="smp-score-text" id="smp-score-blue">0</span></div></div>
+    <div class="smp-card smp-card-white" id="smp-white" data-score="0"><div class="smp-mascot-shield">🕊️</div><div><p class="smp-house-label">WHITE HOUSE</p><h4 class="smp-house-title">SEAGULLS</h4></div><div><span class="smp-score-text" id="smp-score-white">0</span></div></div>
+    <div class="smp-card smp-card-green" id="smp-green" data-score="0"><div class="smp-mascot-shield">🦅</div><div><p class="smp-house-label">GREEN HOUSE</p><h4 class="smp-house-title">EAGLES</h4></div><div><span class="smp-score-text" id="smp-score-green">0</span></div></div>
+    <div class="smp-card smp-card-orange" id="smp-orange" data-score="0"><div class="smp-mascot-shield">🐴</div><div><p class="smp-house-label">ORANGE HOUSE</p><h4 class="smp-house-title">HORSES</h4></div><div><span class="smp-score-text" id="smp-score-orange">0</span></div></div>
+  </div>
+
+  <div class="smp-menu-grid">
+    <a href="/registrar" class="smp-menu-btn"><span class="smp-btn-ico">📋</span><span class="smp-btn-title">Registrar</span><p class="smp-btn-desc">Análisis de retos y puntuación por áreas</p></a>
+    <a href="/" class="smp-menu-btn" style="border-color:var(--color-smp-neon); background: rgba(255,255,255,0.02);"><span class="smp-btn-ico">🏆</span><span class="smp-btn-title">Puntaje</span><p class="smp-btn-desc">Marcador consolidado en vivo de la Sede SMP</p></a>
+    <a href="/fixture" class="smp-menu-btn"><span class="smp-btn-ico">📊</span><span class="smp-btn-title">Fixture</span><p class="smp-btn-desc">Roles de partidos preliminares por recreos</p></a>
+  </div>
+</div>
+
+<script>
+  window.addEventListener('load', () => {
+    fetch('/api/puntajes')
+      .then(res => res.json())
+      .then(puntos => {
+        document.getElementById('smp-score-white').innerText = puntos.white;
+        document.getElementById('smp-score-green').innerText = puntos.green;
+        document.getElementById('smp-score-orange').innerText = puntos.orange;
+        document.getElementById('smp-score-blue').innerText = puntos.blue;
+
+        document.getElementById('smp-white').setAttribute('data-score', puntos.white);
+        document.getElementById('smp-green').setAttribute('data-score', puntos.green);
+        document.getElementById('smp-orange').setAttribute('data-score', puntos.orange);
+        document.getElementById('smp-blue').setAttribute('data-score', puntos.blue);
+
+        const contenedor = document.getElementById('smpContenedorPodio');
+        const tarjetas = Array.from(contenedor.getElementsByClassName('smp-card'));
+        tarjetas.sort((a, b) => parseInt(b.getAttribute('data-score') || 0) - parseInt(a.getAttribute('data-score') || 0));
+        tarjetas.forEach(t => contenedor.appendChild(t));
+      });
+  });
+</script>
+</body>
+</html>

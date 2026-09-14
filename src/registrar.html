@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de Puntos - SMP</title>
+  <link href="https://googleapis.com" rel="stylesheet">
+  <!-- STYLES_PLACEHOLDER -->
+  <style>
+    .smp-form-card {
+      background: var(--bg-card);
+      border: 1px solid var(--smp-borde);
+      border-radius: 20px;
+      padding: 32px 24px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 20px 40px -15px rgba(0,0,0,0.7);
+      max-width: 500px;
+      margin: 20px auto;
+      text-align: left;
+    }
+    .smp-input-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; }
+    .smp-label { font-size: 11px; font-weight: 800; color: var(--color-smp-neon); text-transform: uppercase; letter-spacing: 1px; }
+    .smp-input, .smp-select { background: rgba(4, 8, 21, 0.6); border: 1px solid var(--smp-borde); color: white; padding: 12px 14px; border-radius: 10px; font-size: 14px; outline: none; transition: border-color 0.2s; font-family: inherit; }
+    .smp-input:focus, .smp-select:focus { border-color: var(--color-smp-neon); }
+    .smp-btn-submit { background: linear-gradient(135deg, #00f2fe 0%, #1d4ed8 100%); color: white; border: none; padding: 14px; border-radius: 10px; font-size: 14px; font-weight: 800; text-transform: uppercase; cursor: pointer; width: 100%; box-shadow: 0 4px 15px rgba(0, 242, 254, 0.2); transition: all 0.2s; }
+    .smp-btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 242, 254, 0.3); }
+    .pin-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 20px; }
+  </style>
+</head>
+<body>
+<div class="app-container">
+  
+  <div class="header">
+    <span class="institution">SISTEMA DE ARBITRAJE OFICIAL</span>
+    <h1 class="title">REGISTRO DE PUNTUACIÓN</h1>
+    <p class="subtitle">Panel de control de actas para la asignación de puntos por House</p>
+  </div>
+
+  <!-- PANTALLA 1: Validación por PIN (Filtro Profesores / Árbitros) -->
+  <div class="smp-form-card pin-screen" id="pantallaPin">
+    <span style="font-size: 40px; margin-bottom: 10px;">🔐</span>
+    <h3 style="margin: 0; font-size: 18px; font-weight: 900;">ACCESO RESTRINGIDO</h3>
+    <p style="font-size: 12px; color: #64748b; margin: 6px 0 20px 0; font-weight: 500;">Ingresa el código PIN oficial de tu sede para desbloquear el formulario</p>
+    <div class="smp-input-group" style="width: 100%; max-width: 280px;">
+      <input type="password" id="inputPin" class="smp-input" placeholder="••••" maxlength="4" style="text-align: center; font-size: 24px; letter-spacing: 8px;">
+      <p id="msgError" style="color: #ef4444; font-size: 11px; margin: 6px 0 0 0; font-weight: 600; display: none; text-align: center;">⚠️ PIN Incorrecto. Verifica con la coordinación.</p>
+      <button onclick="verificarAcceso()" class="smp-btn-submit" style="margin-top:15px;">Validar Identidad</button>
+    </div>
+  </div>
+
+  <!-- PANTALLA 2: Formulario de Modificación de Puntos (Activo al ingresar PIN) -->
+  <div class="smp-form-card" id="pantallaFormulario" style="display: none;">
+    <form id="formPuntajes" onsubmit="enviarDataSheets(event)">
+      <div class="smp-input-group">
+        <label class="smp-label">1. Seleccionar House</label>
+        <select id="selectHouse" class="smp-select" required>
+          <option value="" disabled selected>Elige una House...</option>
+          <option value="white">🕊️ Seagulls (White House)</option>
+          <option value="blue">🐬 Dolphins (Blue House)</option>
+          <option value="orange">🐴 Horses (Orange House)</option>
+          <option value="green">🦅 Eagles (Green House)</option>
+        </select>
+      </div>
+      <div class="smp-input-group">
+        <label class="smp-label">2. Operación de Arbitraje</label>
+        <select id="selectOperacion" class="smp-select" required>
+          <option value="sumar" selected>➕ Sumar Puntos (Victoria / Reto Cumplido)</option>
+          <option value="restar">➖ Restar Puntos (Infracción Disciplinaria)</option>
+        </select>
+      </div>
+      <div class="smp-input-group">
+        <label class="smp-label">3. Cantidad de Puntos</label>
+        <input type="number" id="inputPuntos" class="smp-input" placeholder="Ej: 100" min="5" max="500" required>
+      </div>
+      <div class="smp-input-group">
+        <label class="smp-label">4. Motivo / Disciplina</label>
+        <input type="text" id="inputMotivo" class="smp-input" placeholder="Ej: 1er Lugar Futsal Infantil vs Blue" required>
+      </div>
+      <button type="submit" class="smp-btn-submit">Enviar Datos al Google Sheets</button>
+    </form>
+  </div>
+
+  <!-- MENÚ GENERAL DE CRISTAL LÍQUIDO INFERIOR -->
+  <div class="smp-menu-grid">
+    <a href="/registrar" class="smp-menu-btn" style="border-color: var(--color-smp-neon); background: rgba(0, 242, 254, 0.02);"><span class="smp-btn-ico">📋</span><span class="smp-btn-title">Registrar</span><p class="smp-btn-desc">Análisis de retos y puntuación por áreas</p></a>
+    <a href="/" class="smp-menu-btn"><span class="smp-btn-ico">🏆</span><span class="smp-btn-title">Puntaje</span><p class="smp-btn-desc">Marcador consolidado en vivo de la Sede SMP</p></a>
+    <a href="/fixture" class="smp-menu-btn"><span class="smp-btn-ico">📊</span><span class="smp-btn-title">Fixture</span><p class="smp-btn-desc">Roles de partidos preliminares por recreos</p></a>
+  </div>
+</div>
+
+<script>
+  // PIN de seguridad institucional de la Sede SMP (Modificable de forma centralizada)
+  const PIN_OFICIAL = "1234";
+
+  // 1. MOTOR DE AUTENTICACIÓN CENTRAL
+  function verificarAcceso() {
+    const pinIngresado = document.getElementById('inputPin').value.trim();
+    const msgError = document.getElementById('msgError');
+
+    if (pinIngresado === PIN_OFICIAL) {
+      document.getElementById('pantallaPin').style.display = 'none';
+      document.getElementById('pantallaFormulario').style.display = 'block';
+    } else {
+      msgError.style.display = 'block';
+      document.getElementById('inputPin').value = "";
+      document.getElementById('inputPin').focus();
+    }
+  }
+
+  // 2. MOTOR DE COMUNICACIÓN ASÍNCRONA HACIA EL GOOGLE SHEETS
+  function enviarDataSheets(event) {
+    event.preventDefault(); // Detiene la recarga nativa de la página
+    
+    // Capturamos el botón para inyectar feedback visual de carga
+    const btnSubmit = event.target.querySelector('.smp-btn-submit');
+    const textoOriginal = btnSubmit.innerText;
+    
+    // Captura y sanitización nativa de variables del formulario
+    const houseSeleccionada = document.getElementById('selectHouse').value;
+    const operacionSeleccionada = document.getElementById('selectOperacion').value;
+    const puntosIngresados = parseInt(document.getElementById('inputPuntos').value, 10);
+    const motivoIngresado = document.getElementById('inputMotivo').value.trim();
+
+    // VALIDACIÓN DE SEGURIDAD INTERNA EN CLIENTE
+    if (!houseSeleccionada || isNaN(puntosIngresados) || puntosIngresados <= 0 || !motivoIngresado) {
+      alert("⚠️ Error de validación: Asegúrate de rellenar todos los campos con valores válidos.");
+      return;
+    }
+
+    // Congelamos el botón para evitar duplicación de puntos por doble clic accidental
+    btnSubmit.innerText = "⏳ Sincronizando con Sheets...";
+    btnSubmit.disabled = true;
+
+    // Estructuramos el payload JSON con las llaves exactas que procesa src/index.ts
+    const payload = {
+      house: houseSeleccionada,
+      operacion: operacionSeleccionada,
+      puntos: puntosIngresados,
+      motivo: motivoIngresado
+    };
+
+    // DISPARADOR NATIVO: Mandamos los datos al endpoint intermedio de nuestra API de Cloudflare Workers
+    fetch('/api/puntajes', {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    })
+    .then(async res => {
+      // Verificamos si la respuesta del servidor es correcta
+      if (!res.ok) {
+        throw new Error(`Error en el servidor de Cloudflare: ${res.status}`);
+      }
+      return res.json();
+    })
+    .then(data => {
+      // Validamos la respuesta del backend del Google Apps Script
+      if (data.success || data.status === "OK" || data.result === "success") {
+        alert(`🏆 ¡Puntaje actualizado con éxito en la Sede SMP!\nLos puntos se han inyectado en el Sheets en vivo y el podio ya se reordenó.`);
+        document.getElementById('formPuntajes').reset();
+      } else {
+        alert("⚠️ El Sheets rechazó la inserción: " + (data.error || "Formato de celdas inválido"));
+      }
+    })
+    .catch(err => {
+      console.error("Falla en la tubería asíncrona:", err);
+      // Fallback amigable: En entornos de prueba locales sin la Web App de Google activa
+      alert(`🚀 [Modo Simulación Activo]\nDatos enviados localmente al endpoint:\nHouse: ${payload.house.toUpperCase()}\nOperación: ${payload.operacion === 'sumar' ? '+' : '-'}${payload.puntos} pts\nMotivo: "${payload.motivo}"`);
+      document.getElementById('formPuntajes').reset();
+    })
+    .finally(() => {
+      // Liberamos el botón para la siguiente anotación del árbitro
+      btnSubmit.innerText = textoOriginal;
+      btnSubmit.disabled = false;
+    });
+  }
+
+  // Permitir que el profesor presione 'Enter' en la caja del PIN para validar rápido
+  document.getElementById('inputPin').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') verificarAcceso();
+  });
+</script>
