@@ -312,14 +312,18 @@
           </div>
         </div>
 
-        <!-- BITÁCORA EN CALIENTE: ÚLTIMOS MOVIMIENTOS DETECTADOS -->
+                <!-- BITÁCORA DE CONTROL DE MOVIMIENTOS (EXTIRPADA DE TEXTOS ANTIGUOS) -->
         <div class="smp-log-panel">
           <div class="smp-log-title">
             <span>📋 Últimos Movimientos</span>
             <span style="color: #627285; font-size: 9px;">Sincronizado</span>
           </div>
-           <ul class="smp-log-list" id="smpLogList"></ul>
-        </div>
+          
+          <!-- 🌟 DEJAMOS UNICAMENTE ESTA ETIQUETA VACÍA. Tu JavaScript se encargará de inyectar las filas reales aquí adentro sin desalinearse -->
+          <ul class="smp-log-list" id="smpLogList"></ul>
+          
+        </div> <!-- CIERRE DE SMP-LOG-PANEL -->
+
               <span>🕊️ White House - Futsal</span>
               <span style="color: var(--neon-cyan); font-weight: bold;">+100 pts</span>
             </li>
@@ -385,7 +389,7 @@
           if (!res.ok) throw new Error("Error de red");
           return res.json();
         })
-        .then(data => { // 🌟 PARCHE: Declaramos 'data' para solucionar el ReferenceError
+        .then(data => { 
           // 1. ACTUALIZACIÓN DE TARJETAS DE CONTROL SUPERIORES REALES
           const w = parseInt(data.white, 10) || 0;
           const b = parseInt(data.blue, 10) || 0;
@@ -411,18 +415,21 @@
           if (lista && data.movimientos && data.movimientos.length >= 0) {
             lista.innerHTML = ""; // Limpiamos la caja para evitar amontonamientos visuales
 
-            data.movimientos.forEach(mov => {
+             data.movimientos.forEach(mov => {
               const li = document.createElement('li');
               li.className = 'smp-log-item';
               
-              const esResta = mov.operacion.includes('restar');
+              const esResta = String(mov.operacion).includes('restar');
               li.style.borderLeftColor = esResta ? '#ff3860' : 'var(--neon-cyan)';
               
               const prefijoIcono = esResta ? '🔻' : '🔹';
               const signo = esResta ? '-' : '+';
               
-              // Limpiamos los textos largos de los deportes para que entren cómodos
-              const juegoLimpio = mov.juego.split('(')[0].trim();
+              // PARCHE DE EXTRACCIÓN SEGURO: Si el texto contiene paréntesis lo corta, sino lo deja limpio
+              let juegoLimpio = String(mov.juego || "Actividad Registrada");
+              if (juegoLimpio.includes('(')) {
+                juegoLimpio = juegoLimpio.split('(')[0].trim();
+              }
 
               li.innerHTML = `
                 <span>${prefijoIcono} ${juegoLimpio}</span>
