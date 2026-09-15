@@ -374,7 +374,7 @@
 
   </div>
 
-    <script>
+     <script>
     // =========================================================================
     // --- 📡 DETECTOR DE LECTURA ASÍNCRONA: JALA Y CALCULA ESTADÍSTICAS REALES ---
     // =========================================================================
@@ -385,7 +385,7 @@
           return res.json();
         })
         .then(puntos => {
-          // 1. PUNTOS TOTALES REALES: Extraemos los valores limpiando nulos o vacíos
+          // 1. PUNTOS TOTALES REALES
           const w = parseInt(puntos.white, 10) || 0;
           const b = parseInt(puntos.blue, 10) || 0;
           const o = parseInt(puntos.orange, 10) || 0;
@@ -395,11 +395,9 @@
           const txtTotales = document.getElementById('stat-totales');
           if (txtTotales) txtTotales.innerText = totalReal;
 
-          // 2. CÁLCULO DE DIFERENCIA INDESTRUCTIBLE (1° VS 2° DE TU MARCADOR)
+          // 2. CÁLCULO DE DIFERENCIA INDESTRUCTIBLE
           const arregloPuntos = [w, b, o, g];
-          arregloPuntos.sort((x, y) => y - x); // Ordenamos de mayor a menor estrictamente
-          
-          // PARCHE CRÍTICO: Restamos los dos índices numéricos más altos del arreglo ordenado
+          arregloPuntos.sort((x, y) => y - x);
           const diferenciaReal = arregloPuntos[0] - arregloPuntos[1];
           
           const txtDif = document.getElementById('stat-dif');
@@ -409,9 +407,43 @@
     }
 
     // =========================================================================
+    // --- 💾 MOTOR DE MEMORIA LOCAL DE RESPALDO (EVITA QUE SE BORRE CON F5) ---
+    // =========================================================================
+    function guardarHistorialEnMemoria(htmlItem) {
+      let historial = JSON.parse(localStorage.getItem('smp_historial_arbitraje')) || [];
+      historial.unshift(htmlItem); // Metemos el nuevo movimiento al inicio
+      if (historial.length > 4) historial.pop(); // Mantenemos solo los últimos 4
+      localStorage.setItem('smp_historial_arbitraje', JSON.stringify(historial));
+    }
+
+    function cargarHistorialDesdeMemoria() {
+      const lista = document.getElementById('smpLogList');
+      if (!lista) return;
+      
+      // 🔥 LIMPIADOR ANTIDESFASE: Borra de golpe textos sueltos o basuras viejas del HTML
+      lista.innerHTML = ""; 
+
+      let historial = JSON.parse(localStorage.getItem('smp_historial_arbitraje')) || [];
+      historial.forEach(itemHTML => {
+        const li = document.createElement('li');
+        li.className = 'smp-log-item';
+        li.innerHTML = itemHTML;
+        
+        // Asignamos el color dinámico del borde de la House según su texto
+        if (itemHTML.includes('WHITE')) li.style.borderLeftColor = 'var(--text-main)';
+        else if (itemHTML.includes('BLUE')) li.style.borderLeftColor = '#4facfe';
+        else if (itemHTML.includes('ORANGE')) li.style.borderLeftColor = '#ffb300';
+        else if (itemHTML.includes('GREEN')) li.style.borderLeftColor = '#2ed573';
+        if (itemHTML.includes('🔻')) li.style.borderLeftColor = '#ff3860';
+
+        lista.appendChild(li);
+      });
+    }
+
+    // =========================================================================
     // --- 📥 PROCESAMIENTO DE ENVÍO DE ACTAS DE ARBITRAJE (POST) ---
     // =========================================================================
-        function enviarDataSheets(event) {
+    function enviarDataSheets(event) {
       event.preventDefault();
       console.log("🚀 Disparando envío asíncrono...");
 
@@ -444,33 +476,21 @@
         motivo: nombreActividad
       };
 
-      // 🧹 FUNCIÓN INTERNA DE LIMPIEZA INTACTA:
-      // Ejecuta tu lógica de inyección y remueve de golpe los elementos estáticos viejos
       const procesarBitacoraVisual = () => {
-        const lista = document.getElementById('smpLogList');
-        if (lista) {
-          const nuevoItem = document.createElement('li');
-          nuevoItem.className = 'smp-log-item';
-          nuevoItem.style.borderLeftColor = operacionSeleccionada === 'restar' ? '#ff3860' : 'var(--neon-cyan)';
-          
-          const nombreLimpioJuego = nombreActividad.split('(')[0].trim();
-          const prefijoIcono = operacionSeleccionada === 'restar' ? '🔻' : '🔹';
-          
-          nuevoItem.innerHTML = `
-            <span>${prefijoIcono} ${houseSeleccionada.toUpperCase()} - ${nombreLimpioJuego}</span>
-            <span style="color:${operacionSeleccionada === 'restar' ? '#ff3860' : 'var(--neon-cyan)'}; font-weight:bold;">
-              ${operacionSeleccionada === 'restar' ? '-' : '+'}${puntosIngresados} pts
-            </span>
-          `;
-          
-          lista.insertBefore(nuevoItem, lista.firstChild);
-          
-          // 🎯 Tu limpiador maestro ejecutándose de forma garantizada:
-          const elementosHardcodeados = lista.querySelectorAll('li:not(.smp-log-item)');
-          elementosHardcodeados.forEach(el => el.remove());
+        const nombreLimpioJuego = nombreActividad.split('(')[0].trim();
+        const prefijoIcono = operacionSeleccionada === 'restar' ? '🔻' : '🔹';
+        const colorTexto = operacionSeleccionada === 'restar' ? '#ff3860' : 'var(--neon-cyan)';
+        const signo = operacionSeleccionada === 'restar' ? '-' : '+';
 
-          if (lista.children.length > 4) lista.removeChild(lista.lastChild);
-        }
+        // Estructura interna limpia del item
+        const estructuraInternaHTML = `
+          <span>${prefijoIcono} ${houseSeleccionada.toUpperCase()} - ${nombreLimpioJuego}</span>
+          <span style="color:${colorTexto}; font-weight:bold;">${signo}${puntosIngresados} pts</span>
+        `;
+
+        // Guardamos en la persistencia local de la PC/celular y redibujamos de forma ordenada
+        guardarHistorialEnMemoria(estructuraInternaHTML);
+        cargarHistorialDesdeMemoria();
       };
 
       fetch('/api/puntajes', {
@@ -485,8 +505,8 @@
       .then(data => {
         if (data.success || data.status === "OK") {
           alert("🏆 ¡Puntaje actualizado con éxito en la Sede SMP!\nLos datos impactaron la fila de forma asíncrona.");
-          procesarBitacoraVisual(); // Sincroniza la lista de movimientos
-          cargarEstadisticasEnVivo(); // Recalcula las tarjetas superiores reales
+          procesarBitacoraVisual(); 
+          cargarEstadisticasEnVivo(); 
           document.getElementById('formPuntajes').reset();
         } else {
           alert("⚠️ El Sheets rechazó el dato: " + data.error);
@@ -495,7 +515,7 @@
       .catch(err => {
         console.error("Contingencia de red activada:", err);
         alert("🏆 ¡Puntos inyectados de forma exitosa en la fila correspondiente!");
-        procesarBitacoraVisual(); // 🚀 Garantiza que se limpie la lista dura incluso si el fetch se va por el catch
+        procesarBitacoraVisual(); 
         document.getElementById('formPuntajes').reset();
       })
       .finally(() => {
@@ -503,16 +523,19 @@
         btnSubmit.disabled = false;
       });
     }
+
     // =========================================================================
     // --- ⏳ INICIADOR GLOBAL Y BUCLE AUTOMÁTICO INDESTRUCTIBLE ---
     // =========================================================================
     window.addEventListener('load', () => {
-      // Disparamos la carga inicial al prender la web
       cargarEstadisticasEnVivo();
-      
-      // Bucle dinámico: Recalcula puntos totales y diferencias reales cada 5 segundos
+      cargarHistorialDesdeMemoria(); // 🚀 RESTAURACIÓN: Reconstruye el historial al presionar F5
       setInterval(cargarEstadisticasEnVivo, 5000);
     });
+
+    const styleSheet = document.createElement("style");
+    styleSheet.innerText = "@media (max-width: 900px) { .smp-grid-navigation { display: none !important; } .smp-navbar-mobile-only { display: flex !important; } }";
+    document.head.appendChild(styleSheet);
   </script>
 </body>
 </html>
