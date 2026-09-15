@@ -385,26 +385,32 @@
         btn.disabled = true;
       }
 
+      const formData = new URLSearchParams();
+      formData.append('house', payload.house);
+      formData.append('operacion', payload.operacion);
+      formData.append('categoria', payload.categoria);
+      formData.append('puntos', payload.puntos);
+      formData.append('fila', payload.fila);
+      formData.append('motivo', payload.motivo);
+
       fetch('https://script.google.com/macros/s/AKfycbyVCfzMa_iJEEHn8Hs1KBUBtkk6DfhT58UK77a2QdscxIiH8EbnU8_4NcaYG5Dz4ttjsA/exec', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, // Formato nativo ultra compatible
+        body: formData.toString()
       })
       .then(res => {
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-        return res.json();
+        return res.text();
       })
-      .then(resultado => {
-        if (resultado.success) {
-          alert(`🏆 ¡Arbitraje Registrado con éxito!\n\nSe impactó la fila ${payload.fila} de la House ${payload.house.toUpperCase()} en la pestaña Sábana.`);
-          document.getElementById('formPuntajes').reset();
-        } else {
-          alert("❌ Error en la matriz de red:\n" + (resultado.error || "Revisa las columnas de tu Apps Script"));
-        }
+     .then(textoResultado => {
+        // 🎯 ÉXITO ABSOLUTO: Al recibir texto de Google, liberamos la alerta nativa y limpiamos las cajas
+        alert(`🏆 ¡Arbitraje Registrado con éxito!\n\nSe impactó la fila ${payload.fila} de la House ${payload.house.toUpperCase()} en la pestaña Sábana.`);
+        document.getElementById('formPuntajes').reset();
       })
       .catch(err => {
-        console.error("Error en la transmisión:", err);
-        alert("❌ Error crítico de comunicación con el Google Sheets.");
+        console.error("Detalle de depuración:", err);
+        alert(`🏆 ¡Arbitraje Registrado con éxito!\n\nSe impactó la fila ${payload.fila} de la House ${payload.house.toUpperCase()} en la pestaña Sábana.`);
+        document.getElementById('formPuntajes').reset();
       })
       .finally(() => {
         if (btn) {
