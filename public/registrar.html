@@ -385,12 +385,15 @@
         btn.disabled = true;
       }
 
-      fetch('/api/puntajes', {
+      fetch('https://script.google.com/macros/s/AKfycbyVCfzMa_iJEEHn8Hs1KBUBtkk6DfhT58UK77a2QdscxIiH8EbnU8_4NcaYG5Dz4ttjsA/exec', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       })
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        return res.json();
+      })
       .then(resultado => {
         if (resultado.success) {
           alert(`🏆 ¡Arbitraje Registrado con éxito!\n\nSe impactó la fila ${payload.fila} de la House ${payload.house.toUpperCase()} en la pestaña Sábana.`);
@@ -411,7 +414,6 @@
         }
       });
     }
-
     // =========================================================================
     // --- ⏳ CONTROL INYECTOR DE NAVEGACIÓN COMPACTA RESPONSIVA --------------
     // =========================================================================
