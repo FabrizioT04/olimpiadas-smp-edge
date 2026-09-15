@@ -396,16 +396,45 @@
           if (txtTotales) txtTotales.innerText = totalReal;
 
           // 2. CÁLCULO DE DIFERENCIA INDESTRUCTIBLE
-          const arregloPuntos = [w, b, o, g];
-          arregloPuntos.sort((x, y) => y - x);
+           const arregloPuntos = [w, b, o, g];
+          arregloPuntos.sort((x, y) => y - x); // Ordenamos de mayor a menor estrictamente
+          
           const diferenciaReal = arregloPuntos[0] - arregloPuntos[1];
           
           const txtDif = document.getElementById('stat-dif');
-          if (txtDif) txtDif.innerText = diferenciaReal;
+          if (txtDif) txtDif.innerText = isNaN(diferenciaReal) ? 0 : diferenciaReal;
+
+          // 3. 🔄 ACTUALIZACIÓN AUTOMÁTICA DE LA BITÁCORA DESDE EL GOOGLE SHEETS
+          // Lee en caliente la propiedad 'movimientos' que acabamos de programar en Google
+          const lista = document.getElementById('smpLogList');
+          if (lista && data.movimientos && data.movimientos.length >= 0) {
+            lista.innerHTML = ""; // Limpiamos la caja para evitar amontonamientos visuales
+
+            data.movimientos.forEach(mov => {
+              const li = document.createElement('li');
+              li.className = 'smp-log-item';
+              
+              const esResta = mov.operacion === 'restar';
+              li.style.borderLeftColor = esResta ? '#ff3860' : 'var(--neon-cyan)';
+              
+              const prefijoIcono = esResta ? '🔻' : '🔹';
+              const signo = esResta ? '-' : '+';
+              
+              // Limpiamos los textos largos de los deportes para que entren cómodos
+              const juegoLimpio = mov.juego.split('(')[0].trim();
+
+              li.innerHTML = `
+                <span>${prefijoIcono} ${juegoLimpio}</span>
+                <span style="color:${esResta ? '#ff3860' : 'var(--neon-cyan)'}; font-weight:bold;">
+                  ${signo}${mov.puntos} pts
+                </span>
+              `;
+              lista.appendChild(li);
+            });
+          }
         })
         .catch(err => console.error("Sincronizando estadísticas en segundo plano...", err));
     }
-
     // =========================================================================
     // --- 💾 MOTOR DE MEMORIA LOCAL DE RESPALDO (EVITA QUE SE BORRE CON F5) ---
     // =========================================================================
@@ -529,8 +558,7 @@
     // =========================================================================
     window.addEventListener('load', () => {
       cargarEstadisticasEnVivo();
-      cargarHistorialDesdeMemoria(); // 🚀 RESTAURACIÓN: Reconstruye el historial al presionar F5
-      setInterval(cargarEstadisticasEnVivo, 5000);
+      setInterval(cargarEstadisticasEnVivo, 3000);
     });
 
     const styleSheet = document.createElement("style");
