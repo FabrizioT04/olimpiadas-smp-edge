@@ -336,7 +336,7 @@
   // Almacenamos temporalmente los movimientos de forma global para cruzarlos con el modal al hacer clic
   let copiaMovimientosGlobales = [];
 
-      function actualizarMarcadorEnVivo() {
+        function actualizarMarcadorEnVivo() {
     fetch(`/api/puntajes?_=${Date.now()}`)
       .then(res => res.json())
       .then(puntos => {
@@ -347,13 +347,13 @@
         const o = parseInt(puntos.orange, 10) || 0;
         const g = parseInt(puntos.green, 10) || 0;
 
-        // 1. Inyectamos los puntajes reales en las etiquetas de texto
+        // 1. Inyectamos los puntajes reales en las etiquetas de texto nativas
         document.getElementById('smp-score-white').innerText = w;
         document.getElementById('smp-score-green').innerText = g;
         document.getElementById('smp-score-orange').innerText = o;
         document.getElementById('smp-score-blue').innerText = b;
 
-        // 2. Seteamos los atributos data-score para que el motor sepa ordenar
+        // 2. Seteamos los atributos data-score rígidos para que el motor sepa ordenar
         document.getElementById('smp-white').setAttribute('data-score', w);
         document.getElementById('smp-green').setAttribute('data-score', g);
         document.getElementById('smp-orange').setAttribute('data-score', o);
@@ -369,7 +369,7 @@
           { key: "green", nombre: "Eagles (Green House)", puntos: g, escudo: "🦅" }
         ];
         
-        // Ordenamos estrictamente de mayor a menor
+        // Ordenamos estrictamente de mayor a menor para pintar al ganador arriba
         mapeoCasas.sort((x, y) => y.puntos - x.puntos); 
 
         document.getElementById('smpLeaderName').innerText = mapeoCasas[0].nombre;
@@ -396,21 +396,27 @@
           
           const puntajeMaximo = mapeoCasas[0].puntos || 1;
           
-          // Movemos físicamente las tarjetas en el HTML y recalculamos el puesto
+          // Movemos físicamente las tarjetas en el HTML y recalculamos parámetros
           tarjetas.forEach((t, indice) => {
-            contenedor.appendChild(t); // Reordena la fila en caliente
+            contenedor.appendChild(t); // Reordena de forma física la fila en la pantalla
             
-            // 🎯 ASIGNACIÓN SECUENCIAL DE PUESTOS (1, 2, 3, 4 GARANTIZADO)
+            // 🎯 ASIGNACIÓN SECUENCIAL DE PUESTOS (1, 2, 3, 4 COMPLETAMENTE REAL)
             const txtPuesto = t.querySelector('.smp-rank-number');
             if (txtPuesto) {
               txtPuesto.innerText = indice + 1;
             }
 
-            // Calibramos la extracción del ID exacto (Remueve el prefijo "smp-")
-            const casaKey = t.id.replace('smp-', '').trim();
+            // EXTRAEMOS LA CASA MEDIANTE CONDICIONALES DIRECTOS PARA EVITAR ERRORES DE STRING
+            let casaKey = "";
+            if (t.id.includes("white")) casaKey = "white";
+            else if (t.id.includes("blue")) casaKey = "blue";
+            else if (t.id.includes("orange")) casaKey = "orange";
+            else if (t.id.includes("green")) casaKey = "green";
+
+            const puntosCasa = parseInt(t.getAttribute('data-score') || '0', 10);
 
             // 📊 Inflamos la barra de progreso de forma elástica
-            const porcentaje = (parseInt(t.getAttribute('data-score') || '0', 10) / puntajeMaximo) * 100;
+            const porcentaje = (puntosCasa / puntajeMaximo) * 100;
             const barra = document.getElementById(`smp-bar-${casaKey}`);
             if (barra) barra.style.width = `${porcentaje}%`;
 
@@ -421,7 +427,7 @@
                 txtDiff.innerText = "en la cima";
                 txtDiff.style.color = "#ffb300";
               } else {
-                const diff = parseInt(t.getAttribute('data-score') || '0', 10) - mapeoCasas[0].puntos;
+                const diff = puntosCasa - mapeoCasas[0].puntos;
                 txtDiff.innerText = `${diff} vs líder`;
                 txtDiff.style.color = "#627285";
               }
