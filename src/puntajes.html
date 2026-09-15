@@ -414,10 +414,27 @@
         // =========================================================================
         // --- 🔄 REORDENADOR VERTICAL AUTOMÁTICO EN TIEMPO REAL -----------------
         // =========================================================================
+                // =========================================================================
+        // --- 🔄 REORDENADOR VERTICAL AUTOMÁTICO INTEGRADO (REPARADO DE EMPATES) --
+        // =========================================================================
         const contenedor = document.getElementById('smpContenedorPodio');
         if (contenedor) {
           const tarjetas = Array.from(contenedor.getElementsByClassName('smp-card'));
-          tarjetas.sort((a, b) => parseInt(b.getAttribute('data-score') || '0') - parseInt(a.getAttribute('data-score') || '0'));
+          
+          tarjetas.sort((a, b) => {
+            const scoreA = parseInt(a.getAttribute('data-score') || '0', 10);
+            const scoreB = parseInt(b.getAttribute('data-score') || '0', 10);
+            
+            // Si los puntajes son diferentes, ordena de mayor a menor normal
+            if (scoreB !== scoreA) {
+              return scoreB - scoreA;
+            }
+            
+            // 🎯 SOLUCIÓN AL DESFASE: Si empatan en puntos (ej: en cero),
+            // mantiene un orden de lista alfabético rígido por ID para que no se crucen los puestos
+            return a.id.localeCompare(b.id);
+          });
+          
           tarjetas.forEach(t => contenedor.appendChild(t));
         }
       })
