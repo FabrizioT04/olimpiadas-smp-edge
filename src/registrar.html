@@ -376,27 +376,28 @@
 
      <script>
     // =========================================================================
-    // --- 📡 DETECTOR DE LECTURA ASÍNCRONA: JALA Y CALCULA ESTADÍSTICAS REALES ---
+    // --- 📡 SINCRONIZADOR REAL EN TIEMPO REAL (REPARADO DE VARIABLES) ---
     // =========================================================================
     function cargarEstadisticasEnVivo() {
-      fetch('/api/puntajes')
+      // Usamos el timestamp dinámico para romper la caché perimetral de Cloudflare
+      fetch(`/api/puntajes?_=${Date.now()}`)
         .then(res => {
           if (!res.ok) throw new Error("Error de red");
           return res.json();
         })
-        .then(puntos => {
-          // 1. PUNTOS TOTALES REALES
-          const w = parseInt(puntos.white, 10) || 0;
-          const b = parseInt(puntos.blue, 10) || 0;
-          const o = parseInt(puntos.orange, 10) || 0;
-          const g = parseInt(puntos.green, 10) || 0;
+        .then(data => { // 🌟 PARCHE: Declaramos 'data' para solucionar el ReferenceError
+          // 1. ACTUALIZACIÓN DE TARJETAS DE CONTROL SUPERIORES REALES
+          const w = parseInt(data.white, 10) || 0;
+          const b = parseInt(data.blue, 10) || 0;
+          const o = parseInt(data.orange, 10) || 0;
+          const g = parseInt(data.green, 10) || 0;
 
           const totalReal = w + b + o + g;
           const txtTotales = document.getElementById('stat-totales');
           if (txtTotales) txtTotales.innerText = totalReal;
 
-          // 2. CÁLCULO DE DIFERENCIA INDESTRUCTIBLE
-           const arregloPuntos = [w, b, o, g];
+          // 2. CÁLCULO DE DIFERENCIA INDESTRUCTIBLE (1° VS 2° DE TU MARCADOR)
+          const arregloPuntos = [w, b, o, g];
           arregloPuntos.sort((x, y) => y - x); // Ordenamos de mayor a menor estrictamente
           
           const diferenciaReal = arregloPuntos[0] - arregloPuntos[1];
@@ -405,7 +406,7 @@
           if (txtDif) txtDif.innerText = isNaN(diferenciaReal) ? 0 : diferenciaReal;
 
           // 3. 🔄 ACTUALIZACIÓN AUTOMÁTICA DE LA BITÁCORA DESDE EL GOOGLE SHEETS
-          // Lee en caliente la propiedad 'movimientos' que acabamos de programar en Google
+          // Ahora 'data.movimientos' engancha perfectamente sin colapsar el hilo
           const lista = document.getElementById('smpLogList');
           if (lista && data.movimientos && data.movimientos.length >= 0) {
             lista.innerHTML = ""; // Limpiamos la caja para evitar amontonamientos visuales
@@ -414,7 +415,7 @@
               const li = document.createElement('li');
               li.className = 'smp-log-item';
               
-              const esResta = mov.operacion === 'restar';
+              const esResta = mov.operacion.includes('restar');
               li.style.borderLeftColor = esResta ? '#ff3860' : 'var(--neon-cyan)';
               
               const prefijoIcono = esResta ? '🔻' : '🔹';
@@ -435,6 +436,7 @@
         })
         .catch(err => console.error("Sincronizando estadísticas en segundo plano...", err));
     }
+
     // =========================================================================
     // --- 💾 MOTOR DE MEMORIA LOCAL DE RESPALDO (EVITA QUE SE BORRE CON F5) ---
     // =========================================================================
