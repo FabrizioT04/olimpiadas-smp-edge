@@ -318,8 +318,8 @@
             <span>📋 Últimos Movimientos</span>
             <span style="color: #627285; font-size: 9px;">Sincronizado</span>
           </div>
-          <ul class="smp-log-list" id="smpLogList">
-            <li class="smp-log-item">
+           <ul class="smp-log-list" id="smpLogList"></ul>
+        </div>
               <span>🕊️ White House - Futsal</span>
               <span style="color: var(--neon-cyan); font-weight: bold;">+100 pts</span>
             </li>
@@ -465,7 +465,7 @@
             nuevoItem.style.borderLeftColor = operacionSeleccionada === 'restar' ? '#ff3860' : 'var(--neon-cyan)';
             
             // Extraemos solo el nombre limpio sin el texto de la fila del option
-            const nombreLimpioJuego = nombreActividad.split('(').trim();
+            const nombreLimpioJuego = nombreActividad.split('(')[0].trim();
             const prefijoIcono = operacionSeleccionada === 'restar' ? '🔻' : '🔹';
             
             nuevoItem.innerHTML = `
