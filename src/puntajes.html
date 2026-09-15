@@ -229,7 +229,7 @@
     <p class="subtitle">Dashboard de control general y podio acumulado de las Houses</p>
   </div>
 
-  <!-- 👑 TARJETA COMPACTA DEL HOUSE LÍDER (ESTILO HUACHO) -->
+  <!-- 👑 TARJETA COMPACTA DEL HOUSE LÍDER -->
   <div class="smp-leader-card" id="smpLeaderCard">
     <div>
       <span class="smp-leader-badge">👑 House Líder</span>
@@ -244,6 +244,7 @@
     </div>
   </div>
 
+  <div class="smp-podium-grid" id="smpContenedorPodio"></div>
   <!-- 🏆 REJILLA DE FILAS HORIZONTALES -->
   <div class="smp-card smp-card-blue" id="smp-blue" data-score="0" onclick="abrirModalResumen('blue', 'DOLPHINS', '🐬')">
       <div class="smp-rank-number" id="smp-rank-blue">1</div>
@@ -336,7 +337,7 @@
   // Almacenamos temporalmente los movimientos de forma global para cruzarlos con el modal al hacer clic
   let copiaMovimientosGlobales = [];
 
-        function actualizarMarcadorEnVivo() {
+          function actualizarMarcadorEnVivo() {
     fetch(`/api/puntajes?_=${Date.now()}`)
       .then(res => res.json())
       .then(puntos => {
@@ -347,13 +348,13 @@
         const o = parseInt(puntos.orange, 10) || 0;
         const g = parseInt(puntos.green, 10) || 0;
 
-        // 1. Inyectamos los puntajes reales en las etiquetas de texto nativas
+        // 1. Inyectamos los puntajes reales en las celdas de texto
         document.getElementById('smp-score-white').innerText = w;
         document.getElementById('smp-score-green').innerText = g;
         document.getElementById('smp-score-orange').innerText = o;
         document.getElementById('smp-score-blue').innerText = b;
 
-        // 2. Seteamos los atributos data-score rígidos para que el motor sepa ordenar
+        // 2. Seteamos los atributos data-score para el motor de ordenamiento
         document.getElementById('smp-white').setAttribute('data-score', w);
         document.getElementById('smp-green').setAttribute('data-score', g);
         document.getElementById('smp-orange').setAttribute('data-score', o);
@@ -369,13 +370,11 @@
           { key: "green", nombre: "Eagles (Green House)", puntos: g, escudo: "🦅" }
         ];
         
-        // Ordenamos estrictamente de mayor a menor para pintar al ganador arriba
         mapeoCasas.sort((x, y) => y.puntos - x.puntos); 
 
         document.getElementById('smpLeaderName').innerText = mapeoCasas[0].nombre;
         document.getElementById('smpLeaderShield').innerText = mapeoCasas[0].escudo;
         document.getElementById('smpLeaderPoints').innerText = mapeoCasas[0].puntos;
-
         // =========================================================================
         // --- 📊 MOTOR DE REORDENAMIENTO VERTICAL Y PUESTOS (HUACHO EXACTO) -----
         // =========================================================================
@@ -383,30 +382,27 @@
         if (contenedor) {
           const tarjetas = Array.from(contenedor.getElementsByClassName('smp-card'));
           
-          // Ordenamos las tarjetas basándonos en su puntaje numérico real
           tarjetas.sort((a, b) => {
             const scoreA = parseInt(a.getAttribute('data-score') || '0', 10);
             const scoreB = parseInt(b.getAttribute('data-score') || '0', 10);
             
             if (scoreB !== scoreA) {
-              return scoreB - scoreA; // De mayor a menor
+              return scoreB - scoreA;
             }
-            return a.id.localeCompare(b.id); // Rompe el empate alfabéticamente si están en cero
+            return a.id.localeCompare(b.id);
           });
           
-          const puntajeMaximo = mapeoCasas[0].puntos || 1;
+          const puntajeMaximo = mapeoCasas.puntos || 1;
           
-          // Movemos físicamente las tarjetas en el HTML y recalculamos parámetros
           tarjetas.forEach((t, indice) => {
-            contenedor.appendChild(t); // Reordena de forma física la fila en la pantalla
+            contenedor.appendChild(t); // Reordena físicamente en la pantalla
             
-            // 🎯 ASIGNACIÓN SECUENCIAL DE PUESTOS (1, 2, 3, 4 COMPLETAMENTE REAL)
             const txtPuesto = t.querySelector('.smp-rank-number');
             if (txtPuesto) {
               txtPuesto.innerText = indice + 1;
             }
 
-            // EXTRAEMOS LA CASA MEDIANTE CONDICIONALES DIRECTOS PARA EVITAR ERRORES DE STRING
+            // EXTRAEMOS LA CASA MEDIANTE BUSCADOR DIRECTO REPARADO
             let casaKey = "";
             if (t.id.includes("white")) casaKey = "white";
             else if (t.id.includes("blue")) casaKey = "blue";
@@ -415,19 +411,19 @@
 
             const puntosCasa = parseInt(t.getAttribute('data-score') || '0', 10);
 
-            // 📊 Inflamos la barra de progreso de forma elástica
+            // 📊 Inflamos la barra de progreso elástica
             const porcentaje = (puntosCasa / puntajeMaximo) * 100;
             const barra = document.getElementById(`smp-bar-${casaKey}`);
             if (barra) barra.style.width = `${porcentaje}%`;
 
-            // 🧮 Calculamos la diferencia matemática contra el líder real
+            // 🧮 Calculamos la diferencia matemática contra el líder
             const txtDiff = document.getElementById(`smp-diff-${casaKey}`);
             if (txtDiff) {
               if (indice === 0) {
                 txtDiff.innerText = "en la cima";
                 txtDiff.style.color = "#ffb300";
               } else {
-                const diff = puntosCasa - mapeoCasas[0].puntos;
+                const diff = puntosCasa - mapeoCasas.puntos;
                 txtDiff.innerText = `${diff} vs líder`;
                 txtDiff.style.color = "#627285";
               }
@@ -437,6 +433,7 @@
       })
       .catch(err => console.error("Sincronizando podio en segundo plano...", err));
   }
+
   // =========================================================================
   // --- 📡 FILTRADO INTERACTIVO: ABRE EL MODAL AL HACER CLIC --------------
   // =========================================================================
