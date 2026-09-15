@@ -465,7 +465,7 @@
             nuevoItem.style.borderLeftColor = operacionSeleccionada === 'restar' ? '#ff3860' : 'var(--neon-cyan)';
             
             // Extraemos solo el nombre limpio sin el texto de la fila del option
-            const nombreLimpioJuego = nombreActividad.split('(')[0].trim();
+            const nombreLimpioJuego = nombreActividad.split('(').trim();
             const prefijoIcono = operacionSeleccionada === 'restar' ? '🔻' : '🔹';
             
             nuevoItem.innerHTML = `
