@@ -85,8 +85,17 @@ export default {
     // --- 📂 ENRUTADOR DE VISTAS (HTML NATIVO SEPARADO) ---
     // =========================================================================
     if (url.pathname === "/registrar") {
-      const paginaRegistrar = htmlRegistrar.replace('<!-- STYLES_PLACEHOLDER -->', `<style>${cssContent}</style>`);
-      return new Response(paginaRegistrar, { headers: { "Content-Type": "text/html; charset=utf-8" } });
+      try {
+        // El Worker jala en vivo tu HTML perfecto y masivo de Pages con tus 4 escudos
+        const responsePages = await fetch("https://pages.dev");
+        const htmlLimpio = await responsePages.text();
+        
+        return new Response(htmlLimpio, {
+          headers: { "Content-Type": "text/html; charset=utf-8" }
+        });
+      } catch (err: any) {
+        return new Response(`❌ Error en el puente perimetral: ${err.message}`, { status: 500 });
+      }
     }
 
     if (url.pathname === "/fixture") {
