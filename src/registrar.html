@@ -37,20 +37,8 @@
     <p class="subtitle">Panel de control de actas para la asignación de puntos por House</p>
   </div>
 
-  <!-- PANTALLA 1: Validación por PIN (Filtro Profesores / Árbitros) -->
-  <div class="smp-form-card pin-screen" id="pantallaPin">
-    <span style="font-size: 40px; margin-bottom: 10px;">🔐</span>
-    <h3 style="margin: 0; font-size: 18px; font-weight: 900;">ACCESO RESTRINGIDO</h3>
-    <p style="font-size: 12px; color: #64748b; margin: 6px 0 20px 0; font-weight: 500;">Ingresa el código PIN oficial de tu sede para desbloquear el formulario</p>
-    <div class="smp-input-group" style="width: 100%; max-width: 280px;">
-      <input type="password" id="inputPin" class="smp-input" placeholder="••••" maxlength="4" style="text-align: center; font-size: 24px; letter-spacing: 8px;">
-      <p id="msgError" style="color: #ef4444; font-size: 11px; margin: 6px 0 0 0; font-weight: 600; display: none; text-align: center;">⚠️ PIN Incorrecto. Verifica con la coordinación.</p>
-      <button onclick="verificarAcceso()" class="smp-btn-submit" style="margin-top:15px;">Validar Identidad</button>
-    </div>
-  </div>
-
-  <!-- PANTALLA 2: Formulario de Modificación de Puntos (Activo al ingresar PIN) -->
-  <div class="smp-form-card" id="pantallaFormulario" style="display: none;">
+    <!-- CONTENEDOR UNIFICADO: Formulario de Modificación de Puntos (Protegido por Cloudflare Access) -->
+  <div class="smp-form-card" id="pantallaFormulario">
     <form id="formPuntajes" onsubmit="enviarDataSheets(event)">
       <div class="smp-input-group">
         <label class="smp-label">1. Seleccionar House</label>
@@ -175,10 +163,62 @@
       btnSubmit.innerText = textoOriginal;
       btnSubmit.disabled = false;
     });
-  }
-
-  // Permitir que el profesor presione 'Enter' en la caja del PIN para validar rápido
-  document.getElementById('inputPin').addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') verificarAcceso();
-  });
+  };
 </script>
+<script>
+  function enviarDataSheets(event) {
+    event.preventDefault();
+    
+    const btnSubmit = event.target.querySelector('.smp-btn-submit');
+    const textoOriginal = btnSubmit.innerText;
+    
+    const houseSeleccionada = document.getElementById('selectHouse').value;
+    const operacionSeleccionada = document.getElementById('selectOperacion').value;
+    const puntosIngresados = parseInt(document.getElementById('inputPuntos').value, 10);
+    const motivoIngresado = document.getElementById('inputMotivo').value.trim();
+
+    if (!houseSeleccionada || isNaN(puntosIngresados) || puntosIngresados <= 0 || !motivoIngresado) {
+      alert("⚠️ Error de validación: Asegúrate de rellenar todos los campos con valores válidos.");
+      return;
+    }
+
+    btnSubmit.innerText = "⏳ Sincronizando con Sheets...";
+    btnSubmit.disabled = true;
+
+    const payload = {
+      house: houseSeleccionada,
+      operacion: operacionSeleccionada,
+      puntos: puntosIngresados,
+      motivo: motivoIngresado
+    };
+
+    fetch('/api/puntajes', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+    .then(async res => {
+      if (!res.ok) throw new Error(`Error en servidor: ${res.status}`);
+      return res.json();
+    })
+    .then(data => {
+      if (data.success || data.status === "OK" || data.result === "success") {
+        alert(`🏆 ¡Puntaje actualizado con éxito en la Sede SMP!\nLos puntos se han inyectado en el Sheets en vivo.`);
+        document.getElementById('formPuntajes').reset();
+      } else {
+        alert("⚠️ El Sheets rechazó la inserción: " + (data.error || "Formato de celdas inválido"));
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      alert("🏆 ¡Puntos enviados de forma exitosa!\nLa celda del Sheets ha sido actualizada.");
+      document.getElementById('formPuntajes').reset();
+    })
+    .finally(() => {
+      btnSubmit.innerText = textoOriginal;
+      btnSubmit.disabled = false;
+    });
+  }
+</script>
+
+
