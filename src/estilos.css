@@ -150,7 +150,7 @@ body {
 .smp-card-orange .smp-house-title { color: #fb923c; text-shadow: 0 0 15px rgba(251, 146, 60, 0.2); }
 
 .smp-score-text { font-size: 52px; font-weight: 900; margin-top: 30px; line-height: 1; letter-spacing: -1.5px; color: #ffffff; }
-/* --- SECCIÓN SELECTOR DE SEMANAS --- */
+/* --- SECCIÓN SELECTOR DE SEMANAS CORREGIDO PARA MÓVIL --- */
 .smp-week-selector { 
   display: flex; 
   justify-content: center; 
@@ -159,7 +159,9 @@ body {
   border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
   padding-bottom: 16px; 
   width: 100%; 
+  flex-wrap: wrap !important; /* Fuerza a los botones a acomodarse abajo en celulares en lugar de cortarse */
 }
+
 .btn-week { 
   background: rgba(255, 255, 255, 0.02); 
   color: #64748b; 

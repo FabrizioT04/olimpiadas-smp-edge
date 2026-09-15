@@ -48,16 +48,20 @@ export default {
       }
 
       // ACCIÓN GET: Jala los puntajes en vivo de la celda I36
-      try {
-        const response = await fetch(APPS_SCRIPT_URL);
-        const puntos = await response.json();
-        return new Response(JSON.stringify(puntos), { headers: corsHeaders });
-      } catch (e) {
-        // Fallback de contingencia por si Google se satura
-        const fallback = { white: 150, blue: 180, orange: 80, green: 130 };
-        return new Response(JSON.stringify(fallback), { headers: corsHeaders });
-      }
+    try {
+      const response = await fetch(APPS_SCRIPT_URL);
+      const puntos = await response.json();
+      return new Response(JSON.stringify(puntos), { headers: corsHeaders });
+    } catch (e: any) {
+      // DIAGNÓSTICO EN VIVO: Si la conexión a Google falla, te pintará el error en la web en lugar de números falsos
+      const errorResponse = { 
+        white: 0, blue: 0, orange: 0, green: 0, 
+        error_detectado: e.message,
+        url_revisada: APPS_SCRIPT_URL 
+      };
+      return new Response(JSON.stringify(errorResponse), { headers: corsHeaders });
     }
+  }
 
     // =========================================================================
     // --- 📂 ENRUTADOR DE VISTAS (HTML NATIVO SEPARADO) ---
