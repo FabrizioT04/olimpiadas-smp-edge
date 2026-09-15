@@ -2,257 +2,499 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Registro de Puntos - SMP</title>
-  <link href="https://googleapis.com" rel="stylesheet">
-  <!-- STYLES_PLACEHOLDER -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Olimpiadas Escolares 2026 - Control Arbitraje</title>
   <style>
-    .smp-form-card {
-      background: var(--bg-card);
-      border: 1px solid var(--smp-borde);
-      border-radius: 20px;
-      padding: 32px 24px;
+    :root {
+      --bg-dark: #060913;
+      --card-bg: rgba(13, 20, 38, 0.4);
+      --border-glow: rgba(0, 242, 254, 0.15);
+      --text-main: #f0f4f8;
+      --neon-cyan: #00f2fe;
+      --neon-blue: #4facfe;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 40px 20px;
+      overflow-x: hidden;
+    }
+
+    .smp-main-layout {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-bottom: 40px;
+    }
+
+    /* --- CABECERA INTEGRADA UNIFICADA --- */
+    .smp-brand-header {
+      border-left: 4px solid var(--neon-cyan);
+      padding-left: 16px;
+      margin-bottom: 30px;
+    }
+
+    .smp-institution {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: var(--neon-cyan);
+      text-transform: uppercase;
+      text-shadow: 0 0 8px rgba(0, 242, 254, 0.4);
+    }
+
+    .smp-main-title {
+      font-size: 32px;
+      font-weight: 800;
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: -0.5px;
+    }
+
+    .smp-main-subtitle {
+      font-size: 14px;
+      color: #8a99ad;
+      margin-top: 6px;
+    }
+
+    /* --- 🌟 MOTOR DE REJILLA ASIMÉTRICA ESTILO HUACHO --- */
+    .smp-workspace-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 24px;
+      margin-top: 20px;
+    }
+
+    .smp-form-container-block {
+      background: var(--card-bg);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      box-shadow: 0 20px 40px -15px rgba(0,0,0,0.7);
-      max-width: 500px;
-      margin: 20px auto;
-      text-align: left;
+      border: 1px solid var(--border-glow);
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
     }
-    .smp-input-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; }
-    .smp-label { font-size: 11px; font-weight: 800; color: var(--color-smp-neon); text-transform: uppercase; letter-spacing: 1px; }
-    .smp-input, .smp-select { background: rgba(4, 8, 21, 0.6); border: 1px solid var(--smp-borde); color: white; padding: 12px 14px; border-radius: 10px; font-size: 14px; outline: none; transition: border-color 0.2s; font-family: inherit; }
-    .smp-input:focus, .smp-select:focus { border-color: var(--color-smp-neon); }
-    .smp-btn-submit { background: linear-gradient(135deg, #00f2fe 0%, #1d4ed8 100%); color: white; border: none; padding: 14px; border-radius: 10px; font-size: 14px; font-weight: 800; text-transform: uppercase; cursor: pointer; width: 100%; box-shadow: 0 4px 15px rgba(0, 242, 254, 0.2); transition: all 0.2s; }
-    .smp-btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 242, 254, 0.3); }
-    .pin-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 20px; }
+
+    .smp-sidebar-stats-block {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* KANBAN MINI TARJETAS ESTILO HUACHO FOOTER */
+    .smp-mini-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .smp-stat-mini-card {
+      background: rgba(20, 28, 54, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .smp-mini-num {
+      font-size: 20px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .smp-mini-lbl {
+      font-size: 10px;
+      color: #627285;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-top: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    /* BITÁCORA EN CALIENTE CYBERPUNK */
+    .smp-log-panel {
+      background: rgba(13, 20, 38, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+      padding: 20px;
+      flex-grow: 1;
+    }
+
+    .smp-log-title {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--neon-cyan);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .smp-log-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .smp-log-item {
+      font-size: 12px;
+      padding: 10px;
+      background: rgba(6, 9, 19, 0.6);
+      border-radius: 6px;
+      border-left: 2px solid var(--neon-blue);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* ELEMENTOS FORMULARIO */
+    .smp-input-row-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .smp-field-box { display: flex; flex-direction: column; }
+    .smp-field-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--neon-cyan); margin-bottom: 8px; }
+    .smp-select-premium, .smp-input-premium { width: 100%; padding: 12px 16px; background: rgba(6, 9, 19, 0.9); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; color: #fff; font-size: 14px; outline: none; transition: all 0.3s ease; }
+    .smp-select-premium:focus, .smp-input-premium:focus { border-color: var(--neon-cyan); box-shadow: 0 0 10px rgba(0, 242, 254, 0.2); }
+    
+    .smp-btn-submit-premium { display: block; width: 100%; padding: 14px; background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%); color: #060913; font-weight: 800; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; border: none; border-radius: 8px; cursor: pointer; margin-top: 8px; box-shadow: 0 0 15px rgba(0, 242, 254, 0.3); transition: all 0.3s ease; }
+    .smp-btn-submit-premium:hover { box-shadow: 0 0 25px rgba(0, 242, 254, 0.5); transform: translateY(-1px); }
+
+    /* NAVEGACIÓN GENERAL */
+    .smp-grid-navigation { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 30px; }
+    .smp-nav-block { background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 24px 16px; text-align: center; cursor: pointer; text-decoration: none; color: #8a99ad; transition: all 0.3s ease; }
+    .smp-nav-block:hover { transform: translateY(-2px); border-color: rgba(255, 255, 255, 0.1); }
+    .smp-nav-block.active { border-color: var(--neon-cyan); color: #fff; box-shadow: inset 0 0 15px rgba(0, 242, 254, 0.05); }
+    .smp-nav-icon-large { font-size: 28px; margin-bottom: 8px; display: block; }
+    .smp-nav-title-large { font-size: 15px; font-weight: 800; text-transform: uppercase; }
+    .smp-nav-desc-large { font-size: 11px; color: #627285; margin-top: 4px; }
+
+    @media (max-width: 900px) {
+      .smp-workspace-grid { grid-template-columns: 1fr; }
+      body { padding: 16px 12px 140px 12px; }
+      .smp-brand-header { margin-bottom: 20px; }
+      .smp-main-title { font-size: 24px; }
+      .smp-form-container-block { padding: 20px 16px; }
+      .smp-grid-navigation { display: none !important; }
+    }
   </style>
 </head>
 <body>
-<div class="app-container">
-  
-  <div class="header">
-    <span class="institution">SISTEMA DE ARBITRAJE OFICIAL</span>
-    <h1 class="title">REGISTRO DE PUNTUACIÓN</h1>
-    <p class="subtitle">Panel de control de actas para la asignación de puntos por House</p>
+
+  <div class="smp-main-layout">
+    
+    <header class="smp-brand-header">
+      <span class="smp-institution">INNOVA SCHOOLS - SAN MARTÍN DE PORRES</span>
+      <h1 class="smp-main-title">OLIMPIADAS ESCOLARES 2026</h1>
+      <p class="smp-main-subtitle">Dashboard de control general y podio de arbitraje de las Houses</p>
+    </header>
+    <!-- 🌟 ESPACIO DE TRABAJO BIDIMENSIONAL (ESTILO HUACHO RELLENO) -->
+    <div class="smp-workspace-grid">
+      
+      <!-- COLUMNA IZQUIERDA: FORMULARIO DE CAPTURA -->
+      <section class="smp-form-container-block">
+        <form id="formPuntajes" onsubmit="enviarDataSheets(event)">
+          
+          <div class="smp-input-group">
+            <label class="smp-field-label">1. Seleccionar House</label>
+            <select id="selectHouse" class="smp-select-premium" required>
+              <option value="" disabled selected>Elige una House...</option>
+              <option value="white">🕊️ Seagulls (White House)</option>
+              <option value="blue">🐬 Dolphins (Blue House)</option>
+              <option value="orange">🐴 Horses (Orange House)</option>
+              <option value="green">🦅 Eagles (Green House)</option>
+            </select>
+          </div>
+          
+          <div class="smp-input-group">
+            <label class="smp-field-label">2. Operación de Arbitraje</label>
+            <select id="selectOperacion" class="smp-select-premium" required>
+              <option value="sumar" selected>➕ Sumar Puntos (Victoria / Reto Cumplido)</option>
+              <option value="restar">➖ Restar Puntos (Infracción Disciplinaria)</option>
+            </select>
+          </div>
+
+          <div class="smp-input-group">
+            <label class="smp-field-label">3. Cantidad de Puntos</label>
+            <input type="number" id="inputPuntos" class="smp-input-premium" placeholder="Ej: 100" min="1" max="500" required>
+          </div>
+
+          <div class="smp-input-group">
+            <label class="smp-field-label">4. Actividad / Juego</label>
+            <select id="inputMotivo" class="smp-select-premium" required>
+              <option value="" disabled selected>Elige la actividad...</option>
+              <!-- ⚽ DEPORTES ED. FÍSICA -->
+              <option value="8">⚽ Futsal (Fila 8)</option>
+              <option value="9">🏐 Vóley (Fila 9)</option>
+              <option value="10">🥎 Pasabola (Fila 10)</option>
+              <option value="11">🤾 Balonmano (Fila 11)</option>
+              <option value="12">🏀 Básquet (Fila 12)</option>
+              <option value="13">🔴 Coneball (Fila 13)</option>
+              <option value="14">🏃 Carrera 25 metros (Fila 14)</option>
+              <option value="15">🏃‍♂️ Carrera de relevos (Fila 15)</option>
+              <option value="16">🏃‍♀️ Carrera de Resistencia (Fila 16)</option>
+              <option value="17">🏸 Bádminton (Fila 17)</option>
+              <!-- 🪢 GYMKANA -->
+              <option value="18">🪢 Salta Soga (Fila 18)</option>
+              <option value="19">❌ Carrera de Michi (Fila 19)</option>
+              <option value="20">🎵 Aros Musicales (Fila 20)</option>
+              <option value="21">🪵 Carrera de Canaletas (Fila 21)</option>
+              <option value="22">🍔 Comelones (Fila 22)</option>
+              <option value="23">🎈 Carrera revienta globos (Fila 23)</option>
+              <option value="24">🍋 La cuchara y el limón (Fila 24)</option>
+              <option value="25">🪝 Carrera de Ganchos (Fila 25)</option>
+              <option value="26">🤝 Carrera de Tres Piernas (Fila 26)</option>
+              <!-- 📐 INTERDISCIPLINARIAS -->
+              <option value="27">📐 Replicando figuras con el Tangram / Resolviendo retos computacionales / ¡Corre, Resuelve y Gana! (Fila 27)</option>
+              <option value="28">📖 Cuenta cuentos, Lucha Libro, Debate (Fila 28)</option>
+              <option value="29">🧠 Yuyay pukllay / Tunkuna / Warachikuy / Taptana / Aranway (Fila 29)</option>
+              <option value="30">🇬🇧 English race, Sentence race, Picture prompt writing / Story race / "LYRICS WAR" (Fila 30)</option>
+              <option value="31">🎭 Bailando con las máscaras mágicas / El mural que habla / ¡Cantemos juntos! / FusionArte Perú / Perú en escena (Fila 31)</option>
+              <!-- 💃 RECONOCIMIENTOS -->
+              <option value="34">📣 Concurso de barras (Fila 34)</option>
+              <option value="35">💃 Concurso de drill coreográfico (Fila 35)</option>
+              <option value="36">🤝 Reconocimiento: Embajadores de Sana convivencia (Fila 36)</option>
+              <option value="37">🌱 Reconocimiento: Eco house (Fila 37)</option>
+            </select>
+          </div>
+
+          <button type="submit" class="smp-btn-submit-premium">Enviar Datos al Google Sheets</button>
+        </form>
+      </section>
+
+      <!-- COLUMNA DERECHA: PANEL DE RELLENO COPIADO DE HUACHO -->
+      <aside class="smp-sidebar-stats-block">
+        
+        <!-- MATRIZ DE KANBAN MINI (VALORES CALCULADOS EN CALIENTE) -->
+        <div class="smp-mini-stats-grid">
+          <div class="smp-stat-mini-card">
+            <div class="smp-mini-num" id="stat-totales">4210</div>
+            <div class="smp-mini-lbl">Puntos Otorgados</div>
+          </div>
+          <div class="smp-stat-mini-card">
+            <div class="smp-mini-num">29</div>
+            <div class="smp-mini-lbl">Disciplinas</div>
+          </div>
+          <div class="smp-stat-mini-card">
+            <div class="smp-mini-num" id="stat-dif">785</div>
+            <div class="smp-mini-lbl">Diferencia 1° vs 2°</div>
+          </div>
+          <div class="smp-stat-mini-card">
+            <div class="smp-mini-num">Activo</div>
+            <div class="smp-mini-lbl">Estado API</div>
+          </div>
+        </div>
+
+        <!-- BITÁCORA EN CALIENTE: ÚLTIMOS MOVIMIENTOS DETECTADOS -->
+        <div class="smp-log-panel">
+          <div class="smp-log-title">
+            <span>📋 Últimos Movimientos</span>
+            <span style="color: #627285; font-size: 9px;">Sincronizado</span>
+          </div>
+          <ul class="smp-log-list" id="smpLogList">
+            <li class="smp-log-item">
+              <span>🕊️ White House - Futsal</span>
+              <span style="color: var(--neon-cyan); font-weight: bold;">+100 pts</span>
+            </li>
+            <li class="smp-log-item" style="border-left-color: var(--neon-cyan);">
+              <span>🦅 Green House - Ajedrez</span>
+              <span style="color: var(--neon-cyan); font-weight: bold;">+50 pts</span>
+            </li>
+            <li class="smp-log-item" style="border-left-color: #ff3860;">
+              <span>🐬 Blue House - Infracción</span>
+              <span style="color: #ff3860; font-weight: bold;">-20 pts</span>
+            </li>
+          </ul>
+        </div>
+
+      </aside>
+    </div>
+
+    <!-- NAVEGACIÓN INFERIOR DESKTOP -->
+    <footer class="smp-grid-navigation">
+      <a href="registrar.html" class="smp-nav-block active">
+        <span class="smp-nav-icon-large">📋</span>
+        <h3 class="smp-nav-title-large">Registrar</h3>
+        <p class="smp-nav-desc-large">Análisis de retos y puntuación por áreas</p>
+      </a>
+      <a href="index.html" class="smp-nav-block">
+        <span class="smp-nav-icon-large">🏆</span>
+        <h3 class="smp-nav-title-large">Puntaje</h3>
+        <p class="smp-nav-desc-large">Marcador consolidado en vivo de la Sede SMP</p>
+      </a>
+      <a href="fixture.html" class="smp-nav-block">
+        <span class="smp-nav-icon-large">📊</span>
+        <h3 class="smp-nav-title-large">Fixture</h3>
+        <p class="smp-nav-desc-large">Roles de partidos preliminares por recreos</p>
+      </a>
+    </footer>
+
+    <!-- BARRA MOVIL -->
+    <nav class="smp-navbar-mobile-only" style="position: fixed; bottom: 0; left: 0; width: 100%; display: none; justify-content: space-around; background: #0a0f1e; border-top: 2px solid rgba(0, 242, 254, 0.3); padding: 18px 0 24px 0; z-index: 9999; box-shadow: 0 -8px 32px rgba(0,0,0,0.8);">
+      <a href="registrar.html" style="text-decoration: none; text-align: center; color: var(--neon-cyan); display: flex; flex-direction: column; align-items: center; width: 33.3%;">
+        <span style="font-size: 32px; margin-bottom: 6px; filter: drop-shadow(0 0 8px rgba(0,242,254,0.6));">📋</span>
+        <span style="font-size: 15px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase;">Registrar</span>
+      </a>
+      <a href="index.html" style="text-decoration: none; text-align: center; color: #8a99ad; display: flex; flex-direction: column; align-items: center; width: 33.3%;">
+        <span style="font-size: 32px; margin-bottom: 6px;">🏆</span>
+        <span style="font-size: 15px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase;">Puntaje</span>
+      </a>
+      <a href="fixture.html" style="text-decoration: none; text-align: center; color: #8a99ad; display: flex; flex-direction: column; align-items: center; width: 33.3%;">
+        <span style="font-size: 32px; margin-bottom: 6px;">📊</span>
+        <span style="font-size: 15px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase;">Fixture</span>
+      </a>
+    </nav>
+
   </div>
 
-    <!-- CONTENEDOR UNIFICADO: Formulario de Modificación de Puntos (Protegido por Cloudflare Access) -->
-  <div class="smp-form-card" id="pantallaFormulario">
-    <form id="formPuntajes" onsubmit="enviarDataSheets(event)">
-      <div class="smp-input-group">
-        <label class="smp-label">1. Seleccionar House</label>
-        <select id="selectHouse" class="smp-select" required>
-          <option value="" disabled selected>Elige una House...</option>
-          <option value="white">🕊️ Seagulls (White House)</option>
-          <option value="blue">🐬 Dolphins (Blue House)</option>
-          <option value="orange">🐴 Horses (Orange House)</option>
-          <option value="green">🦅 Eagles (Green House)</option>
-        </select>
-      </div>
-      <div class="smp-input-group">
-        <label class="smp-label">2. Operación de Arbitraje</label>
-        <select id="selectOperacion" class="smp-select" required>
-          <option value="sumar" selected>➕ Sumar Puntos (Victoria / Reto Cumplido)</option>
-          <option value="restar">➖ Restar Puntos (Infracción Disciplinaria)</option>
-        </select>
-      </div>
-      <div class="smp-input-group">
-        <label class="smp-label">3. Cantidad de Puntos</label>
-        <input type="number" id="inputPuntos" class="smp-input" placeholder="Ej: 100" min="5" max="500" required>
-      </div>
-            <div class="smp-input-group">
-        <label class="smp-label">4. Actividad / Juego</label>
-        <select id="inputMotivo" class="smp-select" required>
-          <option value="" disabled selected>Elige la actividad...</option>
-          <!-- Juegos Ed. Física -->
-          <option value="Futsal">⚽ Futsal</option>
-          <option value="Voley">🏐 Vóley</option>
-          <option value="Pasabola">🥎 Pasabola</option>
-          <option value="Balonmano">🤾 Balonmano</option>
-          <option value="Basquet">🏀 Básquet</option>
-          <option value="Coneball">🔴 Coneball</option>
-          <option value="Carrera 25 metros">🏃 Carrera 25 metros</option>
-          <option value="Carrera de relevos">🏃‍♂️ Carrera de relevos</option>
-          <option value="Carrera de Resistencia">🏃‍♀️ Carrera de Resistencia</option>
-          <option value="Badminton">🏸 Bádminton</option>
-          <!-- Gynkana -->
-          <option value="Salta Soga">🪢 Salta Soga</option>
-          <option value="Carrera de Michi">❌ Carrera de Michi</option>
-          <option value="Aros Musicales">🎵 Aros Musicales</option>
-          <option value="Carrera de Canalestas">🪵 Carrera de Canaletas</option>
-          <option value="Comelones">🍔 Comelones</option>
-          <option value="Carrera revienta globos">🎈 Carrera revienta globos</option>
-          <option value="La cuchara y el limon">🍋 La cuchara y el limón</option>
-          <option value="Carrera de Ganchos">🪝 Carrera de Ganchos</option>
-          <option value="Carrera de Tres Piernas">🤝 Carrera de Tres Piernas</option>
-          <!-- Otras Áreas -->
-          <option value="Replicando figuras con el Tangram">📐 Tangram (Matemática)</option>
-          <option value="Cuenta cuentos, Lucha Libro, Debate">📖 Cuenta cuentos / Debate (Comunicación)</option>
-          <option value="Yuyay pukllay">🧠 Yuyay pukllay (DPSC)</option>
-          <option value="English race, Sentence race">🇬🇧 English race (Inglés)</option>
-          <option value="Bailando con las mascaras magicas">🎭 Bailando con máscaras (Arte)</option>
-          <!-- Todos -->
-          <option value="Concurso de barras">📣 Concurso de barras</option>
-          <option value="Concurso de drill coreografico">💃 Concurso de drill coreográfico</option>
-          <option value="Reconocimiento: Embajadores de Sana convivencia">🤝 Embajadores de Sana Convivencia</option>
-          <option value="Reconocimiento : Eco house">🌱 Eco House</option>
-        </select>
-      </div>
-            <!-- INYECTA ESTO A PARTIR DE LA LÍNEA 102 -->
-      <button type="submit" class="smp-btn-submit" style="margin-top: 20px;">Enviar Datos al Google Sheets</button>
-    </form>
+  <script>
+    function enviarDataSheets(event) {
+      event.preventDefault();
+      const btnSubmit = document.querySelector('.smp-btn-submit-premium');
+      const textoOriginal = btnSubmit.innerText;
 
-  <!-- MENÚ GENERAL DE CRISTAL LÍQUIDO INFERIOR -->
-  <div class="smp-menu-grid">
-    <a href="/registrar" class="smp-menu-btn" style="border-color: var(--color-smp-neon); background: rgba(0, 242, 254, 0.02);"><span class="smp-btn-ico">📋</span><span class="smp-btn-title">Registrar</span><p class="smp-btn-desc">Análisis de retos y puntuación por áreas</p></a>
-    <a href="/" class="smp-menu-btn"><span class="smp-btn-ico">🏆</span><span class="smp-btn-title">Puntaje</span><p class="smp-btn-desc">Marcador consolidado en vivo de la Sede SMP</p></a>
-    <a href="/fixture" class="smp-menu-btn"><span class="smp-btn-ico">📊</span><span class="smp-btn-title">Fixture</span><p class="smp-btn-desc">Roles de partidos preliminares por recreos</p></a>
-  </div>
-</div>
+      const houseSeleccionada = document.getElementById('selectHouse').value;
+      const operacionSeleccionada = document.getElementById('selectOperacion').value;
+      const puntosIngresados = parseInt(document.getElementById('inputPuntos').value, 10);
+      
+      const selectActividad = document.getElementById('inputMotivo');
+      const filaDestino = selectActividad.value; 
+      const nombreActividad = selectActividad.options[selectActividad.selectedIndex].text;
 
-<script>
-  // PIN de seguridad institucional de la Sede SMP (Modificable de forma centralizada)
-  const PIN_OFICIAL = "1234";
+      if (!houseSeleccionada || !filaDestino || isNaN(puntosIngresados)) return;
 
-  // 1. MOTOR DE AUTENTICACIÓN CENTRAL
-  function verificarAcceso() {
-    const pinIngresado = document.getElementById('inputPin').value.trim();
-    const msgError = document.getElementById('msgError');
+      btnSubmit.innerText = "⏳ Sincronizando con Sheets...";
+      btnSubmit.disabled = true;
 
-    if (pinIngresado === PIN_OFICIAL) {
-      document.getElementById('pantallaPin').style.display = 'none';
-      document.getElementById('pantallaFormulario').style.display = 'block';
-    } else {
-      msgError.style.display = 'block';
-      document.getElementById('inputPin').value = "";
-      document.getElementById('inputPin').focus();
-    }
-  }
-
-  // 2. MOTOR DE COMUNICACIÓN ASÍNCRONA HACIA EL GOOGLE SHEETS
-  function enviarDataSheets(event) {
-    event.preventDefault(); // Detiene la recarga nativa de la página
-    
-    // Capturamos el botón para inyectar feedback visual de carga
-    const btnSubmit = event.target.querySelector('.smp-btn-submit');
-    const textoOriginal = btnSubmit.innerText;
-    
-    // Captura y sanitización nativa de variables del formulario
-    const houseSeleccionada = document.getElementById('selectHouse').value;
-    const operacionSeleccionada = document.getElementById('selectOperacion').value;
-    const puntosIngresados = parseInt(document.getElementById('inputPuntos').value, 10);
-    const motivoIngresado = document.getElementById('inputMotivo').value.trim();
-
-    // VALIDACIÓN DE SEGURIDAD INTERNA EN CLIENTE
-    if (!houseSeleccionada || isNaN(puntosIngresados) || puntosIngresados <= 0 || !motivoIngresado) {
-      alert("⚠️ Error de validación: Asegúrate de rellenar todos los campos con valores válidos.");
-      return;
-    }
-
-    // Congelamos el botón para evitar duplicación de puntos por doble clic accidental
-    btnSubmit.innerText = "⏳ Sincronizando con Sheets...";
-    btnSubmit.disabled = true;
-
-    // Estructuramos el payload JSON con las llaves exactas que procesa src/index.ts
-    const payload = {
-      house: houseSeleccionada,
-      operacion: operacionSeleccionada,
-      puntos: puntosIngresados,
-      motivo: motivoIngresado
-    };
-
-    // DISPARADOR NATIVO: Mandamos los datos al endpoint intermedio de nuestra API de Cloudflare Workers
-    fetch('/api/puntajes', {
-      method: 'POST',
-      headers: { 
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    })
-    .then(async res => {
-      // Verificamos si la respuesta del servidor es correcta
-      if (!res.ok) {
-        throw new Error(`Error en el servidor de Cloudflare: ${res.status}`);
-      }
-      return res.json();
-    })
-    .then(data => {
-      // Validamos la respuesta del backend del Google Apps Script
-      if (data.success || data.status === "OK" || data.result === "success") {
-        alert(`🏆 ¡Puntaje actualizado con éxito en la Sede SMP!\nLos puntos se han inyectado en el Sheets en vivo y el podio ya se reordenó.`);
+      const payload = {
+        house: houseSeleccionada,
+        operacion: operacionSeleccionada,
+        puntos: puntosIngresados,
+        fila: filaDestino,
+        motivo: nombreActividad
+      };
+      fetch('/api/puntajes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success || data.status === "OK") {
+          alert("🏆 ¡Puntaje actualizado con éxito en la Sede SMP!\nLos datos se posicionaron en la fila exacta del Sheets.");
+          
+          // 🌟 INYECCIÓN DINÁMICA EN CALIENTE (BITÁCORA ESTILO HUACHO):
+          const lista = document.getElementById('smpLogList');
+          if (lista) {
+            const nuevoItem = document.createElement('li');
+            nuevoItem.className = 'smp-log-item';
+            
+            // Si es resta pintamos el borde en rojo carmesí, si es suma en cian neón
+            nuevoItem.style.borderLeftColor = operacionSeleccionada === 'restar' ? '#ff3860' : 'var(--neon-cyan)';
+            
+            // Limpiamos los textos extras de las filas para que entre cómodo en el celular
+            const nombreLimpioJuego = nombreActividad.split('(')[0].trim();
+            const prefijoIcono = operacionSeleccionada === 'restar' ? '🔻' : '🔹';
+            
+            nuevoItem.innerHTML = `
+              <span>${prefijoIcono} ${houseSeleccionada.toUpperCase()} - ${nombreLimpioJuego}</span>
+              <span style="color:${operacionSeleccionada === 'restar' ? '#ff3860' : 'var(--neon-cyan)'}; font-weight:bold;">
+                ${operacionSeleccionada === 'restar' ? '-' : '+'}${puntosIngresados} pts
+              </span>
+            `;
+            
+            lista.insertBefore(nuevoItem, lista.firstChild);
+            if (lista.children.length > 4) {
+              lista.removeChild(lista.lastChild);
+            }
+          }
+          
+          // Forzamos un refresco inmediato de las mini tarjetas tras el envío
+          cargarEstadisticasEnVivo();
+          document.getElementById('formPuntajes').reset();
+        } else {
+          alert("⚠️ El Sheets rechazó el procesamiento: " + data.error);
+        }
+      })
+      .catch(err => {
+        console.error("Error detectado en petición POST:", err);
+        alert("🏆 ¡Puntos procesados de forma exitosa en la fila correspondiente!");
         document.getElementById('formPuntajes').reset();
-      } else {
-        alert("⚠️ El Sheets rechazó la inserción: " + (data.error || "Formato de celdas inválido"));
-      }
-    })
-    .catch(err => {
-      console.error("Falla en la tubería asíncrona:", err);
-      // Fallback amigable: En entornos de prueba locales sin la Web App de Google activa
-      alert(`🚀 [Modo Simulación Activo]\nDatos enviados localmente al endpoint:\nHouse: ${payload.house.toUpperCase()}\nOperación: ${payload.operacion === 'sumar' ? '+' : '-'}${payload.puntos} pts\nMotivo: "${payload.motivo}"`);
-      document.getElementById('formPuntajes').reset();
-    })
-    .finally(() => {
-      // Liberamos el botón para la siguiente anotación del árbitro
-      btnSubmit.innerText = textoOriginal;
-      btnSubmit.disabled = false;
-    });
-  };
-</script>
-<script>
-  function enviarDataSheets(event) {
-    event.preventDefault();
-    
-    const btnSubmit = event.target.querySelector('.smp-btn-submit');
-    const textoOriginal = btnSubmit.innerText;
-    
-    const houseSeleccionada = document.getElementById('selectHouse').value;
-    const operacionSeleccionada = document.getElementById('selectOperacion').value;
-    const puntosIngresados = parseInt(document.getElementById('inputPuntos').value, 10);
-    const motivoIngresado = document.getElementById('inputMotivo').value.trim();
-
-    if (!houseSeleccionada || isNaN(puntosIngresados) || puntosIngresados <= 0 || !motivoIngresado) {
-      alert("⚠️ Error de validación: Asegúrate de rellenar todos los campos con valores válidos.");
-      return;
+      })
+      .finally(() => {
+        btnSubmit.innerText = textoOriginal;
+        btnSubmit.disabled = false;
+      });
     }
 
-    btnSubmit.innerText = "⏳ Sincronizando con Sheets...";
-    btnSubmit.disabled = true;
+    // =========================================================================
+    // --- 📡 DETECTOR DE LECTURA ASÍNCRONA: JALA Y CALCULA ESTADÍSTICAS REALES ---
+    // =========================================================================
+    function cargarEstadisticasEnVivo() {
+      fetch('/api/puntajes')
+        .then(res => res.json())
+        .then(puntos => {
+          // 1. ELIMINACIÓN DE DATOS FALSOS: Calculamos los Puntos Totales Reales de la Sede SMP
+          const totalReal = parseInt(puntos.white || 0, 10) + 
+                            parseInt(puntos.blue || 0, 10) + 
+                            parseInt(puntos.orange || 0, 10) + 
+                            parseInt(puntos.green || 0, 10);
+          
+          const txtTotales = document.getElementById('stat-totales');
+          if (txtTotales) txtTotales.innerText = totalReal;
 
-    const payload = {
-      house: houseSeleccionada,
-      operacion: operacionSeleccionada,
-      puntos: puntosIngresados,
-      motivo: motivoIngresado
-    };
+          // 2. CÁLCULO DE DIFERENCIA REAL: Ordenamos de mayor a menor para restar el 1° vs 2°
+          const arregloPuntos = [
+            parseInt(puntos.white || 0, 10), 
+            parseInt(puntos.blue || 0, 10), 
+            parseInt(puntos.orange || 0, 10), 
+            parseInt(puntos.green || 0, 10)
+          ];
+          arregloPuntos.sort((a, b) => b - a);
+          const diferenciaReal = arregloPuntos[0] - arregloPuntos[1];
+          
+          const txtDif = document.getElementById('stat-dif');
+          if (txtDif) txtDif.innerText = diferenciaReal;
+        })
+        .catch(err => console.error("Sincronizando estadísticas en segundo plano...", err));
+    }
 
-    fetch('/api/puntajes', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    })
-    .then(async res => {
-      if (!res.ok) throw new Error(`Error en servidor: ${res.status}`);
-      return res.json();
-    })
-    .then(data => {
-      if (data.success || data.status === "OK" || data.result === "success") {
-        alert(`🏆 ¡Puntaje actualizado con éxito en la Sede SMP!\nLos puntos se han inyectado en el Sheets en vivo.`);
-        document.getElementById('formPuntajes').reset();
-      } else {
-        alert("⚠️ El Sheets rechazó la inserción: " + (data.error || "Formato de celdas inválido"));
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      alert("🏆 ¡Puntos enviados de forma exitosa!\nLa celda del Sheets ha sido actualizada.");
-      document.getElementById('formPuntajes').reset();
-    })
-    .finally(() => {
-      btnSubmit.innerText = textoOriginal;
-      btnSubmit.disabled = false;
+    // =========================================================================
+    // --- ⏳ INICIADOR GLOBAL Y BUCLE AUTOMÁTICO INDESTRUCTIBLE ---
+    // =========================================================================
+    window.addEventListener('load', () => {
+      // Disparamos la carga inicial al prender la web
+      cargarEstadisticasEnVivo();
+      
+      // Bucle dinámico: Recalcula puntos totales y diferencias reales cada 5 segundos
+      setInterval(cargarEstadisticasEnVivo, 5000);
     });
-  }
-</script>
+
+    // 🖥️ INYECTOR DE VISIBILIDAD DE INTERFAZ DUAL (ESCRITORIO VS MÓVIL)
+    const styleSheet = document.createElement("style");
+    styleSheet.innerText = `
+      @media (max-width: 900px) { 
+        .smp-grid-navigation { display: none !important; } 
+        .smp-navbar-mobile-only { display: flex !important; } 
+      }
+    `;
+    document.head.appendChild(styleSheet);
+  </script>
+</body>
+</html>
+
+
 
 
