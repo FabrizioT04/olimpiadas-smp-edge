@@ -4,13 +4,71 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Olimpiadas Sede SMP - Marcador</title>
-  <link href="/estilos.css" rel="stylesheet">
   <style>
     /* =========================================================================
-       --- 🔥 PARCHE DE DISEÑO ESTILO HUACHO: LEADER CARD Y MODAL EMERGENTE ---
+       --- 🎨 CORE DE DISEÑO CYBERPUNK UNIFICADO (ESTILOS INCRUSTADOS INTACTOS) -
        ========================================================================= */
-    
-    /* 🌟 Tarjeta Destacada del House Líder (Estilo Esmerilado Premium) */
+    :root {
+      --bg-dark: #060913;
+      --card-bg: rgba(13, 20, 38, 0.4);
+      --border-glow: rgba(0, 242, 254, 0.15);
+      --text-main: #f0f4f8;
+      --neon-cyan: #00f2fe;
+      --neon-blue: #4facfe;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 40px 20px;
+      overflow-x: hidden;
+    }
+
+    .app-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-bottom: 40px;
+    }
+
+    /* --- CABECERA DE LA PLATAFORMA --- */
+    .header {
+      border-left: 4px solid var(--neon-cyan);
+      padding-left: 16px;
+      margin-bottom: 30px;
+    }
+
+    .institution {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: var(--neon-cyan);
+      text-transform: uppercase;
+      text-shadow: 0 0 8px rgba(0, 242, 254, 0.4);
+    }
+
+    .title {
+      font-size: 32px;
+      font-weight: 800;
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #8a99ad;
+      margin-top: 6px;
+    }
+
+    /* --- 👑 TARJETA DESTACADA DEL HOUSE LÍDER (ESTILO HUACHO) --- */
     .smp-leader-card {
       background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(13, 20, 38, 0.6) 100%);
       backdrop-filter: blur(20px);
@@ -23,7 +81,6 @@
       justify-content: space-between;
       align-items: center;
       box-shadow: 0 0 25px rgba(0, 242, 254, 0.15);
-      position: relative;
     }
     .smp-leader-badge {
       font-size: 11px;
@@ -41,45 +98,95 @@
       gap: 20px;
       margin-top: 8px;
     }
-    .smp-leader-shield {
-      font-size: 44px;
-      filter: drop-shadow(0 0 8px rgba(255,255,255,0.3));
-    }
-    .smp-leader-name {
-      font-size: 32px;
-      font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: -0.5px;
-    }
-    .smp-leader-score {
-      text-align: right;
-    }
-    .smp-leader-points {
-      font-size: 38px;
-      font-weight: 900;
-      color: #fff;
-      line-height: 1;
-    }
-    .smp-leader-label {
-      font-size: 11px;
-      color: #8a99ad;
-      text-transform: uppercase;
-      font-weight: 700;
-      margin-top: 4px;
+    .smp-leader-shield { font-size: 44px; }
+    .smp-leader-name { font-size: 32px; font-weight: 900; text-transform: uppercase; }
+    .smp-leader-score { text-align: right; }
+    .smp-leader-points { font-size: 38px; font-weight: 900; color: #fff; line-height: 1; }
+    .smp-leader-label { font-size: 11px; color: #8a99ad; text-transform: uppercase; font-weight: 700; margin-top: 4px; }
+
+    /* --- 🏆 REJILLA TRIDIMENSIONAL DE LAS CUATRO HOUSES --- */
+    .smp-podium-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 40px;
     }
 
-    /* Convertimos tus tarjetas en botones interactivos con cursor táctil */
     .smp-card {
-      cursor: pointer !important;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 14px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      min-height: 160px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .smp-card:hover {
-      transform: translateY(-2px) !important;
-      box-shadow: 0 8px 24px rgba(0, 242, 254, 0.15) !important;
-      border-color: rgba(0, 242, 254, 0.4) !important;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0, 242, 254, 0.15);
     }
 
-    /* 📌 VENTANA MODAL EMERGENTE TOTALMENTE CYBERPUNK (CRISTAL LÍQUIDO) */
+    /* Bordes de Neón característicos por House */
+    .smp-card-blue { border-left: 4px solid #4facfe; }
+    .smp-card-white { border-left: 4px solid #f0f4f8; }
+    .smp-card-green { border-left: 4px solid #2ed573; }
+    .smp-card-orange { border-left: 4px solid #ffb300; }
+
+    .smp-mascot-shield {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+    .smp-house-label {
+      font-size: 10px;
+      color: #627285;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .smp-house-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .smp-score-text {
+      font-size: 36px;
+      font-weight: 900;
+      color: #fff;
+      display: block;
+      margin-top: 10px;
+    }
+
+    /* --- 📋 BOTONERA DE MENÚ INFERIOR DE ESCRITORIO --- */
+    .smp-menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .smp-menu-btn {
+      background: var(--card-bg);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 24px 16px;
+      text-align: center;
+      cursor: pointer;
+      text-decoration: none;
+      color: #8a99ad;
+      transition: all 0.3s ease;
+    }
+    .smp-menu-btn:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+    .smp-btn-ico { font-size: 28px; margin-bottom: 8px; display: block; }
+    .smp-btn-title { font-size: 15px; font-weight: 800; text-transform: uppercase; color: #fff; }
+    .smp-btn-desc { font-size: 11px; color: #627285; margin-top: 4px; }
+
+    /* --- 📌 VENTANA MODAL EMERGENTE TOTALMENTE CYBERPUNK (CRISTAL LÍQUIDO) --- */
     .smp-modal-overlay {
       position: fixed;
       top: 0;
@@ -126,9 +233,20 @@
     .smp-modal-shield-large { font-size: 36px; }
     .smp-modal-house-title { font-size: 24px; font-weight: 900; text-transform: uppercase; }
     .smp-modal-summary-title { font-size: 11px; font-weight: 800; color: #00f2fe; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
-    .smp-competencia-list { list-style: none; max-height: 220px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
-    .smp-competencia-item { display: flex; justify-content: space-between; font-size: 13px; padding: 12px 14px; background: rgba(6, 9, 19, 0.6); border-radius: 8px; border-left: 3px solid #00f2fe; }
-    .smp-no-data { font-size: 13px; color: #627285; text-align: center; padding: 20px 0; font-style: italic; }
+    .smp-competencia-list { list-style: none; max-height: 220px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding: 0; }
+    .smp-competencia-item { display: flex; justify-content: space-between; font-size: 13px; padding: 12px 14px; background: rgba(6, 9, 19, 0.6); border-radius: 8px; border-left: 3px solid #00f2fe; color: #fff; }
+    .smp-no-data { font-size: 13px; color: #627285; text-align: center; padding: 20px 0; font-style: italic; list-style: none; }
+
+    /* Adaptación Responsiva para Celulares */
+    @media (max-width: 900px) {
+      .smp-podium-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .smp-menu-grid { grid-template-columns: 1fr; gap: 12px; }
+      body { padding: 20px 12px; }
+      .title { font-size: 24px; }
+      .smp-leader-card { padding: 16px; }
+      .smp-leader-name { font-size: 20px; }
+      .smp-leader-points { font-size: 28px; }
+    }
   </style>
 </head>
 <body>
@@ -140,7 +258,7 @@
     <p class="subtitle">Dashboard de control general y podio acumulado de las Houses</p>
   </div>
 
-  <!-- 🌟 SECCIÓN NUEVA: TARJETA COMPACTA DEL HOUSE LÍDER (ESTILO HUACHO) -->
+  <!-- TARJETA COMPACTA DEL HOUSE LÍDER (ESTILO HUACHO) -->
   <div class="smp-leader-card" id="smpLeaderCard">
     <div>
       <span class="smp-leader-badge">👑 House Líder</span>
@@ -155,7 +273,7 @@
     </div>
   </div>
 
-    <!-- TU CONTENEDOR DE PODIO RESTAURADO CON ESTILOS ORIGINALES E INTERACCIÓN MODAL -->
+  <!-- REJILLA DE LAS 4 HOUSES COMPLETAMENTE ESTILIZADA -->
   <div class="smp-podium-grid" id="smpContenedorPodio">
     <div class="smp-card smp-card-blue" id="smp-blue" data-score="0" onclick="abrirModalResumen('blue', 'DOLPHINS', '🐬')"><div class="smp-mascot-shield">🐬</div><div><p class="smp-house-label">BLUE HOUSE</p><h4 class="smp-house-title">DOLPHINS</h4></div><div><span class="smp-score-text" id="smp-score-blue">0</span></div></div>
     <div class="smp-card smp-card-white" id="smp-white" data-score="0" onclick="abrirModalResumen('white', 'SEAGULLS', '🕊️')"><div class="smp-mascot-shield">🕊️</div><div><p class="smp-house-label">WHITE HOUSE</p><h4 class="smp-house-title">SEAGULLS</h4></div><div><span class="smp-score-text" id="smp-score-white">0</span></div></div>
