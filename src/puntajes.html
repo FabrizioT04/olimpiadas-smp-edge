@@ -435,9 +435,15 @@
             return a.id.localeCompare(b.id);
           });
           
-          tarjetas.forEach(t => contenedor.appendChild(t));
+          tarjetas.forEach((t, indice) => {
+            contenedor.appendChild(t);
+        const txtPuestoDinamico = t.querySelector('.smp-rank-number');
+            if (txtPuestoDinamico) {
+              txtPuestoDinamico.innerText = indice + 1;
+            }
+          });
         }
-      })
+      }) 
       .catch(err => console.error("Sincronizando podio en segundo plano...", err));
   }
 
