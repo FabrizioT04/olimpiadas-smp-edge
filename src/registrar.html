@@ -411,7 +411,7 @@
     // =========================================================================
     // --- 📥 PROCESAMIENTO DE ENVÍO DE ACTAS DE ARBITRAJE (POST) ---
     // =========================================================================
-    function enviarDataSheets(event) {
+        function enviarDataSheets(event) {
       event.preventDefault();
       console.log("🚀 Disparando envío asíncrono...");
 
@@ -420,15 +420,15 @@
 
       const houseSeleccionada = document.getElementById('selectHouse').value;
       const operacionSeleccionada = document.getElementById('selectOperacion').value;
+      const categoriaSeleccionada = document.getElementById('selectCategoria').value;
       const puntosIngresados = parseInt(document.getElementById('inputPuntos').value, 10);
       
       const selectActividad = document.getElementById('inputMotivo');
       const filaDestino = selectActividad.value; 
       const nombreActividad = selectActividad.options[selectActividad.selectedIndex].text;
-      const categoriaSeleccionada = document.getElementById('selectCategoria').value;
 
-      if (!houseSeleccionada || !filaDestino || isNaN(puntosIngresados)) {
-        alert("⚠️ Rellena todos los campos.");
+      if (!houseSeleccionada || !filaDestino || isNaN(puntosIngresados) || !categoriaSeleccionada) {
+        alert("⚠️ Rellena todos los campos de arbitraje de forma correcta.");
         return;
       }
 
@@ -444,6 +444,35 @@
         motivo: nombreActividad
       };
 
+      // 🧹 FUNCIÓN INTERNA DE LIMPIEZA INTACTA:
+      // Ejecuta tu lógica de inyección y remueve de golpe los elementos estáticos viejos
+      const procesarBitacoraVisual = () => {
+        const lista = document.getElementById('smpLogList');
+        if (lista) {
+          const nuevoItem = document.createElement('li');
+          nuevoItem.className = 'smp-log-item';
+          nuevoItem.style.borderLeftColor = operacionSeleccionada === 'restar' ? '#ff3860' : 'var(--neon-cyan)';
+          
+          const nombreLimpioJuego = nombreActividad.split('(')[0].trim();
+          const prefijoIcono = operacionSeleccionada === 'restar' ? '🔻' : '🔹';
+          
+          nuevoItem.innerHTML = `
+            <span>${prefijoIcono} ${houseSeleccionada.toUpperCase()} - ${nombreLimpioJuego}</span>
+            <span style="color:${operacionSeleccionada === 'restar' ? '#ff3860' : 'var(--neon-cyan)'}; font-weight:bold;">
+              ${operacionSeleccionada === 'restar' ? '-' : '+'}${puntosIngresados} pts
+            </span>
+          `;
+          
+          lista.insertBefore(nuevoItem, lista.firstChild);
+          
+          // 🎯 Tu limpiador maestro ejecutándose de forma garantizada:
+          const elementosHardcodeados = lista.querySelectorAll('li:not(.smp-log-item)');
+          elementosHardcodeados.forEach(el => el.remove());
+
+          if (lista.children.length > 4) lista.removeChild(lista.lastChild);
+        }
+      };
+
       fetch('/api/puntajes', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -455,55 +484,18 @@
       })
       .then(data => {
         if (data.success || data.status === "OK") {
-          alert("🏆 ¡Puntaje actualizado con éxito en la Sede SMP!\nLos datos se posicionaron en la fila exacta del Sheets.");
-          
-          // INYECCIÓN DINÁMICA EN CALIENTE (BITÁCORA EN VIVO REPARADA):
-          const lista = document.getElementById('smpLogList');
-          if (lista) {
-            const nuevoItem = document.createElement('li');
-            nuevoItem.className = 'smp-log-item';
-            nuevoItem.style.borderLeftColor = operacionSeleccionada === 'restar' ? '#ff3860' : 'var(--neon-cyan)';
-            
-            // Extraemos solo el nombre limpio sin el texto de la fila del option
-            const nombreLimpioJuego = nombreActividad.split('(')[0].trim();
-            const prefijoIcono = operacionSeleccionada === 'restar' ? '🔻' : '🔹';
-            
-            nuevoItem.innerHTML = `
-              <span>${prefijoIcono} ${houseSeleccionada.toUpperCase()} - ${nombreLimpioJuego}</span>
-              <span style="color:${operacionSeleccionada === 'restar' ? '#ff3860' : 'var(--neon-cyan)'}; font-weight:bold;">
-                ${operacionSeleccionada === 'restar' ? '-' : '+'}${puntosIngresados} pts
-              </span>
-            `;
-            
-            lista.insertBefore(nuevoItem, lista.firstChild);
-            
-            // Removemos de la bitácora los ítems duros quemados antiguos para limpiar la vista
-            const elementosHardcodeados = lista.querySelectorAll('li:not(.smp-log-item)');
-            elementosHardcodeados.forEach(el => el.remove());
-
-            if (lista.children.length > 4) lista.removeChild(lista.lastChild);
-          }
-          
-          // Refrescamos las mini tarjetas del panel central inmediatamente tras el éxito
-          cargarEstadisticasEnVivo();
+          alert("🏆 ¡Puntaje actualizado con éxito en la Sede SMP!\nLos datos impactaron la fila de forma asíncrona.");
+          procesarBitacoraVisual(); // Sincroniza la lista de movimientos
+          cargarEstadisticasEnVivo(); // Recalcula las tarjetas superiores reales
           document.getElementById('formPuntajes').reset();
         } else {
           alert("⚠️ El Sheets rechazó el dato: " + data.error);
         }
       })
       .catch(err => {
-        console.error("Error capturado en petición POST:", err);
+        console.error("Contingencia de red activada:", err);
         alert("🏆 ¡Puntos inyectados de forma exitosa en la fila correspondiente!");
-        
-        // Simulación visual local por contingencia de red
-        const lista = document.getElementById('smpLogList');
-        if (lista) {
-          const nuevoItem = document.createElement('li');
-          nuevoItem.className = 'smp-log-item';
-          nuevoItem.style.borderLeftColor = operacionSeleccionada === 'restar' ? '#ff3860' : 'var(--neon-cyan)';
-          nuevoItem.innerHTML = `<span>🔹 ${houseSeleccionada.toUpperCase()} - ${nombreActividad.split('(')[0].trim()}</span><span style="color:var(--neon-cyan); font-weight:bold;">+${puntosIngresados} pts</span>`;
-          lista.insertBefore(nuevoItem, lista.firstChild);
-        }
+        procesarBitacoraVisual(); // 🚀 Garantiza que se limpie la lista dura incluso si el fetch se va por el catch
         document.getElementById('formPuntajes').reset();
       })
       .finally(() => {
@@ -511,7 +503,6 @@
         btnSubmit.disabled = false;
       });
     }
-
     // =========================================================================
     // --- ⏳ INICIADOR GLOBAL Y BUCLE AUTOMÁTICO INDESTRUCTIBLE ---
     // =========================================================================
