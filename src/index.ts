@@ -7,9 +7,27 @@ import cssContent from './estilos.css';
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyVCfzMa_iJEEHn8Hs1KBUBtkk6DfhT58UK77a2QdscxIiH8EbnU8_4NcaYG5Dz4ttjsA/exec?page=api_puntos";
 
 export default {
-  async fetch(request: Request): Promise<Response> {
+  async fetch(request: Request, env: any): Promise<Response> {
     const url = new URL(request.url);
 
+    if (url.pathname.includes(".png")) {
+      try {
+        // En Cloudflare Workers moderno, env.ASSETS.fetch extrae el archivo de tus carpetas locales
+        const assetResponse = await env.ASSETS.fetch(request);
+        
+        // Retornamos la respuesta forzando las cabeceras de imagen seguras
+        return new Response(assetResponse.body, {
+          status: assetResponse.status,
+          headers: {
+            "Content-Type": "image/png",
+            "Cache-Control": "public, max-age=86400", // Guarda la foto en caché por 1 día
+            "Access-Control-Allow-Origin": "*"
+          }
+        });
+      } catch (assetError) {
+        return new Response("Asset no mapeado en Wrangler", { status: 404 });
+      }
+    }
     // =========================================================================
     // --- 📊 MOTOR DE API ASÍNCRONO INTERMEDIO (GET / POST) ---
     // =========================================================================
