@@ -3,52 +3,244 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Olimpiadas Sede SMP</title>
+  <title>Olimpiadas Sede SMP - Marcador</title>
   <link href="/estilos.css" rel="stylesheet">
-  <!-- STYLES_PLACEHOLDER -->
+  <style>
+    /* =========================================================================
+       --- 🔥 PARCHE DE DISEÑO ESTILO HUACHO: LEADER CARD Y MODAL EMERGENTE ---
+       ========================================================================= */
+    
+    /* 🌟 Tarjeta Destacada del House Líder (Estilo Esmerilado Premium) */
+    .smp-leader-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(13, 20, 38, 0.6) 100%);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(0, 242, 254, 0.3);
+      border-radius: 16px;
+      padding: 24px 32px;
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 0 25px rgba(0, 242, 254, 0.15);
+      position: relative;
+    }
+    .smp-leader-badge {
+      font-size: 11px;
+      font-weight: 800;
+      color: #ffb300;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .smp-leader-info {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-top: 8px;
+    }
+    .smp-leader-shield {
+      font-size: 44px;
+      filter: drop-shadow(0 0 8px rgba(255,255,255,0.3));
+    }
+    .smp-leader-name {
+      font-size: 32px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -0.5px;
+    }
+    .smp-leader-score {
+      text-align: right;
+    }
+    .smp-leader-points {
+      font-size: 38px;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1;
+    }
+    .smp-leader-label {
+      font-size: 11px;
+      color: #8a99ad;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    /* Convertimos tus tarjetas en botones interactivos con cursor táctil */
+    .smp-card {
+      cursor: pointer !important;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+    .smp-card:hover {
+      transform: translateY(-2px) !important;
+      box-shadow: 0 8px 24px rgba(0, 242, 254, 0.15) !important;
+      border-color: rgba(0, 242, 254, 0.4) !important;
+    }
+
+    /* 📌 VENTANA MODAL EMERGENTE TOTALMENTE CYBERPUNK (CRISTAL LÍQUIDO) */
+    .smp-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(4, 6, 15, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+    }
+    .smp-modal-card {
+      background: #0d1426;
+      border: 2px solid rgba(0, 242, 254, 0.3);
+      border-radius: 16px;
+      width: 90%;
+      max-width: 450px;
+      padding: 28px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+      position: relative;
+    }
+    .smp-modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: none;
+      border: none;
+      color: #8a99ad;
+      font-size: 24px;
+      cursor: pointer;
+    }
+    .smp-modal-close:hover { color: #fff; }
+    .smp-modal-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding-bottom: 16px;
+      margin-bottom: 16px;
+    }
+    .smp-modal-shield-large { font-size: 36px; }
+    .smp-modal-house-title { font-size: 24px; font-weight: 900; text-transform: uppercase; }
+    .smp-modal-summary-title { font-size: 11px; font-weight: 800; color: #00f2fe; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+    .smp-competencia-list { list-style: none; max-height: 220px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+    .smp-competencia-item { display: flex; justify-content: space-between; font-size: 13px; padding: 12px 14px; background: rgba(6, 9, 19, 0.6); border-radius: 8px; border-left: 3px solid #00f2fe; }
+    .smp-no-data { font-size: 13px; color: #627285; text-align: center; padding: 20px 0; font-style: italic; }
+  </style>
 </head>
 <body>
 <div class="app-container">
+  
   <div class="header">
     <span class="institution">INNOVA SCHOOLS - SAN MARTÍN DE PORRES</span>
     <h1 class="title">OLIMPIADAS ESCOLARES 2026</h1>
     <p class="subtitle">Dashboard de control general y podio acumulado de las Houses</p>
   </div>
 
-  <div class="smp-podium-grid" id="smpContenedorPodio">
-    <div class="smp-card smp-card-blue" id="smp-blue" data-score="0"><div class="smp-mascot-shield">🐬</div><div><p class="smp-house-label">BLUE HOUSE</p><h4 class="smp-house-title">DOLPHINS</h4></div><div><span class="smp-score-text" id="smp-score-blue">0</span></div></div>
-    <div class="smp-card smp-card-white" id="smp-white" data-score="0"><div class="smp-mascot-shield">🕊️</div><div><p class="smp-house-label">WHITE HOUSE</p><h4 class="smp-house-title">SEAGULLS</h4></div><div><span class="smp-score-text" id="smp-score-white">0</span></div></div>
-    <div class="smp-card smp-card-green" id="smp-green" data-score="0"><div class="smp-mascot-shield">🦅</div><div><p class="smp-house-label">GREEN HOUSE</p><h4 class="smp-house-title">EAGLES</h4></div><div><span class="smp-score-text" id="smp-score-green">0</span></div></div>
-    <div class="smp-card smp-card-orange" id="smp-orange" data-score="0"><div class="smp-mascot-shield">🐴</div><div><p class="smp-house-label">ORANGE HOUSE</p><h4 class="smp-house-title">HORSES</h4></div><div><span class="smp-score-text" id="smp-score-orange">0</span></div></div>
+  <!-- 🌟 SECCIÓN NUEVA: TARJETA COMPACTA DEL HOUSE LÍDER (ESTILO HUACHO) -->
+  <div class="smp-leader-card" id="smpLeaderCard">
+    <div>
+      <span class="smp-leader-badge">👑 House Líder</span>
+      <div class="smp-leader-info">
+        <span class="smp-leader-shield" id="smpLeaderShield">🏁</span>
+        <h2 class="smp-leader-name" id="smpLeaderName">Calculando...</h2>
+      </div>
+    </div>
+    <div class="smp-leader-score">
+      <div class="smp-leader-points" id="smpLeaderPoints">0</div>
+      <div class="smp-leader-label">Puntos Acumulados</div>
+    </div>
   </div>
 
-  <div class="smp-menu-grid">
-    <a href="/registrar" class="smp-menu-btn"><span class="smp-btn-ico">📋</span><span class="smp-btn-title">Registrar</span><p class="smp-btn-desc">Análisis de retos y puntuación por áreas</p></a>
-    <a href="/" class="smp-menu-btn" style="border-color:var(--color-smp-neon); background: rgba(255,255,255,0.02);"><span class="smp-btn-ico">🏆</span><span class="smp-btn-title">Puntaje</span><p class="smp-btn-desc">Marcador consolidado en vivo de la Sede SMP</p></a>
-    <a href="/fixture" class="smp-menu-btn"><span class="smp-btn-ico">📊</span><span class="smp-btn-title">Fixture</span><p class="smp-btn-desc">Roles de partidos preliminares por recreos</p></a>
+  <!-- TU CONTENEDOR DE PODIO COMPLETAMENTE INTACTO -->
+  <div class="smp-podium-grid" id="smpContenedorPodio">
+    <div class="smp-card smp-card-blue" id="smp-blue" data-score="0" onclick="abrirModalResumen('blue', 'DOLPHINS', '🐬')"><div class="smp-mascot-shield">🐬</div><div><p class="smp-house-label">BLUE HOUSE</p><h4 class="smp-house-title">DOLPHINS</h4></div><div><span class="smp-score-text" id="smp-score-blue">0</span></div></div>
+    <div class="smp-card smp-card-white" id="smp-white" data-score="0" onclick="abrirModalResumen('white', 'SEAGULLS', '🕊️')"><div class="smp-mascot-shield">🕊️</div><div><p class="smp-house-label">WHITE HOUSE</p><h4 class="smp-house-title">SEAGULLS</h4></div><div><span class="smp-score-text" id="smp-score-white">0</span></div></div>
+    <div class="smp-card smp-card-green" id="smp-green" data-score="0" onclick="abrirModalResumen('green', 'EAGLES', '🦅')"><div class="smp-mascot-shield">🦅</div><div><p class="smp-house-label">GREEN HOUSE</p><h4 class="smp-house-title">EAGLES</h4></div><div><span class="smp-score-text" id="smp-score-green">0</span></div></div>
+    <div class="smp-card smp-card-orange" id="smp-orange" data-score="0" onclick="abrirModalResumen('orange', 'HORSES', '🐴')"><div class="smp-mascot-shield">🐴</div><div><p class="smp-house-label">ORANGE HOUSE</p><h4 class="smp-house-title">HORSES</h4></div><div><span class="smp-score-text" id="smp-score-orange">0</span></div></div>
+  </div>
+   <div class="smp-menu-grid">
+    <a href="/registrar" class="smp-menu-btn">
+      <span class="smp-btn-ico">📋</span>
+      <span class="smp-btn-title">Registrar</span>
+      <p class="smp-btn-desc">Análisis de retos y puntuación por áreas</p>
+    </a>
+    <a href="/" class="smp-menu-btn" style="border-color: #00f2fe; background: rgba(255,255,255,0.02);">
+      <span class="smp-btn-ico">🏆</span>
+      <span class="smp-btn-title">Puntaje</span>
+      <p class="smp-btn-desc">Marcador consolidado en vivo de la Sede SMP</p>
+    </a>
+    <a href="/fixture" class="smp-menu-btn">
+      <span class="smp-btn-ico">📊</span>
+      <span class="smp-btn-title">Fixture</span>
+      <p class="smp-btn-desc">Roles de partidos preliminares por recreos</p>
+    </a>
+  </div>
+</div> <!-- CIERRE DE APP-CONTAINER -->
+
+<!-- 📌 SECCIÓN NUEVA: VENTANA FLOTANTE DE HISTORIAL DE COMPETENCIAS (MODAL CYBERPUNK) -->
+<div class="smp-modal-overlay" id="smpModalResumen" onclick="cerrarModalResumen(event)">
+  <div class="smp-modal-card" onclick="event.stopPropagation()">
+    <button class="smp-modal-close" onclick="cerrarModalResumen(null, force=true)">✕</button>
+    <div class="smp-modal-header">
+      <span class="smp-modal-shield-large" id="modalShield">🏁</span>
+      <h3 class="smp-modal-house-title" id="modalHouseTitle">HOUSE</h3>
+    </div>
+    <div class="smp-modal-summary-title">🏅 Competencias ganadas recientemente</div>
+    <ul class="smp-competencia-list" id="modalCompetenciaList">
+      <!-- Las filas reales del Google Sheets se inyectarán de forma dinámica aquí -->
+    </ul>
   </div>
 </div>
 
 <script>
-  // 1. Creamos la función independiente para que se pueda repetir infinitamente
+  // Almacenamos temporalmente los movimientos de forma global para cruzarlos con el modal al hacer clic
+  let copiaMovimientosGlobales = [];
+
   function actualizarMarcadorEnVivo() {
-    fetch('/api/puntajes')
+    fetch(`/api/puntajes?_=${Date.now()}`)
       .then(res => res.json())
       .then(puntos => {
+        // Guardamos el historial que viene de la API para la ventana flotante
+        copiaMovimientosGlobales = puntos.movimientos || [];
+
+        const w = parseInt(puntos.white, 10) || 0;
+        const b = parseInt(puntos.blue, 10) || 0;
+        const o = parseInt(puntos.orange, 10) || 0;
+        const g = parseInt(puntos.green, 10) || 0;
+
         // Inyectamos los números actualizados en el texto de tus IDs reales
-        document.getElementById('smp-score-white').innerText = puntos.white;
-        document.getElementById('smp-score-green').innerText = puntos.green;
-        document.getElementById('smp-score-orange').innerText = puntos.orange;
-        document.getElementById('smp-score-blue').innerText = puntos.blue;
+        document.getElementById('smp-score-white').innerText = w;
+        document.getElementById('smp-score-green').innerText = g;
+        document.getElementById('smp-score-orange').innerText = o;
+        document.getElementById('smp-score-blue').innerText = b;
 
-        // Actualizamos los atributos numéricos para que tu motor de ordenamiento sepa los nuevos valores
-        document.getElementById('smp-white').setAttribute('data-score', puntos.white);
-        document.getElementById('smp-green').setAttribute('data-score', puntos.green);
-        document.getElementById('smp-orange').setAttribute('data-score', puntos.orange);
-        document.getElementById('smp-blue').setAttribute('data-score', puntos.blue);
+        // Actualizamos los atributos numéricos para el reordenador
+        document.getElementById('smp-white').setAttribute('data-score', w);
+        document.getElementById('smp-green').setAttribute('data-score', g);
+        document.getElementById('smp-orange').setAttribute('data-score', o);
+        document.getElementById('smp-blue').setAttribute('data-score', b);
 
-        // 🌟 TU MOTOR DE REORDENAMIENTO EN CALIENTE:
-        // Reordena visualmente las tarjetas en la pantalla según su nuevo puntaje
+        // 🌟 MOTOR AUTOMÁTICO DE HOUSE LÍDER (ESTILO HUACHO)
+        const mapeoCasas = [
+          { nombre: "Seagulls (White House)", puntos: w, escudo: "🕊️" },
+          { nombre: "Dolphins (Blue House)", puntos: b, escudo: "🐬" },
+          { nombre: "Horses (Orange House)", puntos: o, escudo: "🐴" },
+          { nombre: "Eagles (Green House)", puntos: g, escudo: "🦅" }
+        ];
+        
+        // Ordenamos de mayor a menor estrictamente para hallar al ganador real
+        mapeoCasas.sort((x, y) => y.puntos - x.puntos); 
+
+        // Inyectamos el primer lugar en la tarjeta destacada superior
+        document.getElementById('smpLeaderName').innerText = mapeoCasas[0].nombre;
+        document.getElementById('smpLeaderShield').innerText = mapeoCasas[0].escudo;
+        document.getElementById('smpLeaderPoints').innerText = mapeoCasas[0].puntos;
+
+        // TU MOTOR DE REORDENAMIENTO EN CALIENTE INTACTO:
         const contenedor = document.getElementById('smpContenedorPodio');
         if (contenedor) {
           const tarjetas = Array.from(contenedor.getElementsByClassName('smp-card'));
@@ -59,15 +251,57 @@
       .catch(err => console.error("Sincronizando podio en segundo plano...", err));
   }
 
-  // 🚀 DISPARADOR INMEDIATO: Ejecuta la carga apenas abre la web para que no salga en cero
+  // =========================================================================
+  // --- 📡 MOTOR INTERACTIVO: ABRE EL RESUMEN DE MEDALLAS AL HACER CLIC -----
+  // =========================================================================
+  function abrirModalResumen(keyColor, nombreHouse, escudo) {
+    document.getElementById('modalHouseTitle').innerText = nombreHouse;
+    document.getElementById('modalShield').innerText = escudo;
+    
+    const listaVisual = document.getElementById('modalCompetenciaList');
+    if (!listaVisual) return;
+    listaVisual.innerHTML = ""; // Limpiamos la caja para evitar duplicaciones
+
+    // Filtramos los movimientos del Sheets que le corresponden a la House clickeada
+    const competenciasGanadas = copiaMovimientosGlobales.filter(mov => {
+      const textoJuego = String(mov.juego || "").toLowerCase();
+      return textoJuego.includes(keyColor.toLowerCase());
+    });
+
+    if (competenciasGanadas.length === 0) {
+      listaVisual.innerHTML = `<li class="smp-no-data">Aún no registra competencias ganadas en la bitácora de hoy.</li>`;
+    } else {
+      competenciasGanadas.forEach(c => {
+        const item = document.createElement('li');
+        item.className = 'smp-competencia-item';
+        
+        // Removemos el prefijo del color de la House para mostrar solo el juego limpio
+        const partes = c.juego.split('-');
+        const juegoLimpio = partes.length > 1 ? partes[1] : c.juego;
+        
+        item.innerHTML = `
+          <span>🏆 ${juegoLimpio.trim()}</span>
+          <span style="color:#00f2fe; font-weight:bold;">+${c.puntos} pts</span>
+        `;
+        listaVisual.appendChild(item);
+      });
+    }
+
+    // Encendemos la ventana flotante en un primer plano
+    document.getElementById('smpModalResumen').style.display = 'flex';
+  }
+
+  function cerrarModalResumen(event, force = false) {
+    if (force || (event && event.target === document.getElementById('smpModalResumen'))) {
+      document.getElementById('smpModalResumen').style.display = 'none';
+    }
+  }
+
   window.addEventListener('load', () => {
     actualizarMarcadorEnVivo();
-    
-    // ⏳ BUCLE AUTOMÁTICO INDESTRUCTIBLE:
-    // Vuelve a ejecutar TODA la función cada 5 segundos (5000 milisegundos) de forma silenciosa
+    // Refresco veloz sincronizado a 5 segundos de reloj
     setInterval(actualizarMarcadorEnVivo, 5000);
   });
 </script>
-
 </body>
 </html>
