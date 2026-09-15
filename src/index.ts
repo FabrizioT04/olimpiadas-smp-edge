@@ -1,6 +1,6 @@
-import htmlPuntajes from './puntajes.html';
-import htmlFixture from './fixture.html';
-import htmlRegistrar from './registrar.html';
+import htmlPuntajes from '../public/puntajes.html';
+import htmlFixture from '../public/fixture.html';
+import htmlRegistrar from '../public/registrar.html';
 import cssContent from './estilos.css';
 
 // URL Oficial de tu Web App de Google Apps Script conectada a tu Sheets

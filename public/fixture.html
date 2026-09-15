@@ -40,6 +40,7 @@
 </div>
 
 <script>
+  
   // MATRIZ INSTITUCIONAL UNIFICADA EXTRAÍDA COMPLETA DE TU SHEET
   const dbPartidos = [
     // === SEMANA 1 ===
@@ -203,6 +204,21 @@
     });
     panel.innerHTML = html;
   }
+  function inicializarBucleFixture() {
+    // Reemplaza 'cargarFixture' por el nombre exacto de la función principal de tu script de arriba
+    if (typeof cargarFixture === "function") {
+      cargarFixture();
+      setInterval(cargarFixture, 30000); // Sincroniza el Excel en segundo plano cada 30 segundos
+    } else if (typeof actualizarMarcadorEnVivo === "function") {
+      actualizarMarcadorEnVivo();
+      setInterval(actualizarMarcadorEnVivo, 30000);
+    }
+  }
+
+  // Ejecuta el arranque en cuanto el DOM esté completamente mapeado
+  window.addEventListener('load', inicializarBucleFixture);
+
+</script>
 </script>
 </body>
 </html>
