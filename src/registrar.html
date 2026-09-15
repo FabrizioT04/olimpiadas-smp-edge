@@ -218,21 +218,36 @@
             </select>
           </div>
           
-          <div class="smp-input-group">
-            <label class="smp-field-label">2. Operación de Arbitraje</label>
-            <select id="selectOperacion" class="smp-select-premium" required>
-              <option value="sumar" selected>➕ Sumar Puntos (Victoria / Reto Cumplido)</option>
-              <option value="restar">➖ Restar Puntos (Infracción Disciplinaria)</option>
-            </select>
-          </div>
+        <!-- 2. OPERACIÓN DE ARBITRAJE -->
+        <div class="smp-input-group">
+          <label class="smp-field-label">2. Operación de Arbitraje</label>
+          <select id="selectOperacion" class="smp-select-premium" required>
+            <option value="sumar" selected>➕ Sumar Puntos (Victoria / Reto Cumplido)</option>
+            <option value="restar">➖ Restar Puntos (Infracción Disciplinaria)</option>
+          </select>
+        </div>
+
+        <!-- 🌟 NUEVO COMPONENTE: SELECCIÓN DE CATEGORÍA / GRADO PARA DISPARO DE COLUMNA -->
+        <div class="smp-input-group">
+          <label class="smp-field-label">3. Categoría / Grados</label>
+          <select id="selectCategoria" class="smp-select-premium" required>
+            <option value="" disabled selected>Elige la Categoría...</option>
+            <option value="promesas">🏆 Promesas (1° y 2°)</option>
+            <option value="infantil">🏆 Infantil (3° y 4°)</option>
+            <option value="junior">🏆 Junior (5° y 6°)</option>
+            <option value="juvenilA">🏆 Juvenil A (7° y 8°)</option>
+            <option value="juvenilB">🏆 Juvenil B (9°, 10° y 11°)</option>
+          </select>
+        </div>
+
+        <!-- 4. CANTIDAD DE PUNTOS -->
+        <div class="smp-input-group">
+          <label class="smp-field-label">4. Cantidad de Puntos</label>
+          <input type="number" id="inputPuntos" class="smp-input-premium" placeholder="Ej: 100" min="1" max="500" required>
+        </div>
 
           <div class="smp-input-group">
-            <label class="smp-field-label">3. Cantidad de Puntos</label>
-            <input type="number" id="inputPuntos" class="smp-input-premium" placeholder="Ej: 100" min="1" max="500" required>
-          </div>
-
-          <div class="smp-input-group">
-            <label class="smp-field-label">4. Actividad / Juego</label>
+            <label class="smp-field-label">5. Actividad / Juego</label>
             <select id="inputMotivo" class="smp-select-premium" required>
               <option value="" disabled selected>Elige la actividad...</option>
               <!-- ⚽ DEPORTES ED. FÍSICA -->
@@ -410,6 +425,7 @@
       const selectActividad = document.getElementById('inputMotivo');
       const filaDestino = selectActividad.value; 
       const nombreActividad = selectActividad.options[selectActividad.selectedIndex].text;
+      const categoriaSeleccionada = document.getElementById('selectCategoria').value;
 
       if (!houseSeleccionada || !filaDestino || isNaN(puntosIngresados)) {
         alert("⚠️ Rellena todos los campos.");
@@ -422,6 +438,7 @@
       const payload = {
         house: houseSeleccionada,
         operacion: operacionSeleccionada,
+        categoria: categoriaSeleccionada,
         puntos: puntosIngresados,
         fila: filaDestino,
         motivo: nombreActividad
