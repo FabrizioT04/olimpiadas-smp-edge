@@ -296,3 +296,26 @@ body {
   .smp-menu-btn { padding: 26px 16px; border-radius: 16px; } 
   .title { font-size: 26px; } 
 }
+
+/* --- PARCHE DE AISLAMIENTO PARA EL BOTÓN DE ARBITRAJE --- */
+.smp-btn-submit {
+  display: block !important;
+  width: 100% !important;
+  padding: 14px !important;
+  background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%) !important;
+  color: #000000 !important;
+  font-weight: bold !important;
+  font-size: 16px !important;
+  border: none !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  margin-top: 24px !important;
+  margin-bottom: 120px !important; /* 🔥 ESTE MARGEN EMPUJA EL BOTÓN HACIA ARRIBA DE LA BOTONERA INFERIOR */
+  box-shadow: 0 0 15px rgba(0, 242, 254, 0.4) !important;
+  transition: all 0.3s ease !important;
+}
+
+.smp-btn-submit:hover {
+  box-shadow: 0 0 25px rgba(0, 242, 254, 0.7) !important;
+  transform: translateY(-2px) !important;
+}
