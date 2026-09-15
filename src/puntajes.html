@@ -30,26 +30,44 @@
 </div>
 
 <script>
-  window.addEventListener('load', () => {
+  // 1. Creamos la función independiente para que se pueda repetir infinitamente
+  function actualizarMarcadorEnVivo() {
     fetch('/api/puntajes')
       .then(res => res.json())
       .then(puntos => {
+        // Inyectamos los números actualizados en el texto de tus IDs reales
         document.getElementById('smp-score-white').innerText = puntos.white;
         document.getElementById('smp-score-green').innerText = puntos.green;
         document.getElementById('smp-score-orange').innerText = puntos.orange;
         document.getElementById('smp-score-blue').innerText = puntos.blue;
 
+        // Actualizamos los atributos numéricos para que tu motor de ordenamiento sepa los nuevos valores
         document.getElementById('smp-white').setAttribute('data-score', puntos.white);
         document.getElementById('smp-green').setAttribute('data-score', puntos.green);
         document.getElementById('smp-orange').setAttribute('data-score', puntos.orange);
         document.getElementById('smp-blue').setAttribute('data-score', puntos.blue);
 
+        // 🌟 TU MOTOR DE REORDENAMIENTO EN CALIENTE:
+        // Reordena visualmente las tarjetas en la pantalla según su nuevo puntaje
         const contenedor = document.getElementById('smpContenedorPodio');
-        const tarjetas = Array.from(contenedor.getElementsByClassName('smp-card'));
-        tarjetas.sort((a, b) => parseInt(b.getAttribute('data-score') || 0) - parseInt(a.getAttribute('data-score') || 0));
-        tarjetas.forEach(t => contenedor.appendChild(t));
-      });
+        if (contenedor) {
+          const tarjetas = Array.from(contenedor.getElementsByClassName('smp-card'));
+          tarjetas.sort((a, b) => parseInt(b.getAttribute('data-score') || '0') - parseInt(a.getAttribute('data-score') || '0'));
+          tarjetas.forEach(t => contenedor.appendChild(t));
+        }
+      })
+      .catch(err => console.error("Sincronizando podio en segundo plano...", err));
+  }
+
+  // 🚀 DISPARADOR INMEDIATO: Ejecuta la carga apenas abre la web para que no salga en cero
+  window.addEventListener('load', () => {
+    actualizarMarcadorEnVivo();
+    
+    // ⏳ BUCLE AUTOMÁTICO INDESTRUCTIBLE:
+    // Vuelve a ejecutar TODA la función cada 5 segundos (5000 milisegundos) de forma silenciosa
+    setInterval(actualizarMarcadorEnVivo, 5000);
   });
 </script>
+
 </body>
 </html>
