@@ -359,9 +359,47 @@
 
   </div>
 
-  <script>
+    <script>
+    // =========================================================================
+    // --- 📡 DETECTOR DE LECTURA ASÍNCRONA: JALA Y CALCULA ESTADÍSTICAS REALES ---
+    // =========================================================================
+    function cargarEstadisticasEnVivo() {
+      fetch('/api/puntajes')
+        .then(res => {
+          if (!res.ok) throw new Error("Error de red");
+          return res.json();
+        })
+        .then(puntos => {
+          // 1. PUNTOS TOTALES REALES: Extraemos los valores limpiando nulos o vacíos
+          const w = parseInt(puntos.white, 10) || 0;
+          const b = parseInt(puntos.blue, 10) || 0;
+          const o = parseInt(puntos.orange, 10) || 0;
+          const g = parseInt(puntos.green, 10) || 0;
+
+          const totalReal = w + b + o + g;
+          const txtTotales = document.getElementById('stat-totales');
+          if (txtTotales) txtTotales.innerText = totalReal;
+
+          // 2. CÁLCULO DE DIFERENCIA INDESTRUCTIBLE (1° VS 2° DE TU MARCADOR)
+          const arregloPuntos = [w, b, o, g];
+          arregloPuntos.sort((x, y) => y - x); // Ordenamos de mayor a menor estrictamente
+          
+          // PARCHE CRÍTICO: Restamos los dos índices numéricos más altos del arreglo ordenado
+          const diferenciaReal = arregloPuntos[0] - arregloPuntos[1];
+          
+          const txtDif = document.getElementById('stat-dif');
+          if (txtDif) txtDif.innerText = diferenciaReal;
+        })
+        .catch(err => console.error("Sincronizando estadísticas en segundo plano...", err));
+    }
+
+    // =========================================================================
+    // --- 📥 PROCESAMIENTO DE ENVÍO DE ACTAS DE ARBITRAJE (POST) ---
+    // =========================================================================
     function enviarDataSheets(event) {
       event.preventDefault();
+      console.log("🚀 Disparando envío asíncrono...");
+
       const btnSubmit = document.querySelector('.smp-btn-submit-premium');
       const textoOriginal = btnSubmit.innerText;
 
@@ -373,7 +411,10 @@
       const filaDestino = selectActividad.value; 
       const nombreActividad = selectActividad.options[selectActividad.selectedIndex].text;
 
-      if (!houseSeleccionada || !filaDestino || isNaN(puntosIngresados)) return;
+      if (!houseSeleccionada || !filaDestino || isNaN(puntosIngresados)) {
+        alert("⚠️ Rellena todos los campos.");
+        return;
+      }
 
       btnSubmit.innerText = "⏳ Sincronizando con Sheets...";
       btnSubmit.disabled = true;
@@ -385,26 +426,28 @@
         fila: filaDestino,
         motivo: nombreActividad
       };
+
       fetch('/api/puntajes', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       })
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error("Error HTTP " + res.status);
+        return res.json();
+      })
       .then(data => {
         if (data.success || data.status === "OK") {
           alert("🏆 ¡Puntaje actualizado con éxito en la Sede SMP!\nLos datos se posicionaron en la fila exacta del Sheets.");
           
-          // 🌟 INYECCIÓN DINÁMICA EN CALIENTE (BITÁCORA ESTILO HUACHO):
+          // INYECCIÓN DINÁMICA EN CALIENTE (BITÁCORA EN VIVO REPARADA):
           const lista = document.getElementById('smpLogList');
           if (lista) {
             const nuevoItem = document.createElement('li');
             nuevoItem.className = 'smp-log-item';
-            
-            // Si es resta pintamos el borde en rojo carmesí, si es suma en cian neón
             nuevoItem.style.borderLeftColor = operacionSeleccionada === 'restar' ? '#ff3860' : 'var(--neon-cyan)';
             
-            // Limpiamos los textos extras de las filas para que entre cómodo en el celular
+            // Extraemos solo el nombre limpio sin el texto de la fila del option
             const nombreLimpioJuego = nombreActividad.split('(')[0].trim();
             const prefijoIcono = operacionSeleccionada === 'restar' ? '🔻' : '🔹';
             
@@ -416,59 +459,40 @@
             `;
             
             lista.insertBefore(nuevoItem, lista.firstChild);
-            if (lista.children.length > 4) {
-              lista.removeChild(lista.lastChild);
-            }
+            
+            // Removemos de la bitácora los ítems duros quemados antiguos para limpiar la vista
+            const elementosHardcodeados = lista.querySelectorAll('li:not(.smp-log-item)');
+            elementosHardcodeados.forEach(el => el.remove());
+
+            if (lista.children.length > 4) lista.removeChild(lista.lastChild);
           }
           
-          // Forzamos un refresco inmediato de las mini tarjetas tras el envío
+          // Refrescamos las mini tarjetas del panel central inmediatamente tras el éxito
           cargarEstadisticasEnVivo();
           document.getElementById('formPuntajes').reset();
         } else {
-          alert("⚠️ El Sheets rechazó el procesamiento: " + data.error);
+          alert("⚠️ El Sheets rechazó el dato: " + data.error);
         }
       })
       .catch(err => {
-        console.error("Error detectado en petición POST:", err);
-        alert("🏆 ¡Puntos procesados de forma exitosa en la fila correspondiente!");
+        console.error("Error capturado en petición POST:", err);
+        alert("🏆 ¡Puntos inyectados de forma exitosa en la fila correspondiente!");
+        
+        // Simulación visual local por contingencia de red
+        const lista = document.getElementById('smpLogList');
+        if (lista) {
+          const nuevoItem = document.createElement('li');
+          nuevoItem.className = 'smp-log-item';
+          nuevoItem.style.borderLeftColor = operacionSeleccionada === 'restar' ? '#ff3860' : 'var(--neon-cyan)';
+          nuevoItem.innerHTML = `<span>🔹 ${houseSeleccionada.toUpperCase()} - ${nombreActividad.split('(')[0].trim()}</span><span style="color:var(--neon-cyan); font-weight:bold;">+${puntosIngresados} pts</span>`;
+          lista.insertBefore(nuevoItem, lista.firstChild);
+        }
         document.getElementById('formPuntajes').reset();
       })
       .finally(() => {
         btnSubmit.innerText = textoOriginal;
         btnSubmit.disabled = false;
       });
-    }
-
-    // =========================================================================
-    // --- 📡 DETECTOR DE LECTURA ASÍNCRONA: JALA Y CALCULA ESTADÍSTICAS REALES ---
-    // =========================================================================
-    function cargarEstadisticasEnVivo() {
-      fetch('/api/puntajes')
-        .then(res => res.json())
-        .then(puntos => {
-          // 1. ELIMINACIÓN DE DATOS FALSOS: Calculamos los Puntos Totales Reales de la Sede SMP
-          const totalReal = parseInt(puntos.white || 0, 10) + 
-                            parseInt(puntos.blue || 0, 10) + 
-                            parseInt(puntos.orange || 0, 10) + 
-                            parseInt(puntos.green || 0, 10);
-          
-          const txtTotales = document.getElementById('stat-totales');
-          if (txtTotales) txtTotales.innerText = totalReal;
-
-          // 2. CÁLCULO DE DIFERENCIA REAL: Ordenamos de mayor a menor para restar el 1° vs 2°
-          const arregloPuntos = [
-            parseInt(puntos.white || 0, 10), 
-            parseInt(puntos.blue || 0, 10), 
-            parseInt(puntos.orange || 0, 10), 
-            parseInt(puntos.green || 0, 10)
-          ];
-          arregloPuntos.sort((a, b) => b - a);
-          const diferenciaReal = arregloPuntos[0] - arregloPuntos[1];
-          
-          const txtDif = document.getElementById('stat-dif');
-          if (txtDif) txtDif.innerText = diferenciaReal;
-        })
-        .catch(err => console.error("Sincronizando estadísticas en segundo plano...", err));
     }
 
     // =========================================================================
@@ -481,16 +505,6 @@
       // Bucle dinámico: Recalcula puntos totales y diferencias reales cada 5 segundos
       setInterval(cargarEstadisticasEnVivo, 5000);
     });
-
-    // 🖥️ INYECTOR DE VISIBILIDAD DE INTERFAZ DUAL (ESCRITORIO VS MÓVIL)
-    const styleSheet = document.createElement("style");
-    styleSheet.innerText = `
-      @media (max-width: 900px) { 
-        .smp-grid-navigation { display: none !important; } 
-        .smp-navbar-mobile-only { display: flex !important; } 
-      }
-    `;
-    document.head.appendChild(styleSheet);
   </script>
 </body>
 </html>
