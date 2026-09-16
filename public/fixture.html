@@ -2,20 +2,16 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Fixture de Olimpiadas - Sede SMP</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fixture SMP - Olimpiadas 2026</title>
   
-  <!-- 🎨 Fuente ultra moderna y corporativa -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   
   <style>
-    /* =========================================================================
-       --- 🎨 DISEÑO MINIMALISTA "BENTO BOX" (ESTILO APPLE / CLARO) ----------
-       ========================================================================= */
     :root {
-      --bg-color: #f1f5f9;
+      --bg-color: #f4f7f9;
       --card-bg: #ffffff;
       --text-main: #0f172a;
       --text-muted: #64748b;
@@ -23,143 +19,52 @@
       
       --color-blue: #3b82f6;
       --color-green: #10b981;
-      --color-orange: #f97316;
-      --color-gold: #f59e0b;
+      --color-orange: #f59e0b;
+      --color-gold: #fbbf24;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; padding: 40px 20px; -webkit-font-smoothing: antialiased; }
+    .app-container { max-width: 900px; margin: 0 auto; padding-bottom: 90px; }
 
-    body {
-      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      min-height: 100vh;
-      padding: 40px 20px;
-      -webkit-font-smoothing: antialiased;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .app-container {
-      width: 100%;
-      max-width: 900px;
-      margin: 0 auto;
-      padding-bottom: 80px;
-    }
-
-    /* --- CABECERA --- */
-    .header { text-align: center; margin-bottom: 36px; }
-    .institution {
-      display: inline-block;
-      font-size: 12px;
-      color: var(--color-blue);
-      background: #e0f2fe;
-      padding: 6px 14px;
-      border-radius: 20px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-weight: 800;
-      margin-bottom: 12px;
-    }
-    .title {
-      color: var(--text-main);
-      font-size: 36px;
-      font-weight: 800;
-      letter-spacing: -1px;
-      margin-bottom: 6px;
-      text-transform: uppercase;
-    }
+    /* CABECERA */
+    .header { text-align: center; margin-bottom: 32px; }
+    .institution { display: inline-block; font-size: 12px; color: var(--color-blue); background: #e0f2fe; padding: 6px 14px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; margin-bottom: 12px; }
+    .title { color: var(--text-main); font-size: 36px; font-weight: 900; letter-spacing: -1px; margin-bottom: 6px; text-transform: uppercase; }
     .subtitle { color: var(--text-muted); font-size: 15px; font-weight: 500; }
 
-    /* Selector de Semanas */
+    /* 📅 SELECTOR DE SEMANAS */
     .smp-week-selector { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
-    .btn-week {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      padding: 14px 16px;
-      border-radius: 16px;
-      color: var(--text-muted);
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      text-align: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-      text-transform: uppercase;
-    }
+    .btn-week { background: var(--card-bg); border: 1px solid var(--border-color); padding: 14px 16px; border-radius: 16px; color: var(--text-muted); font-size: 13px; font-weight: 800; cursor: pointer; transition: all 0.2s ease; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.02); text-transform: uppercase; }
     .btn-week:hover { border-color: #cbd5e1; transform: translateY(-1px); }
-    .btn-week.active {
-      background: var(--text-main) !important;
-      color: #ffffff !important;
-      border-color: var(--text-main) !important;
-      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
-    }
+    .btn-week.active { background: var(--text-main) !important; color: #ffffff !important; border-color: var(--text-main) !important; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15); }
     .btn-week.final { border-color: #fde047; background: #fefce8; color: #b45309; }
     .btn-week.final.active { background: #fbbf24 !important; color: #78350f !important; border-color: #fbbf24 !important; }
 
-    /* Cápsulas de Días */
+    /* 📅 CÁPSULAS DE DÍAS */
     .container-fixture-days { display: flex; gap: 8px; margin-bottom: 28px; overflow-x: auto; padding-bottom: 4px; }
-    .btn-day-capsule {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      padding: 10px 20px;
-      border-radius: 20px;
-      color: var(--text-muted);
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      white-space: nowrap;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
-    }
+    .btn-day-capsule { background: var(--card-bg); border: 1px solid var(--border-color); padding: 10px 20px; border-radius: 20px; color: var(--text-muted); font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; box-shadow: 0 2px 6px rgba(0,0,0,0.02); }
     .btn-day-capsule:hover { border-color: #cbd5e1; color: var(--text-main); }
-    .btn-day-capsule.active {
-      border-color: var(--color-blue);
-      color: #ffffff;
-      background: var(--color-blue);
-      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
-    }
+    .btn-day-capsule.active { border-color: var(--color-blue); color: #ffffff; background: var(--color-blue); box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25); }
 
-    /* Rejilla de Partidos */
+    /* 🏆 REJILLA DE PARTIDOS */
     .smp-grid-games { display: flex; flex-direction: column; gap: 16px; }
-    .smp-game-row {
-      background: var(--card-bg) !important;
-      border: 1px solid var(--border-color) !important;
-      border-radius: 24px !important;
-      padding: 24px !important;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03) !important;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
+    .smp-game-row { background: var(--card-bg) !important; border: 1px solid var(--border-color) !important; border-radius: 24px !important; padding: 24px !important; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03) !important; transition: transform 0.2s, box-shadow 0.2s; }
     .smp-game-row:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06); }
     
-    .smp-time-badge {
-      background: #f8fafc !important;
-      border: 1px solid var(--border-color) !important;
-      padding: 8px 16px !important;
-      border-radius: 12px !important;
-      font-size: 13px !important;
-      font-weight: 800;
-      color: var(--text-main) !important;
-    }
+    .smp-time-badge { background: #f8fafc !important; border: 1px solid var(--border-color) !important; padding: 8px 16px !important; border-radius: 12px !important; font-size: 13px !important; font-weight: 800; color: var(--text-main) !important; }
 
-    /* Menú Inferior Estilo Bento Box */
+    /* MENÚ INFERIOR BENTO BOX */
     .smp-menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 40px; }
-    .smp-menu-btn {
-      background: var(--card-bg);
-      border: 2px solid transparent;
-      border-radius: 24px;
-      padding: 24px;
-      text-align: center;
-      text-decoration: none;
-      transition: all 0.2s ease;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.02);
-    }
+    .smp-menu-btn { background: var(--card-bg); border: 2px solid transparent; border-radius: 24px; padding: 24px; text-align: center; text-decoration: none; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
     .smp-menu-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 24px rgba(0, 0, 0, 0.05); }
     .smp-menu-btn.active { border-color: var(--color-blue); background: #f8fafc; }
     .smp-btn-ico { font-size: 32px; margin-bottom: 12px; display: block; }
     .smp-btn-title { font-size: 15px; font-weight: 800; text-transform: uppercase; color: var(--text-main); display: block; }
     .smp-btn-desc { font-size: 13px; color: var(--text-muted); margin-top: 8px; font-weight: 500; line-height: 1.4; }
+
+    /* 📱 BARRA ELÁSTICA INFERIOR MÓVIL */
+    .smp-navbar-mobile-only { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: var(--card-bg); border-top: 1px solid var(--border-color); justify-content: space-around; padding: 16px 0; z-index: 99999; box-shadow: 0 -4px 12px rgba(0,0,0,0.03); }
 
     @media (max-width: 768px) {
       .smp-menu-grid { display: none !important; }
@@ -187,7 +92,9 @@
     <button onclick="cambiarSemana(4, this)" class="btn-week final">🏆 Finales</button>
   </div>
 
+  <!-- Contenedor dinámico de días -->
   <div class="container-fixture-days" id="botoneraDias"></div>
+  <!-- Contenedor dinámico de partidos -->
   <div class="smp-grid-games" id="panelPartidos"></div>
 
   <!-- NAVEGACIÓN DESKTOP -->
@@ -211,16 +118,15 @@
 </div>
 
   <!-- 📱 BARRA ELÁSTICA DE NAVEGACIÓN INFERIOR MÓVIL -->
-  <div class="smp-navbar-mobile-only" style="display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: var(--card-bg); border-top: 1px solid var(--border-color); justify-content: space-around; padding: 16px 0; z-index: 99999; box-shadow: 0 -4px 12px rgba(0,0,0,0.03);">
+  <div class="smp-navbar-mobile-only" style="display: none;">
     <a href="/registrar" style="text-decoration: none; text-align: center; color: var(--text-muted);"><span style="font-size: 22px; display: block; margin-bottom: 4px;">📋</span><span style="font-size: 10px; font-weight: 800; text-transform: uppercase;">Registrar</span></a>
     <a href="/" style="text-decoration: none; text-align: center; color: var(--text-muted);"><span style="font-size: 22px; display: block; margin-bottom: 4px;">🏆</span><span style="font-size: 10px; font-weight: 800; text-transform: uppercase;">Puntaje</span></a>
     <a href="/fixture" style="text-decoration: none; text-align: center; color: var(--color-blue);"><span style="font-size: 22px; display: block; margin-bottom: 4px;">📊</span><span style="font-size: 10px; font-weight: 800; text-transform: uppercase;">Fixture</span></a>
   </div>
 
   <script>
-    // MATRIZ INSTITUCIONAL UNIFICADA
-    const dbPartidos = [
-      // === SEMANA 1 ===
+    let dbPartidos = [
+      // Semana 1 - Fija y robusta
       { s:1, f:'2026-09-14', t:'Lun 14', h:'09:35 - 09:55', d:'🥇 CONEBALL', e:'BLANCO VS VERDE', c:'Infantil (3º y 4º)', a:'DAVID', r:'M. Gurrionero, G. Huaman, N. Aguilar, D. Quirica' },
       { s:1, f:'2026-09-14', t:'Lun 14', h:'09:55 - 10:15', d:'🏀 BÁSQUET', e:'BLANCO VS VERDE', c:'Junior (5º y 6º)', a:'DAVID', r:'D. Quirica, J. Romero, K. Armas' },
       { s:1, f:'2026-09-14', t:'Lun 14', h:'10:55 - 11:15', d:'🏀 BÁSQUET', e:'BLANCO VS VERDE', c:'Juvenil A (7º y 8º)', a:'ENRIQUE ALCAZAR', r:'J. Esteban, D. Sajami, K. Caballero, D. Liviapoma' },
@@ -251,36 +157,67 @@
       { s:1, f:'2026-09-18', t:'Vie 18', h:'11:15 - 11:35', d:'🏐 PASABOLA', e:'ANARANJADO VS AZUL', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ 9B', r:'Tutores, Cotutores y Volantes SMP' },
       { s:1, f:'2026-09-18', t:'Vie 18', h:'12:55 - 13:15', d:'🏐 VÓLEY', e:'ANARANJADO VS AZUL', c:'Juvenil B (9º a 11º)', a:'ENRIQUE ALCAZAR', r:'L. Figueroa, M. Nuñez, S. Ramirez, L. Delao' },
 
-      // === SEMANA 2 ===
+      // Semana 2 - Fija y robusta
       { s:2, f:'2026-09-21', t:'Lun 21', h:'09:35 - 09:55', d:'🏐 VÓLEY', e:'BLANCO VS VERDE', c:'Infantil (3º y 4º)', a:'DAVID', r:'M. Gurrionero, G. Huaman, N. Aguilar, L. Gambini' },
       { s:2, f:'2026-09-21', t:'Lun 21', h:'09:55 - 10:15', d:'🏐 VÓLEY', e:'BLANCO VS VERDE', c:'Junior (5º y 6º)', a:'DAVID', r:'D. Quirica, J. Romero, K. Armas' },
       { s:2, f:'2026-09-21', t:'Lun 21', h:'10:55 - 11:15', d:'🏐 VÓLEY', e:'BLANCO VS VERDE', c:'Juvenil A (7º y 8º)', a:'KATTY RAMOS', r:'J. Esteban, D. Sajami, K. Caballero, D. Liviapoma' },
       { s:2, f:'2026-09-21', t:'Lun 21', h:'11:15 - 11:35', d:'🏐 VÓLEY', e:'BLANCO VS VERDE', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ 9A / DAVID', r:'Tutores, Cotutores y Volantes' },
       { s:2, f:'2026-09-21', t:'Lun 21', h:'12:55 - 13:15', d:'🏐 VÓLEY', e:'BLANCO VS VERDE', c:'Juvenil B (9º a 11º)', a:'KATTY RAMOS', r:'Saira, M. Nuñez, K. Caballero, D. Liviapoma' },
-
-      { s:2, f:'2026-09-22', t:'Mar 22', h:'09:35 - 09:55', d:'⚽ FUTSAL', e:'VERDE VS AZUL', c:'Infantil (3º y 4º)', a:'DAVID', r:'M. Gurrionero, L. Natividad, V. Valverde' },
-      { s:2, f:'2026-09-23', t:'Mié 23', h:'09:35 - 09:55', d:'⚽ FUTSAL', e:'BLANCO VS ANARANJADO', c:'Junior (5º y 6º)', a:'MARIO NUÑEZ', r:'J. Romero, K. Armas, D. Sajami' },
-      { s:2, f:'2026-09-24', t:'Jue 24', h:'10:55 - 11:15', d:'🏀 BÁSQUET', e:'VERDE VS ANARANJADO', c:'Juvenil A (7º y 8º)', a:'ENRIQUE ALCAZAR', r:'Tutores SMP, Volantes' },
-      { s:2, f:'2026-09-25', t:'Vie 25', h:'11:15 - 11:35', d:'🥇 CONEBALL', e:'AZUL VS BLANCO', c:'Promesas (1º y 2º)', a:'DAVID', r:'Mesa de Control SMP, Delegados' }
+      
+      { s:2, f:'2026-09-22', t:'Mar 22', h:'09:35 - 09:55', d:'⚽ FUTSAL', e:'VERDE VS AZUL', c:'Infantil (3º y 4º)', a:'DAVID', r:'M. Gurrionero, L. Natividad, V. Valverde' }
     ];
 
     let semanaActiva = 1;
     let fechaActiva = '';
+
+    function procesarFixtureRemoto(respuestaRemota) {
+      if (respuestaRemota && Array.isArray(respuestaRemota.partidos) && respuestaRemota.partidos.length > 0) {
+        const partidosRemotos = respuestaRemota.partidos.map(p => ({
+          s: Number(p.s || p.semana || 3),
+          f: String(p.f || p.fecha || '2026-09-28'),
+          t: String(p.t || p.dia || 'Lun 28'),
+          h: String(p.h || p.hora || '09:35 - 09:55'),
+          d: String(p.d || p.deporte || 'DEPORTE'),
+          e: String(p.e || p.enfrentamiento || 'EQUIPO VS EQUIPO'),
+          c: String(p.c || p.categoria || 'Categoría'),
+          a: String(p.a || p.arbitro || 'POR DESIGNAR'),
+          r: String(p.r || p.apoyo || 'Delegados generales')
+        }));
+        
+        // Conservamos semanas 1 y 2 estables, y actualizamos/añadimos semanas 3 y 4 desde Google Sheets
+        const semanas1y2 = dbPartidos.filter(p => p.s === 1 || p.s === 2);
+        const semanas3yMas = partidosRemotos.filter(p => p.s >= 3);
+        dbPartidos = [...semanas1y2, ...semanas3yMas];
+        console.log("📊 Fixture sincronizado dinámicamente:", dbPartidos);
+      }
+      cambiarSemana(semanaActiva, document.querySelector('.btn-week'));
+    }
+
+    function sincronizarFixtureEnVivo() {
+      const scriptViejo = document.getElementById('smpFixtureScript');
+      if (scriptViejo) scriptViejo.remove();
+
+      const nuevoScript = document.createElement('script');
+      nuevoScript.id = 'smpFixtureScript';
+      nuevoScript.src = `https://script.google.com/macros/s/AKfycbw6v_-hQor-DMh7Mg2qtodwpuIiXIuCOqqtV3mY3Gs5ueqZBrDH8LORqa7RTMWhIH1uqw/exec?page=api_fixture&callback=procesarFixtureRemoto&_t=${Date.now()}`;
+      document.body.appendChild(nuevoScript);
+    }
 
     function cambiarSemana(numSemana, boton) {
       semanaActiva = numSemana;
       document.querySelectorAll('.btn-week').forEach(b => b.classList.remove('active'));
       if(boton) boton.classList.add('active');
 
-      const partidosSemana = dbPartidos.filter(p => p.s === semanaActiva);
-      const fechasUnicas = [...new Set(partidosSemana.map(p => p.f))].sort();
+      const partidosSemana = dbPartidos.filter(p => Number(p.s) === semanaActiva);
+      const fechasUnicas = [...new Set(partidosSemana.map(p => String(p.f)))].sort();
 
       const containerDias = document.getElementById('botoneraDias');
       if (fechasUnicas.length > 0) {
         fechaActiva = fechasUnicas[0];
         containerDias.innerHTML = fechasUnicas.map(f => {
-          const pMatch = partidosSemana.find(p => p.f === f);
-          return `<button onclick="cambiarDia('${f}', this)" class="btn-day-capsule ${f === fechaActiva ? 'active' : ''}">${pMatch.t}</button>`;
+          const pMatch = partidosSemana.find(p => String(p.f) === f);
+          const etiquetaDia = pMatch ? (pMatch.t || f) : f;
+          return `<button onclick="cambiarDia('${f}', this)" class="btn-day-capsule ${f === fechaActiva ? 'active' : ''}">${etiquetaDia}</button>`;
         }).join('');
       } else {
         containerDias.innerHTML = `<p style="font-size:13px; color:var(--text-muted); padding-left:5px; font-weight:500;">No hay encuentros programados para esta fase.</p>`;
@@ -299,36 +236,42 @@
     function renderizarTarjetasPartidos() {
       const panel = document.getElementById('panelPartidos');
       if (!fechaActiva) {
-        panel.innerHTML = '';
+        panel.innerHTML = `<div style="background:#fff; border:1px solid var(--border-color); border-radius:16px; padding:30px; text-align:center; color:var(--text-muted); font-weight:600;">No hay partidos programados para esta fecha.</div>`;
         return;
       }
 
-      const filtrados = dbPartidos.filter(p => p.s === semanaActiva && p.f === fechaActiva);
+      const filtrados = dbPartidos.filter(p => Number(p.s) === semanaActiva && String(p.f) === fechaActiva);
       let html = '';
 
       filtrados.forEach(p => {
         let esFinal = semanaActiva === 4;
+        const hora = p.h || p.hora || '09:35 - 09:55';
+        const deporte = p.d || p.deporte || 'DEPORTE';
+        const enfrentamiento = p.e || p.enfrentamiento || 'EQUIPOS';
+        const categoria = p.c || p.categoria || 'Categoría';
+        const arbitro = p.a || p.arbitro || 'POR DESIGNAR';
+        const apoyo = p.r || p.apoyo || 'Delegados generales';
         
         html += `
           <div class="smp-game-row" style="${esFinal ? 'border-color: #fde047; background: #fefce8 !important;' : ''}">
             <div style="display:flex; align-items:center; width:100%; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:14px;">
-              <div class="smp-time-badge" style="${esFinal ? 'color:#b45309; border-color:#fde047; background:#fef9c3 !important;' : ''}"><span>⏰ ${p.h}</span></div>
+              <div class="smp-time-badge" style="${esFinal ? 'color:#b45309; border-color:#fde047; background:#fef9c3 !important;' : ''}"><span>⏰ ${hora}</span></div>
               <div class="info-block" style="flex-grow:1; margin-left:5px; min-width:200px;">
                 <h4 style="margin: 0; font-size: 12px; color: var(--text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">
-                  ${p.c} — <span style="color: ${esFinal ? '#b45309' : 'var(--color-blue)'}; font-weight: 900;">${p.d}</span>
+                  ${categoria} — <span style="color: ${esFinal ? '#b45309' : 'var(--color-blue)'}; font-weight: 900;">${deporte}</span>
                 </h4>
                 <p class="game-match-text" style="margin: 4px 0 0 0; font-size: 20px; font-weight: 900; letter-spacing: -0.5px; color: var(--text-main);">
-                  ${p.e}
+                  ${enfrentamiento}
                 </p>
               </div>
               <div class="arb-badge" style="text-align: right; min-width: 120px; background: #f8fafc; padding: 8px 14px; border-radius: 12px; border: 1px solid var(--border-color);">
                 <span style="font-size: 10px; font-weight: 800; color: #b45309; display: block; letter-spacing: 0.5px; text-transform:uppercase;">⚡ Árbitro</span>
-                <span style="font-size: 13px; color: var(--text-main); font-weight: 800; display: block; margin-top: 2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">📢 ${p.a || 'POR DESIGNAR'}</span>
+                <span style="font-size: 13px; color: var(--text-main); font-weight: 800; display: block; margin-top: 2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">📢 ${arbitro}</span>
               </div>
             </div>
             <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: 14px; padding: 12px 16px; font-size: 13px;">
               <span style="font-size: 10px; font-weight: 800; color: var(--color-blue); display:block; letter-spacing: 0.5px; text-transform:uppercase; margin-bottom:3px;">📋 Profesores de Apoyo (Mesa / Actas / Control)</span>
-              <span style="color: var(--text-muted); font-weight: 600; line-height: 1.4;">${p.r || 'Asignación general de delegados'}</span>
+              <span style="color: var(--text-muted); font-weight: 600; line-height: 1.4;">${apoyo}</span>
             </div>
           </div>`;
       });
@@ -337,6 +280,8 @@
 
     window.addEventListener('load', () => {
       cambiarSemana(1, document.querySelector('.btn-week'));
+      sincronizarFixtureEnVivo();
+      setInterval(sincronizarFixtureEnVivo, 10000);
     });
   </script>
 </body>
