@@ -318,19 +318,10 @@
   // =======================================================================
   // 3. MOTOR DE FUSIÓN INTELIGENTE (SINCRONIZACIÓN SILENCIOSA >= 24/09)
   // =======================================================================
-  function sincronizarFixtureEnVivo() {
-    const scriptAntiguo = document.getElementById('jsonp-fixture');
-    if (scriptAntiguo) scriptAntiguo.remove();
-    const nuevoScript = document.createElement('script');
-    nuevoScript.id = 'jsonp-fixture';
-    nuevoScript.src = `https://script.google.com/macros/s/AKfycbw6v_-hQor-DMh7Mg2qtodwpuIiXIuCOqqtV3mY3Gs5ueqZBrDH8LORqa7RTMWhIH1uqw/exec?page=api_fixture&callback=procesarFixtureRemoto&_t=${Date.now()}`;
-    document.body.appendChild(nuevoScript);
-  }
-
   window.procesarFixtureRemoto = function(respuestaRemota) {
     if (respuestaRemota && Array.isArray(respuestaRemota.partidos)) {
       
-      // Filtramos basura obvia del Excel (celdas combinadas vacías o títulos como "English Race")
+      // Filtramos basura obvia del Excel
       const remotosValidos = respuestaRemota.partidos.filter(p => {
         const eq = String(p.e || p.enfrentamiento || '').trim();
         return eq.length > 2 && eq.toLowerCase() !== 'undefined';
@@ -343,45 +334,60 @@
         // LA REGLA DE ORO: Solo automatizamos partidos a partir del 24 de Septiembre
         if (local.f >= '2026-09-24') {
           
-          let localTime = String(local.h).replace(/[^0-9]/g, '').replace(/^0+/, '');
-          if(localTime === '') localTime = String(local.h).toLowerCase().replace(/[^a-z]/g, '');
+          // 1. Extraer "24/09" de "2026-09-24"
+          const localDiaMes = local.f.substring(8, 10) + '/' + local.f.substring(5, 7);
           
-          const localCat = String(local.c).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z]/g, '');
-          const localDep = String(local.d).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z]/g, '');
+          // 2. Extraer solo el número de la hora de inicio (ej. "09:35" -> 935)
+          const localStart = parseInt(String(local.h).split('-')[0].replace(/[^0-9]/g, ''), 10);
+          
+          // 3. Sistema para reconocer categorías aunque estén mal escritas
+          const getCat = c => {
+            let str = String(c).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            if (str.includes("infantil")) return "infantil";
+            if (str.includes("junior")) return "junior";
+            if (str.includes("promesa")) return "promesa";
+            if (str.includes("juvenil a")) return "juvenila";
+            if (str.includes("juvenil b")) return "juvenilb";
+            return str;
+          };
+          const localCat = getCat(local.c);
 
-          // Buscamos un partido en el Excel que corresponda a esta misma fecha, hora y categoría
+          // Buscamos a su gemelo en el Excel con las nuevas reglas flexibles
           const remoto = remotosValidos.find(r => {
-            let rFecha = String(r.f || r.fecha);
-            if (rFecha.includes('T')) rFecha = rFecha.substring(0, 10);
-            if (rFecha !== local.f) return false;
+            // Validar Fecha (encuentra "24/09" dentro de "jueves 24/09")
+            const rFecha = String(r.f || r.fecha || '').toLowerCase();
+            if (!rFecha.includes(localDiaMes) && !rFecha.includes(local.f)) return false;
 
-            let rTime = String(r.h || r.hora).replace(/[^0-9]/g, '').replace(/^0+/, '');
-            if(rTime === '') rTime = String(r.h || r.hora).toLowerCase().replace(/[^a-z]/g, '');
-            
-            const timeMatch = (localTime !== '' && rTime !== '') && (localTime === rTime || localTime.includes(rTime) || rTime.includes(localTime));
-            if(!timeMatch) return false;
+            // Validar Hora
+            const rStart = parseInt(String(r.h || r.hora).split('-')[0].replace(/[^0-9]/g, ''), 10);
+            if (localStart !== rStart) return false;
 
-            const rCat = String(r.c || r.categoria).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z]/g, '');
-            const rDep = String(r.d || r.deporte).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z]/g, '');
-            
-            const catMatch = (localCat !== '' && rCat !== '') && (localCat.includes(rCat) || rCat.includes(localCat));
-            const depMatch = (localDep !== '' && rDep !== '') && (localDep.includes(rDep) || rDep.includes(localDep));
+            // Validar Categoría
+            const rCat = getCat(r.c || r.categoria);
+            if (localCat !== rCat) return false;
 
-            return catMatch || depMatch;
+            return true; // ¡Es el mismo partido!
           });
 
-          // Si el Excel tiene datos para este partido, sobreescribimos el "POR DEFINIR" y el Árbitro
+          // Si lo encontramos en el Excel, lo actualizamos
           if (remoto) {
-            local.e = String(remoto.e || remoto.enfrentamiento).trim().toUpperCase();
+            const nuevoEnfrentamiento = String(remoto.e || remoto.enfrentamiento).trim().toUpperCase();
+            // Evitamos reemplazar si el Excel también dice "POR DEFINIR" o está vacío
+            if (nuevoEnfrentamiento !== '' && !nuevoEnfrentamiento.includes('DEFINIR')) {
+              local.e = nuevoEnfrentamiento;
+            }
+            
             const nuevoArbitro = String(remoto.a || remoto.arbitro).trim().toUpperCase();
-            if (nuevoArbitro && nuevoArbitro !== 'UNDEFINED') local.a = nuevoArbitro;
+            if (nuevoArbitro && nuevoArbitro !== 'UNDEFINED' && nuevoArbitro !== '') {
+              local.a = nuevoArbitro;
+            }
           }
         }
       });
 
       dbPartidos = dbActualizada;
 
-      // Reconstruimos los botones silenciosamente para no alterar la navegación del usuario
+      // Reconstruimos la interfaz silenciosamente
       const partidosSemanaActual = dbPartidos.filter(p => Number(p.s) === Number(semanaActiva));
       const fechasUnicasActuales = [...new Set(partidosSemanaActual.map(p => p.f))].sort();
       
@@ -401,7 +407,6 @@
       renderizarTarjetasPartidos();
     }
   };
-
   // =======================================================================
   // 4. INICIALIZADOR
   // =======================================================================
