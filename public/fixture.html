@@ -101,70 +101,162 @@
 </div>
 
 <script>
-  // BASE DE DATOS 100% ESTÁTICA Y SEGURA
-  const dbPartidos = [
-    // === SEMANA 1 ===
+  // =======================================================================
+  // 1. BASE DE DATOS MAESTRA - EL ESQUELETO INMUTABLE DE TODA LA OLIMPIADA
+  // =======================================================================
+  const dbPartidosBase = [
+    // SEMANA 1
     { s:1, f:'2026-09-14', t:'Lun 14/09', h:'09:35 - 09:55', d:'🥇 CONEBALL', e:'BLANCO VS VERDE', c:'Infantil (3º y 4º)', a:'DAVID', r:'M. Gurrionero, G. Huaman, N. Aguilar, D. Quirica' },
     { s:1, f:'2026-09-14', t:'Lun 14/09', h:'09:55 - 10:15', d:'🏀 BÁSQUET', e:'BLANCO VS VERDE', c:'Junior (5º y 6º)', a:'DAVID', r:'D. Quirica, J. Romero, K. Armas' },
     { s:1, f:'2026-09-14', t:'Lun 14/09', h:'10:55 - 11:15', d:'🏀 BÁSQUET', e:'BLANCO VS VERDE', c:'Juvenil A (7º y 8º)', a:'ENRIQUE ALCAZAR', r:'J. Esteban, D. Sajami, K. Caballero, D. Liviapoma' },
-    { s:1, f:'2026-09-14', t:'Lun 14/09', h:'11:15 - 11:35', d:'🥇 CONEBALL', e:'BLANCO VS VERDE', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ 9A / DAVID', r:'Tutores, Cotutores y Volantes SMP' },
+    { s:1, f:'2026-09-14', t:'Lun 14/09', h:'11:15 - 11:35', d:'🥇 CONEBALL', e:'BLANCO VS VERDE', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ 9A / DAVID', r:'Tutores, Cotutores y Volantes' },
     { s:1, f:'2026-09-14', t:'Lun 14/09', h:'12:55 - 13:15', d:'🏀 BÁSQUET', e:'BLANCO VS VERDE', c:'Juvenil B (9º a 11º)', a:'ENRIQUE ALCAZAR 9C', r:'S. Ramirez, M. Nuñez, K. Caballero, D. Liviapoma' },
 
     { s:1, f:'2026-09-15', t:'Mar 15/09', h:'09:35 - 09:55', d:'🥇 CONEBALL', e:'ANARANJADO VS AZUL', c:'Infantil (3º y 4º)', a:'DAVID', r:'M. Gurrionero, L. Natividad, V. Valverde, D. Sajami' },
-    { s:1, f:'2026-09-15', t:'Mar 15/09', h:'09:55 - 10:15', d:'🏀 BÁSQUET', e:'ANARANJADO VS AZUL', c:'Junior (5º y 6º)', a:'DAVID', r:'G. Huaman, P. Coronado, K. Sopla, M. Castillo' },
-    { s:1, f:'2026-09-15', t:'Mar 15/09', h:'10:55 - 11:15', d:'🏀 BÁSQUET', e:'ANARANJADO VS AZUL', c:'Juvenil A (7º y 8º)', a:'ENRIQUE ALCAZAR', r:'M. Nuñez, K. Caballero, D. Sajami' },
-    { s:1, f:'2026-09-15', t:'Mar 15/09', h:'11:15 - 11:35', d:'🥇 CONEBALL', e:'ANARANJADO VS AZUL', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ / DAVID', r:'Tutores, Cotutores y Volantes SMP' },
-    { s:1, f:'2026-09-15', t:'Mar 15/09', h:'12:55 - 13:15', d:'🏀 BÁSQUET', e:'ANARANJADO VS AZUL', c:'Juvenil B (9º a 11º)', a:'ENRIQUE ALCAZAR', r:'K. Ramos, L. Figueroa, S. Ramirez' },
+    { s:1, f:'2026-09-15', t:'Mar 15/09', h:'09:55 - 10:15', d:'🏀 BÁSQUET MIXTO', e:'ANARANJADO VS AZUL', c:'Junior (5º y 6º)', a:'DAVID', r:'G. Huaman, P. Coronado, K. Sopla, M. Castillo' },
+    { s:1, f:'2026-09-15', t:'Mar 15/09', h:'10:55 - 11:15', d:'🏀 BÁSQUET MIXTO', e:'ANARANJADO VS AZUL', c:'Juvenil A (7º y 8º)', a:'ENRIQUE ALCAZAR', r:'M. Nuñez, K. Caballero, D. Sajami' },
+    { s:1, f:'2026-09-15', t:'Mar 15/09', h:'11:15 - 11:35', d:'🥇 CONEBALL', e:'ANARANJADO VS AZUL', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ / DAVID', r:'Tutores, Cotutores y Volantes' },
+    { s:1, f:'2026-09-15', t:'Mar 15/09', h:'12:55 - 13:15', d:'🏀 BÁSQUET MIXTO', e:'ANARANJADO VS AZUL', c:'Juvenil B (9º a 11º)', a:'ENRIQUE ALCAZAR', r:'K. Ramos, L. Figueroa, S. Ramirez' },
 
     { s:1, f:'2026-09-16', t:'Mié 16/09', h:'09:35 - 09:55', d:'🤾 BALONMANO', e:'BLANCO VS VERDE', c:'Infantil (3º y 4º)', a:'MARIO NUÑEZ', r:'M. Alarcon, K. Armas, J. Romero, V. Valverde' },
     { s:1, f:'2026-09-16', t:'Mié 16/09', h:'09:55 - 10:15', d:'🤾 BALONMANO', e:'BLANCO VS VERDE', c:'Junior (5º y 6º)', a:'MARIO NUÑEZ', r:'D. Sajami, L. Gambini, D. Quirica' },
     { s:1, f:'2026-09-16', t:'Mié 16/09', h:'10:55 - 11:15', d:'🤾 BALONMANO', e:'BLANCO VS VERDE', c:'Juvenil A (7º y 8º)', a:'MARIO NUÑEZ', r:'L. Figueroa, K. Ramos, P. Coronado' },
-    { s:1, f:'2026-09-16', t:'Mié 16/09', h:'11:15 - 11:35', d:'🤾 BALONMANO', e:'BLANCO VS VERDE', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ 8A / DAVID', r:'Tutores, Cotutores y Volantes SMP' },
+    { s:1, f:'2026-09-16', t:'Mié 16/09', h:'11:15 - 11:35', d:'🤾 BALONMANO', e:'BLANCO VS VERDE', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ 8A / DAVID', r:'Tutores, Cotutores y Volantes' },
     { s:1, f:'2026-09-16', t:'Mié 16/09', h:'12:55 - 13:15', d:'🤾 BALONMANO', e:'BLANCO VS VERDE', c:'Juvenil B (9º a 11º)', a:'MARIO NUÑEZ', r:'D. Sajami, K. Sopla, P. Coronado' },
 
     { s:1, f:'2026-09-17', t:'Jue 17/09', h:'09:35 - 09:55', d:'🤾 BALONMANO', e:'ANARANJADO VS AZUL', c:'Infantil (3º y 4º)', a:'DAVID', r:'L. Natividad, D. Sajami, K. Armas, V. Valverde' },
     { s:1, f:'2026-09-17', t:'Jue 17/09', h:'09:55 - 10:15', d:'🤾 BALONMANO', e:'ANARANJADO VS AZUL', c:'Junior (5º y 6º)', a:'DAVID', r:'L. Gambini, J. Romero, K. Armas, P. Coronado' },
     { s:1, f:'2026-09-17', t:'Jue 17/09', h:'10:55 - 11:15', d:'🤾 BALONMANO', e:'ANARANJADO VS AZUL', c:'Juvenil A (7º y 8º)', a:'ENRIQUE ALCAZAR', r:'D. Sajami, Dayanara, D. Liviapoma' },
-    { s:1, f:'2026-09-17', t:'Jue 17/09', h:'11:15 - 11:35', d:'🤾 BALONMANO', e:'ANARANJADO VS AZUL', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ / DAVID 9C', r:'Tutores, Cotutores y Volantes SMP' },
+    { s:1, f:'2026-09-17', t:'Jue 17/09', h:'11:15 - 11:35', d:'🤾 BALONMANO', e:'ANARANJADO VS AZUL', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ / DAVID 9C', r:'Tutores, Cotutores y Volantes' },
     { s:1, f:'2026-09-17', t:'Jue 17/09', h:'12:55 - 13:15', d:'🤾 BALONMANO', e:'ANARANJADO VS AZUL', c:'Juvenil B (9º a 11º)', a:'MARIO NUÑEZ', r:'D. Sajami, D. Quirica 9C, L. Gambini' },
 
     { s:1, f:'2026-09-18', t:'Vie 18/09', h:'09:35 - 09:55', d:'🏐 VÓLEY', e:'ANARANJADO VS AZUL', c:'Infantil (3º y 4º)', a:'MARIO NUÑEZ', r:'L. Gambini, K. Sopla, M. Reynaga, V. Valverde' },
     { s:1, f:'2026-09-18', t:'Vie 18/09', h:'09:55 - 10:15', d:'🏐 VÓLEY', e:'ANARANJADO VS AZUL', c:'Junior (5º y 6º)', a:'MARIO NUÑEZ', r:'K. Caballero, G. Huaman, N. Aguilar, L. Gambini' },
     { s:1, f:'2026-09-18', t:'Vie 18/09', h:'10:55 - 11:15', d:'🏐 VÓLEY', e:'ANARANJADO VS AZUL', c:'Juvenil A (7º y 8º)', a:'ENRIQUE ALCAZAR', r:'D. Liviapoma, P. Coronado, G. Huaman, J. Esteban' },
-    { s:1, f:'2026-09-18', t:'Vie 18/09', h:'11:15 - 11:35', d:'🏐 PASABOLA', e:'ANARANJADO VS AZUL', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ 9B', r:'Tutores, Cotutores y Volantes SMP' },
+    { s:1, f:'2026-09-18', t:'Vie 18/09', h:'11:15 - 11:35', d:'🏐 PASABOLA', e:'ANARANJADO VS AZUL', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ 9B', r:'Tutores, Cotutores y Volantes' },
     { s:1, f:'2026-09-18', t:'Vie 18/09', h:'12:55 - 13:15', d:'🏐 VÓLEY', e:'ANARANJADO VS AZUL', c:'Juvenil B (9º a 11º)', a:'ENRIQUE ALCAZAR', r:'L. Figueroa, M. Nuñez, S. Ramirez, L. Delao' },
 
-    // === SEMANA 2 ===
+    // SEMANA 2
     { s:2, f:'2026-09-21', t:'Lun 21/09', h:'09:35 - 09:55', d:'🏐 VÓLEY', e:'BLANCO VS VERDE', c:'Infantil (3º y 4º)', a:'DAVID', r:'M. Gurrionero, G. Huaman, N. Aguilar, L. Gambini' },
     { s:2, f:'2026-09-21', t:'Lun 21/09', h:'09:55 - 10:15', d:'🏐 VÓLEY', e:'BLANCO VS VERDE', c:'Junior (5º y 6º)', a:'DAVID', r:'D. Quirica, J. Romero, K. Armas' },
     { s:2, f:'2026-09-21', t:'Lun 21/09', h:'10:55 - 11:15', d:'🏐 VÓLEY', e:'BLANCO VS VERDE', c:'Juvenil A (7º y 8º)', a:'KATTY RAMOS', r:'J. Esteban, D. Sajami, K. Caballero, D. Liviapoma' },
-    { s:2, f:'2026-09-21', t:'Lun 21/09', h:'11:15 - 11:35', d:'🏐 VÓLEY', e:'BLANCO VS VERDE', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ 9A / DAVID', r:'Tutores, Cotutores y Volantes' },
+    { s:2, f:'2026-09-21', t:'Lun 21/09', h:'11:15 - 11:35', d:'🏐 VÓLEY', e:'BLANCO VS VERDE', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ 9A/DAVID', r:'Tutores, Cotutores y Volantes' },
     { s:2, f:'2026-09-21', t:'Lun 21/09', h:'12:55 - 13:15', d:'🏐 VÓLEY', e:'BLANCO VS VERDE', c:'Juvenil B (9º a 11º)', a:'KATTY RAMOS', r:'Saira, M. Nuñez, K. Caballero, D. Liviapoma' },
 
     { s:2, f:'2026-09-22', t:'Mar 22/09', h:'09:35 - 09:55', d:'⚽ FUTSAL', e:'VERDE VS AZUL', c:'Infantil (3º y 4º)', a:'DAVID', r:'M. Gurrionero, L. Natividad, V. Valverde' },
-    { s:2, f:'2026-09-22', t:'Mar 22/09', h:'09:55 - 10:15', d:'⚽ FUTSAL', e:'VERDE VS AZUL', c:'Junior (5º y 6º)', a:'DAVID', r:'G. Huaman, P. Coronado, K. Sopla' },
-    { s:2, f:'2026-09-22', t:'Mar 22/09', h:'10:55 - 11:15', d:'⚽ FUTSAL', e:'VERDE VS AZUL', c:'Juvenil A (7º y 8º)', a:'ENRIQUE ALCAZAR', r:'M. Nuñez, K. Caballero, D. Sajami' },
-    { s:2, f:'2026-09-22', t:'Mar 22/09', h:'11:15 - 11:35', d:'⚽ FUTSAL', e:'VERDE VS AZUL', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ / DAVID', r:'Tutores, Cotutores y Volantes' },
+    { s:2, f:'2026-09-22', t:'Mar 22/09', h:'09:55 - 10:15', d:'⚽ FUTSAL', e:'VERDE VS AZUL', c:'Junior (5º y 6º)', a:'Karl Sopla', r:'P. Coronado, G. Huaman, M. Castillo' },
+    { s:2, f:'2026-09-22', t:'Mar 22/09', h:'10:55 - 11:15', d:'⚽ FUTSAL', e:'VERDE VS AZUL', c:'Juvenil A (7º y 8º)', a:'Larry Delao 10B', r:'M. Nuñez, D. Sajami, K. Caballero' },
+    { s:2, f:'2026-09-22', t:'Mar 22/09', h:'11:15 - 11:35', d:'⚽ FUTSAL', e:'VERDE VS AZUL', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ/DAVID', r:'Tutores, Cotutores y Volantes' },
     { s:2, f:'2026-09-22', t:'Mar 22/09', h:'12:55 - 13:15', d:'⚽ FUTSAL', e:'VERDE VS AZUL', c:'Juvenil B (9º a 11º)', a:'ENRIQUE ALCAZAR', r:'K. Ramos, L. Figueroa, S. Ramirez' },
 
     { s:2, f:'2026-09-23', t:'Mié 23/09', h:'09:35 - 09:55', d:'⚽ FUTSAL', e:'BLANCO VS ANARANJADO', c:'Infantil (3º y 4º)', a:'MARIO NUÑEZ', r:'M. Alarcon, K. Armas, J. Romero' },
-    { s:2, f:'2026-09-23', t:'Mié 23/09', h:'09:55 - 10:15', d:'⚽ FUTSAL', e:'BLANCO VS ANARANJADO', c:'Junior (5º y 6º)', a:'MARIO NUÑEZ', r:'D. Sajami, L. Gambini, D. Quirica' },
-    { s:2, f:'2026-09-23', t:'Mié 23/09', h:'10:55 - 11:15', d:'⚽ FUTSAL', e:'BLANCO VS ANARANJADO', c:'Juvenil A (7º y 8º)', a:'MARIO NUÑEZ', r:'L. Figueroa, K. Ramos, P. Coronado' },
-    { s:2, f:'2026-09-23', t:'Mié 23/09', h:'11:15 - 11:35', d:'⚽ FUTSAL', e:'BLANCO VS ANARANJADO', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ 8A / DAVID', r:'Tutores y Volantes' },
-    { s:2, f:'2026-09-23', t:'Mié 23/09', h:'12:55 - 13:15', d:'⚽ FUTSAL', e:'BLANCO VS ANARANJADO', c:'Juvenil B (9º a 11º)', a:'MARIO NUÑEZ', r:'D. Sajami, K. Sopla, P. Coronado' },
+    { s:2, f:'2026-09-23', t:'Mié 23/09', h:'09:55 - 10:15', d:'⚽ FUTSAL', e:'BLANCO VS ANARANJADO', c:'Junior (5º y 6º)', a:'MARIO', r:'D. Sajami, L. Gambini, D. Quirica' },
+    { s:2, f:'2026-09-23', t:'Mié 23/09', h:'10:55 - 11:15', d:'⚽ FUTSAL', e:'BLANCO VS ANARANJADO', c:'Juvenil A (7º y 8º)', a:'Larry Delao 10A', r:'L. Figueroa, M. Nuñez, K. Ramos' },
+    { s:2, f:'2026-09-23', t:'Mié 23/09', h:'11:15 - 11:35', d:'⚽ FUTSAL', e:'BLANCO VS ANARANJADO', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ 8A/DAVID', r:'Tutores y Volantes' },
+    { s:2, f:'2026-09-23', t:'Mié 23/09', h:'12:55 - 13:15', d:'⚽ FUTSAL', e:'BLANCO VS ANARANJADO', c:'Juvenil B (9º a 11º)', a:'ENRIQUE ALCAZAR', r:'D. Sajami, K. Sopla, P. Coronado' },
 
-    { s:2, f:'2026-09-24', t:'Jue 24/09', h:'09:35 - 09:55', d:'🥇 CONEBALL', e:'3ER Y 4TO PUESTO', c:'Infantil (3º y 4º)', a:'DAVID', r:'L. Natividad, D. Sajami, K. Armas' },
-    { s:2, f:'2026-09-24', t:'Jue 24/09', h:'09:55 - 10:15', d:'🏀 BÁSQUET', e:'3ER Y 4TO PUESTO', c:'Junior (5º y 6º)', a:'DAVID', r:'L. Gambini, J. Romero, K. Armas' },
-    { s:2, f:'2026-09-24', t:'Jue 24/09', h:'10:55 - 11:15', d:'🏀 BÁSQUET', e:'3ER Y 4TO PUESTO', c:'Juvenil A (7º y 8º)', a:'ENRIQUE ALCAZAR', r:'D. Sajami, Dayanara, D. Liviapoma' },
-    { s:2, f:'2026-09-24', t:'Jue 24/09', h:'11:15 - 11:35', d:'🥇 CONEBALL', e:'3ER Y 4TO PUESTO', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ / DAVID', r:'Tutores y Volantes SMP' },
-    { s:2, f:'2026-09-24', t:'Jue 24/09', h:'12:55 - 13:15', d:'🏀 BÁSQUET', e:'3ER Y 4TO PUESTO', c:'Juvenil B (9º a 11º)', a:'MARIO NUÑEZ', r:'D. Sajami, D. Quirica, L. Gambini' },
+    // DESDE EL 24 DE SEPTIEMBRE (AQUÍ ACTÚA LA MAGIA DE LA SINCRONIZACIÓN)
+    { s:2, f:'2026-09-24', t:'Jue 24/09', h:'09:35 - 09:55', d:'🥇 CONEBALL', e:'POR DEFINIR', c:'Infantil (3º y 4º)', a:'DAVID', r:'L. Natividad, K. Armas, V. Valverde' },
+    { s:2, f:'2026-09-24', t:'Jue 24/09', h:'09:55 - 10:15', d:'🏀 BÁSQUET', e:'POR DEFINIR', c:'Junior (5º y 6º)', a:'DAVID', r:'L. Gambini, J. Romero, K. Armas, P. Coronado' },
+    { s:2, f:'2026-09-24', t:'Jue 24/09', h:'10:55 - 11:15', d:'🏀 BÁSQUET', e:'POR DEFINIR', c:'Juvenil A (7º y 8º)', a:'ENRIQUE ALCAZAR', r:'D. Sajami, Enrique, L. Gambini' },
+    { s:2, f:'2026-09-24', t:'Jue 24/09', h:'11:15 - 11:35', d:'🥇 CONEBALL', e:'POR DEFINIR', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ/DAVID 9C', r:'Tutores y Volantes' },
+    { s:2, f:'2026-09-24', t:'Jue 24/09', h:'12:55 - 13:15', d:'🏀 BÁSQUET', e:'POR DEFINIR', c:'Juvenil B (9º a 11º)', a:'ENRIQUE ALCAZAR', r:'D. Sajami, M. Nuñez, D. Quirica' },
 
     { s:2, f:'2026-09-25', t:'Vie 25/09', h:'08:00', d:'🎉 INAUGURACIÓN', e:'BIENVENIDA A ESTUDIANTES', c:'Campo Deportivo Navarro', a:'COMISIÓN', r:'Tutores y Docentes SMP' },
     { s:2, f:'2026-09-25', t:'Vie 25/09', h:'09:55 - 10:15', d:'🎉 INAUGURACIÓN', e:'DESFILE DE LAS HOUSE', c:'Todas las Houses', a:'COMISIÓN', r:'Tutores y Docentes SMP' },
     { s:2, f:'2026-09-25', t:'Vie 25/09', h:'10:55 - 11:15', d:'🎉 INAUGURACIÓN', e:'DRILL GIMNASITICO', c:'Todas las Houses', a:'COMISIÓN', r:'Tutores y Docentes SMP' },
-    { s:2, f:'2026-09-25', t:'Vie 25/09', h:'11:15 - 11:35', d:'🎉 INAUGURACIÓN', e:'ENCUENTRO DE PADRES', c:'Todas las Houses', a:'COMISIÓN', r:'Tutores y Docentes SMP' }
+    { s:2, f:'2026-09-25', t:'Vie 25/09', h:'11:15 - 11:35', d:'🎉 INAUGURACIÓN', e:'ENCUENTRO DE PADRES', c:'Todas las Houses', a:'COMISIÓN', r:'Tutores y Docentes SMP' },
+
+    // SEMANA 3
+    { s:3, f:'2026-09-28', t:'Lun 28/09', h:'09:35 - 09:55', d:'🤾 BALONMANO', e:'POR DEFINIR', c:'Infantil (3º y 4º)', a:'POR DESIGNAR', r:'3ER Y 4TO PUESTO' },
+    { s:3, f:'2026-09-28', t:'Lun 28/09', h:'09:55 - 10:15', d:'🤾 BALONMANO', e:'POR DEFINIR', c:'Junior (5º y 6º)', a:'POR DESIGNAR', r:'3ER Y 4TO PUESTO' },
+    { s:3, f:'2026-09-28', t:'Lun 28/09', h:'10:55 - 11:15', d:'🤾 BALONMANO', e:'POR DEFINIR', c:'Juvenil A (7º y 8º)', a:'POR DESIGNAR', r:'3ER Y 4TO PUESTO' },
+    { s:3, f:'2026-09-28', t:'Lun 28/09', h:'11:15 - 11:35', d:'🤾 BALONMANO', e:'POR DEFINIR', c:'Promesas (1º y 2º)', a:'POR DESIGNAR', r:'3ER Y 4TO PUESTO' },
+    { s:3, f:'2026-09-28', t:'Lun 28/09', h:'12:55 - 13:15', d:'🤾 BALONMANO', e:'POR DEFINIR', c:'Juvenil B (9º a 11º)', a:'POR DESIGNAR', r:'3ER Y 4TO PUESTO' },
+
+    { s:3, f:'2026-09-29', t:'Mar 29/09', h:'08:00 - 08:20', d:'🏃 CARRERAS', e:'POR DEFINIR', c:'Promesas (1º y 2º)', a:'Larry Delao', r:'David y Mario' },
+    { s:3, f:'2026-09-29', t:'Mar 29/09', h:'08:20 - 08:40', d:'🏃 CARRERAS', e:'POR DEFINIR', c:'Promesas (1º y 2º)', a:'Larry Delao', r:'David y Mario' },
+    { s:3, f:'2026-09-29', t:'Mar 29/09', h:'08:40 - 09:00', d:'⚽ FUTBOL', e:'POR DEFINIR', c:'Promesas (1º y 2º)', a:'Larry Delao', r:'David y Mario' },
+    { s:3, f:'2026-09-29', t:'Mar 29/09', h:'09:35 - 09:55', d:'🤾 BALONMANO', e:'POR DEFINIR', c:'Infantil (3º y 4º)', a:'POR DESIGNAR', r:'PRELIMINAR' },
+    { s:3, f:'2026-09-29', t:'Mar 29/09', h:'09:55 - 10:15', d:'🤾 BALONMANO', e:'POR DEFINIR', c:'Junior (5º y 6º)', a:'POR DESIGNAR', r:'PRELIMINAR' },
+    { s:3, f:'2026-09-29', t:'Mar 29/09', h:'10:55 - 11:15', d:'🤾 BALONMANO', e:'POR DEFINIR', c:'Juvenil A (7º y 8º)', a:'POR DESIGNAR', r:'PRELIMINAR' },
+    { s:3, f:'2026-09-29', t:'Mar 29/09', h:'11:15 - 11:35', d:'🤾 BALONMANO', e:'POR DEFINIR', c:'Promesas (1º y 2º)', a:'POR DESIGNAR', r:'PRELIMINAR' },
+    { s:3, f:'2026-09-29', t:'Mar 29/09', h:'12:55 - 13:15', d:'🤾 BALONMANO', e:'POR DEFINIR', c:'Juvenil B (9º a 11º)', a:'POR DESIGNAR', r:'PRELIMINAR' },
+
+    { s:3, f:'2026-09-30', t:'Mié 30/09', h:'08:00 - 08:20', d:'🏃 CARRERAS', e:'POR DEFINIR', c:'Promesas (1º y 2º)', a:'Larry Delao', r:'David y Mario' },
+    { s:3, f:'2026-09-30', t:'Mié 30/09', h:'08:20 - 08:40', d:'🏃 CARRERAS', e:'POR DEFINIR', c:'Promesas (1º y 2º)', a:'Larry Delao', r:'David y Mario' },
+    { s:3, f:'2026-09-30', t:'Mié 30/09', h:'08:40 - 09:00', d:'⚽ FUTBOL', e:'POR DEFINIR', c:'Promesas (1º y 2º)', a:'Larry Delao', r:'David y Mario' },
+    { s:3, f:'2026-09-30', t:'Mié 30/09', h:'09:00 - 09:20', d:'⚽ FUTBOL', e:'POR DEFINIR', c:'Promesas (1º y 2º)', a:'Larry Delao', r:'David y Mario' },
+    { s:3, f:'2026-09-30', t:'Mié 30/09', h:'09:20 - 09:40', d:'🏃 CARRERAS', e:'POR DEFINIR', c:'Infantil (3º y 4º)', a:'Larry Delao', r:'David y Mario' },
+    { s:3, f:'2026-09-30', t:'Mié 30/09', h:'09:40 - 10:00', d:'🏃 CARRERAS', e:'POR DEFINIR', c:'Infantil (3º y 4º)', a:'Larry Delao', r:'David y Mario' },
+    { s:3, f:'2026-09-30', t:'Mié 30/09', h:'10:00 - 10:20', d:'⚽ FUTBOL', e:'POR DEFINIR', c:'Infantil (3º y 4º)', a:'Larry Delao', r:'David y Mario' },
+    { s:3, f:'2026-09-30', t:'Mié 30/09', h:'10:20 - 10:40', d:'⚽ FUTBOL', e:'POR DEFINIR', c:'Infantil (3º y 4º)', a:'Larry Delao', r:'David y Mario' },
+    { s:3, f:'2026-09-30', t:'Mié 30/09', h:'10:40 - 11:00', d:'🏃 CARRERAS', e:'POR DEFINIR', c:'Junior (5º y 6º)', a:'Larry Delao', r:'David y Mario' },
+    { s:3, f:'2026-09-30', t:'Mié 30/09', h:'11:00 - 11:20', d:'🏃 CARRERAS', e:'POR DEFINIR', c:'Junior (5º y 6º)', a:'Larry Delao', r:'David y Mario' },
+    { s:3, f:'2026-09-30', t:'Mié 30/09', h:'11:20 - 11:40', d:'⚽ FUTBOL', e:'POR DEFINIR', c:'Junior (5º y 6º)', a:'Larry Delao', r:'David y Mario' },
+    { s:3, f:'2026-09-30', t:'Mié 30/09', h:'11:40 - 12:00', d:'⚽ FUTBOL', e:'POR DEFINIR', c:'Junior (5º y 6º)', a:'Larry Delao', r:'David y Mario' },
+    { s:3, f:'2026-09-30', t:'Mié 30/09', h:'12:00 - 12:20', d:'🏃 CARRERAS', e:'POR DEFINIR', c:'Juvenil A (7º y 8º)', a:'Enrique Alcazar', r:'David y Mario' },
+    { s:3, f:'2026-09-30', t:'Mié 30/09', h:'12:20 - 12:40', d:'🏃 CARRERAS', e:'POR DEFINIR', c:'Juvenil A (7º y 8º)', a:'Enrique Alcazar', r:'David y Mario' },
+    { s:3, f:'2026-09-30', t:'Mié 30/09', h:'12:40 - 01:00', d:'⚽ FUTBOL', e:'POR DEFINIR', c:'Juvenil A (7º y 8º)', a:'Enrique Alcazar', r:'David y Mario' },
+    { s:3, f:'2026-09-30', t:'Mié 30/09', h:'01:00 - 01:20', d:'⚽ FUTBOL', e:'POR DEFINIR', c:'Juvenil A (7º y 8º)', a:'Enrique Alcazar', r:'David y Mario' },
+    { s:3, f:'2026-09-30', t:'Mié 30/09', h:'01:20 - 01:40', d:'⚽ FUTBOL', e:'POR DEFINIR', c:'Juvenil B (9º a 11º)', a:'Enrique Alcazar', r:'David y Mario' },
+    { s:3, f:'2026-09-30', t:'Mié 30/09', h:'01:40 - 02:00', d:'⚽ FUTBOL', e:'POR DEFINIR', c:'Juvenil B (9º a 11º)', a:'Enrique Alcazar', r:'David y Mario' },
+
+    { s:3, f:'2026-10-01', t:'Jue 01/10', h:'08:00 - 08:20', d:'⚽ FUTBOL', e:'POR DEFINIR', c:'Promesas', a:'Katy', r:'David y Mario' },
+    { s:3, f:'2026-10-01', t:'Jue 01/10', h:'08:20 - 08:40', d:'⚽ FUTBOL', e:'POR DEFINIR', c:'Promesas', a:'Katy', r:'David y Mario' },
+    { s:3, f:'2026-10-01', t:'Jue 01/10', h:'08:40 - 09:00', d:'🏃 GYMKANA', e:'POR DEFINIR', c:'Promesas', a:'Katy', r:'David y Mario' },
+    { s:3, f:'2026-10-01', t:'Jue 01/10', h:'09:00 - 09:20', d:'🏃 GYMKANA', e:'POR DEFINIR', c:'Promesas', a:'Katy', r:'David y Mario' },
+    { s:3, f:'2026-10-01', t:'Jue 01/10', h:'08:40 - 09:00', d:'⚽ FUTBOL', e:'POR DEFINIR', c:'Infantil', a:'Katy', r:'David y Mario' },
+    { s:3, f:'2026-10-01', t:'Jue 01/10', h:'09:00 - 09:20', d:'⚽ FUTBOL', e:'POR DEFINIR', c:'Infantil', a:'Katy', r:'David y Mario' },
+    { s:3, f:'2026-10-01', t:'Jue 01/10', h:'08:00 - 08:20', d:'🏃 GYMKANA', e:'POR DEFINIR', c:'Infantil', a:'Katy', r:'David y Mario' },
+    { s:3, f:'2026-10-01', t:'Jue 01/10', h:'08:20 - 08:40', d:'🏃 GYMKANA', e:'POR DEFINIR', c:'Infantil', a:'Katy', r:'David y Mario' },
+    { s:3, f:'2026-10-01', t:'Jue 01/10', h:'08:40 - 09:00', d:'⚽ FUTBOL', e:'POR DEFINIR', c:'Junior', a:'Enrique Alcazar', r:'David y Mario' },
+    { s:3, f:'2026-10-01', t:'Jue 01/10', h:'09:00 - 09:20', d:'⚽ FUTBOL', e:'POR DEFINIR', c:'Junior', a:'Enrique Alcazar', r:'David y Mario' },
+    { s:3, f:'2026-10-01', t:'Jue 01/10', h:'08:00 - 08:20', d:'🏃 GYMKANA', e:'POR DEFINIR', c:'Junior', a:'Enrique Alcazar', r:'David y Mario' },
+    { s:3, f:'2026-10-01', t:'Jue 01/10', h:'08:20 - 08:40', d:'🏃 GYMKANA', e:'POR DEFINIR', c:'Junior', a:'Enrique Alcazar', r:'David y Mario' },
+    { s:3, f:'2026-10-01', t:'Jue 01/10', h:'09:20 - 09:40', d:'⚽ FUTBOL', e:'POR DEFINIR', c:'Juvenil A', a:'Katy', r:'David y Mario' },
+    { s:3, f:'2026-10-01', t:'Jue 01/10', h:'09:40 - 10:00', d:'⚽ FUTBOL', e:'POR DEFINIR', c:'Juvenil A', a:'Katy', r:'David y Mario' },
+    { s:3, f:'2026-10-01', t:'Jue 01/10', h:'10:00 - 10:20', d:'⚽ FUTBOL', e:'POR DEFINIR', c:'Juvenil A', a:'Katy', r:'David y Mario' },
+    { s:3, f:'2026-10-01', t:'Jue 01/10', h:'10:20 - 10:40', d:'⚽ FUTBOL', e:'POR DEFINIR', c:'Juvenil A', a:'Katy', r:'David y Mario' },
+    { s:3, f:'2026-10-01', t:'Jue 01/10', h:'10:40 - 11:00', d:'⚽ FUTBOL', e:'POR DEFINIR', c:'Juvenil B', a:'Enrique Alcazar', r:'David y Mario' },
+    { s:3, f:'2026-10-01', t:'Jue 01/10', h:'11:00 - 11:20', d:'⚽ FUTBOL', e:'POR DEFINIR', c:'Juvenil B', a:'Enrique Alcazar', r:'David y Mario' },
+    { s:3, f:'2026-10-01', t:'Jue 01/10', h:'11:20 - 11:40', d:'⚽ FUTBOL', e:'POR DEFINIR', c:'Juvenil B', a:'Enrique Alcazar', r:'David y Mario' },
+    { s:3, f:'2026-10-01', t:'Jue 01/10', h:'11:40 - 12:00', d:'⚽ FUTBOL', e:'POR DEFINIR', c:'Juvenil B', a:'Enrique Alcazar', r:'David y Mario' },
+
+    { s:3, f:'2026-10-02', t:'Vie 02/10', h:'08:00 - 08:20', d:'🏆 DISCIPLINA POR DEFINIR', e:'POR DEFINIR', c:'Promesas', a:'POR DESIGNAR', r:'1ER Y 2DO PUESTO' },
+    { s:3, f:'2026-10-02', t:'Vie 02/10', h:'08:20 - 08:40', d:'🏆 DISCIPLINA POR DEFINIR', e:'POR DEFINIR', c:'Promesas', a:'POR DESIGNAR', r:'3ER Y 4TO PUESTO' },
+    { s:3, f:'2026-10-02', t:'Vie 02/10', h:'08:40 - 09:00', d:'🏆 DISCIPLINA POR DEFINIR', e:'POR DEFINIR', c:'Promesas', a:'POR DESIGNAR', r:'1ER Y 2DO PUESTO' },
+    { s:3, f:'2026-10-02', t:'Vie 02/10', h:'09:00 - 09:20', d:'🏆 DISCIPLINA POR DEFINIR', e:'POR DEFINIR', c:'Infantil', a:'POR DESIGNAR', r:'1ER Y 2DO PUESTO' },
+    { s:3, f:'2026-10-02', t:'Vie 02/10', h:'09:20 - 09:40', d:'🏆 DISCIPLINA POR DEFINIR', e:'POR DEFINIR', c:'Infantil', a:'POR DESIGNAR', r:'3ER Y 4TO PUESTO' },
+    { s:3, f:'2026-10-02', t:'Vie 02/10', h:'09:40 - 10:00', d:'🏆 DISCIPLINA POR DEFINIR', e:'POR DEFINIR', c:'Infantil', a:'POR DESIGNAR', r:'1ER Y 2DO PUESTO' },
+    { s:3, f:'2026-10-02', t:'Vie 02/10', h:'10:00 - 10:20', d:'🏆 DISCIPLINA POR DEFINIR', e:'POR DEFINIR', c:'Junior', a:'POR DESIGNAR', r:'1ER Y 2DO PUESTO' },
+    { s:3, f:'2026-10-02', t:'Vie 02/10', h:'10:20 - 10:40', d:'🏆 DISCIPLINA POR DEFINIR', e:'POR DEFINIR', c:'Junior', a:'POR DESIGNAR', r:'3ER Y 4TO PUESTO' },
+    { s:3, f:'2026-10-02', t:'Vie 02/10', h:'11:00 - 11:20', d:'🏆 DISCIPLINA POR DEFINIR', e:'POR DEFINIR', c:'Junior', a:'POR DESIGNAR', r:'1ER Y 2DO PUESTO' },
+    { s:3, f:'2026-10-02', t:'Vie 02/10', h:'11:20 - 11:40', d:'🏆 DISCIPLINA POR DEFINIR', e:'POR DEFINIR', c:'Juvenil A', a:'POR DESIGNAR', r:'1ER Y 2DO PUESTO' },
+    { s:3, f:'2026-10-02', t:'Vie 02/10', h:'11:40 - 12:00', d:'🏆 DISCIPLINA POR DEFINIR', e:'POR DEFINIR', c:'Juvenil A', a:'POR DESIGNAR', r:'3ER Y 4TO PUESTO' },
+    { s:3, f:'2026-10-02', t:'Vie 02/10', h:'12:00 - 12:20', d:'🏆 DISCIPLINA POR DEFINIR', e:'POR DEFINIR', c:'Juvenil A', a:'POR DESIGNAR', r:'1ER Y 2DO PUESTO' },
+    { s:3, f:'2026-10-02', t:'Vie 02/10', h:'12:20 - 12:40', d:'🏆 DISCIPLINA POR DEFINIR', e:'POR DEFINIR', c:'Juvenil B', a:'POR DESIGNAR', r:'Preliminar 2do tiempo' },
+    { s:3, f:'2026-10-02', t:'Vie 02/10', h:'12:40 - 01:00', d:'🏆 DISCIPLINA POR DEFINIR', e:'POR DEFINIR', c:'Juvenil B', a:'POR DESIGNAR', r:'3ER Y 4TO PUESTO' },
+    { s:3, f:'2026-10-02', t:'Vie 02/10', h:'01:00 - 01:20', d:'🏆 DISCIPLINA POR DEFINIR', e:'POR DEFINIR', c:'Juvenil B', a:'POR DESIGNAR', r:'1ER Y 2DO PUESTO' },
+    { s:3, f:'2026-10-02', t:'Vie 02/10', h:'01:20 - 01:40', d:'🏆 DISCIPLINA POR DEFINIR', e:'POR DEFINIR', c:'Juvenil B', a:'POR DESIGNAR', r:'3ER Y 4TO PUESTO' },
+    { s:3, f:'2026-10-02', t:'Vie 02/10', h:'01:40 - 02:00', d:'🏆 DISCIPLINA POR DEFINIR', e:'POR DEFINIR', c:'Juvenil B', a:'POR DESIGNAR', r:'1ER Y 2DO PUESTO' },
+
+    // FINALES
+    { s:4, f:'2026-10-09', t:'Día Central', h:'Horario Estelar', d:'🥇 CONEBALL', e:'POR DEFINIR', c:'Promesas, Infantil, Junior, Juveniles', a:'COMITÉ DE OLIMPIADAS', r:'Gran Final - 1er y 2do Puesto / 3er y 4to Puesto' },
+    { s:4, f:'2026-10-09', t:'Día Central', h:'Horario Estelar', d:'🏀 BÁSQUET', e:'POR DEFINIR', c:'Promesas, Infantil, Junior, Juveniles', a:'COMITÉ DE OLIMPIADAS', r:'Gran Final - 1er y 2do Puesto / 3er y 4to Puesto' },
+    { s:4, f:'2026-10-09', t:'Día Central', h:'Horario Estelar', d:'🏐 PASABOLA', e:'POR DEFINIR', c:'Promesas e Infantil', a:'COMITÉ DE OLIMPIADAS', r:'Gran Final - 1er y 2do Puesto / 3er y 4to Puesto' },
+    { s:4, f:'2026-10-09', t:'Día Central', h:'Horario Estelar', d:'🏐 VÓLEY', e:'POR DEFINIR', c:'Junior, Juvenil A, Juvenil B', a:'COMITÉ DE OLIMPIADAS', r:'Gran Final - 1er y 2do Puesto / 3er y 4to Puesto' },
+    { s:4, f:'2026-10-09', t:'Día Central', h:'Horario Estelar', d:'🤾 BALONMANO', e:'POR DEFINIR', c:'Todas las Categorías', a:'COMITÉ DE OLIMPIADAS', r:'Gran Final - 1er y 2do Puesto / 3er y 4to Puesto' },
+    { s:4, f:'2026-10-09', t:'Día Central', h:'Horario Estelar', d:'🏃 CARRERAS', e:'POR DEFINIR', c:'Todas las Categorías', a:'COMITÉ DE OLIMPIADAS', r:'Gran Final - 1er y 2do Puesto / 3er y 4to Puesto' },
+    { s:4, f:'2026-10-09', t:'Día Central', h:'Horario Estelar', d:'⚽ FUTSAL', e:'POR DEFINIR', c:'Todas las Categorías', a:'COMITÉ DE OLIMPIADAS', r:'Gran Final - 1er y 2do Puesto / 3er y 4to Puesto' },
+    { s:4, f:'2026-10-09', t:'Día Central', h:'Horario Estelar', d:'🏸 BÁDMINTON', e:'POR DEFINIR', c:'Junior, Juvenil A, Juvenil B', a:'COMITÉ DE OLIMPIADAS', r:'Gran Final - 1er y 2do Puesto / 3er y 4to Puesto' },
+    { s:4, f:'2026-10-09', t:'Día Central', h:'Horario Estelar', d:'🎉 GINKANA', e:'Todas las House', c:'Todas las Categorías', a:'COMITÉ DE OLIMPIADAS', r:'Evento de Cierre' }
   ];
 
+  // =======================================================================
+  // 2. SISTEMA DE NAVEGACIÓN Y RENDERIZADO
+  // =======================================================================
+  let dbPartidos = [...dbPartidosBase];
   let semanaActiva = 1;
   let fechaActiva = '';
 
@@ -215,7 +307,7 @@
             <span class="smp-time-badge" ${isFinal ? 'style="color:#b45309; border-color:#fde047; background:#fefce8;"' : ''}>⏰ ${p.h}</span>
             <span class="smp-category-tag">${p.c} — 🏆 ${p.d}</span>
           </div>
-          <div class="smp-teams-row">${p.e}</div>
+          <div class="smp-teams-row" ${p.e === 'POR DEFINIR' ? 'style="color: var(--text-muted); font-size: 16px;"' : ''}>${p.e}</div>
           <div class="smp-referee-box"><span>⚡ Árbitro Principal</span><strong>📢 ${p.a}</strong></div>
           <div class="smp-support-box"><strong>📋 Mesa / Control:</strong> ${p.r}</div>
         </div>`;
@@ -223,9 +315,100 @@
     panel.innerHTML = html;
   }
 
-  // INICIALIZADOR SIMPLE Y DIRECTO
+  // =======================================================================
+  // 3. MOTOR DE FUSIÓN INTELIGENTE (SINCRONIZACIÓN SILENCIOSA >= 24/09)
+  // =======================================================================
+  function sincronizarFixtureEnVivo() {
+    const scriptAntiguo = document.getElementById('jsonp-fixture');
+    if (scriptAntiguo) scriptAntiguo.remove();
+    const nuevoScript = document.createElement('script');
+    nuevoScript.id = 'jsonp-fixture';
+    nuevoScript.src = `https://script.google.com/macros/s/AKfycbw6v_-hQor-DMh7Mg2qtodwpuIiXIuCOqqtV3mY3Gs5ueqZBrDH8LORqa7RTMWhIH1uqw/exec?page=api_fixture&callback=procesarFixtureRemoto&_t=${Date.now()}`;
+    document.body.appendChild(nuevoScript);
+  }
+
+  window.procesarFixtureRemoto = function(respuestaRemota) {
+    if (respuestaRemota && Array.isArray(respuestaRemota.partidos)) {
+      
+      // Filtramos basura obvia del Excel (celdas combinadas vacías o títulos como "English Race")
+      const remotosValidos = respuestaRemota.partidos.filter(p => {
+        const eq = String(p.e || p.enfrentamiento || '').trim();
+        return eq.length > 2 && eq.toLowerCase() !== 'undefined';
+      });
+
+      // Creamos copia fresca de la base inmutable
+      let dbActualizada = JSON.parse(JSON.stringify(dbPartidosBase));
+
+      dbActualizada.forEach(local => {
+        // LA REGLA DE ORO: Solo automatizamos partidos a partir del 24 de Septiembre
+        if (local.f >= '2026-09-24') {
+          
+          let localTime = String(local.h).replace(/[^0-9]/g, '').replace(/^0+/, '');
+          if(localTime === '') localTime = String(local.h).toLowerCase().replace(/[^a-z]/g, '');
+          
+          const localCat = String(local.c).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z]/g, '');
+          const localDep = String(local.d).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z]/g, '');
+
+          // Buscamos un partido en el Excel que corresponda a esta misma fecha, hora y categoría
+          const remoto = remotosValidos.find(r => {
+            let rFecha = String(r.f || r.fecha);
+            if (rFecha.includes('T')) rFecha = rFecha.substring(0, 10);
+            if (rFecha !== local.f) return false;
+
+            let rTime = String(r.h || r.hora).replace(/[^0-9]/g, '').replace(/^0+/, '');
+            if(rTime === '') rTime = String(r.h || r.hora).toLowerCase().replace(/[^a-z]/g, '');
+            
+            const timeMatch = (localTime !== '' && rTime !== '') && (localTime === rTime || localTime.includes(rTime) || rTime.includes(localTime));
+            if(!timeMatch) return false;
+
+            const rCat = String(r.c || r.categoria).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z]/g, '');
+            const rDep = String(r.d || r.deporte).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z]/g, '');
+            
+            const catMatch = (localCat !== '' && rCat !== '') && (localCat.includes(rCat) || rCat.includes(localCat));
+            const depMatch = (localDep !== '' && rDep !== '') && (localDep.includes(rDep) || rDep.includes(localDep));
+
+            return catMatch || depMatch;
+          });
+
+          // Si el Excel tiene datos para este partido, sobreescribimos el "POR DEFINIR" y el Árbitro
+          if (remoto) {
+            local.e = String(remoto.e || remoto.enfrentamiento).trim().toUpperCase();
+            const nuevoArbitro = String(remoto.a || remoto.arbitro).trim().toUpperCase();
+            if (nuevoArbitro && nuevoArbitro !== 'UNDEFINED') local.a = nuevoArbitro;
+          }
+        }
+      });
+
+      dbPartidos = dbActualizada;
+
+      // Reconstruimos los botones silenciosamente para no alterar la navegación del usuario
+      const partidosSemanaActual = dbPartidos.filter(p => Number(p.s) === Number(semanaActiva));
+      const fechasUnicasActuales = [...new Set(partidosSemanaActual.map(p => p.f))].sort();
+      
+      if (!fechasUnicasActuales.includes(fechaActiva) && fechasUnicasActuales.length > 0) {
+        fechaActiva = fechasUnicasActuales[0];
+      }
+      
+      const containerDias = document.getElementById('botoneraDias');
+      if (fechasUnicasActuales.length > 0) {
+        containerDias.innerHTML = fechasUnicasActuales.map(f => {
+          const pMatch = partidosSemanaActual.find(p => p.f === f);
+          const nombreDia = pMatch && pMatch.t ? pMatch.t : f;
+          return `<button onclick="cambiarDia('${f}', this)" class="smp-day-btn ${f === fechaActiva ? 'active' : ''}">${nombreDia}</button>`;
+        }).join('');
+      }
+      
+      renderizarTarjetasPartidos();
+    }
+  };
+
+  // =======================================================================
+  // 4. INICIALIZADOR
+  // =======================================================================
   window.addEventListener('load', () => {
     cambiarSemana(1, document.querySelector('.smp-week-btn'));
+    sincronizarFixtureEnVivo(); // Consulta al instante de abrir la web
+    setInterval(sincronizarFixtureEnVivo, 15000); // Se actualiza solo cada 15 segundos en silencio
   });
 </script>
 </body>
