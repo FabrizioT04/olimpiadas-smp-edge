@@ -3,89 +3,92 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Olimpiadas Sede SMP - Control Arbitraje</title>
+  <title>Dashboard SMP - Control Arbitraje</title>
+  
+  <!-- Fuente Premium: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
   <style>
     /* =========================================================================
-       --- 🎨 CORE DE DISEÑO CYBERPUNK: REGISTRAR EN DOS COLUMNAS ELÁSTICAS ---
+       --- 🎨 DISEÑO MINIMALISTA "BENTO BOX" (LIGHT MODE) ---
        ========================================================================= */
     :root {
-      --bg-dark: #060913;
-      --card-bg: rgba(13, 20, 38, 0.4);
-      --border-glow: rgba(0, 242, 254, 0.15);
-      --text-main: #f0f4f8;
-      --neon-cyan: #00f2fe;
-      --neon-blue: #4facfe;
+      --bg-color: #f4f7f9;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --color-blue: #3b82f6;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
     }
 
     body {
-      background-color: var(--bg-dark);
+      background-color: var(--bg-color);
       color: var(--text-main);
       min-height: 100vh;
       padding: 40px 20px;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
 
     .smp-main-layout {
-      max-width: 1200px;
+      max-width: 1100px;
       margin: 0 auto;
-      padding-bottom: 40px;
+      padding-bottom: 60px;
     }
 
     /* --- CABECERA DE LA PLATAFORMA --- */
     .smp-brand-header {
-      border-left: 4px solid var(--neon-cyan);
-      padding-left: 16px;
-      margin-bottom: 30px;
+      text-align: center;
+      margin-bottom: 40px;
     }
 
     .smp-institution {
-      font-size: 11px;
+      font-size: 13px;
       font-weight: 800;
-      letter-spacing: 2px;
-      color: var(--neon-cyan);
+      letter-spacing: 1.5px;
+      color: var(--color-blue);
       text-transform: uppercase;
-      text-shadow: 0 0 8px rgba(0, 242, 254, 0.4);
     }
 
     .smp-main-title {
       font-size: 32px;
       font-weight: 800;
-      margin-top: 4px;
-      text-transform: uppercase;
+      margin-top: 8px;
+      color: var(--text-main);
       letter-spacing: -0.5px;
     }
 
     .smp-main-subtitle {
-      font-size: 14px;
-      color: #8a99ad;
+      font-size: 15px;
+      color: var(--text-muted);
       margin-top: 6px;
+      font-weight: 500;
     }
 
-    /* 📐 CONTENEDOR MAESTRO DE DOS COLUMNAS ELÁSTICAS (IGUAL A HUACHO) */
+    /* 📐 CONTENEDOR MAESTRO DE DOS COLUMNAS ELÁSTICAS */
     .smp-split-layout-container {
       display: grid !important;
-      grid-template-columns: 1.2fr 0.8fr !important;
-      gap: 40px !important;
+      grid-template-columns: 1.3fr 0.7fr !important;
+      gap: 32px !important;
       align-items: start !important;
-      margin-top: 25px !important;
     }
 
     /* Bloque contenedor del formulario a la izquierda */
     .smp-form-container-block {
       background: var(--card-bg);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--border-glow);
-      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
       padding: 40px;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
     }
 
     .smp-input-group {
@@ -95,48 +98,54 @@
     }
 
     .smp-field-label {
-      font-size: 11px;
-      font-weight: 800;
+      font-size: 12px;
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--neon-cyan);
-      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
     }
+    
     .smp-select-premium, .smp-input-premium {
       width: 100%;
-      padding: 14px 18px;
-      background: rgba(6, 9, 19, 0.9);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 8px;
-      color: #fff;
-      font-size: 14px;
+      padding: 16px 18px;
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      color: var(--text-main);
+      font-size: 15px;
+      font-weight: 500;
       outline: none;
-      transition: all 0.3s ease;
+      transition: all 0.2s ease;
+      appearance: none; /* Limpia la flecha por defecto en móviles */
     }
 
     .smp-select-premium:focus, .smp-input-premium:focus {
-      border-color: var(--neon-cyan);
-      box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
+      border-color: var(--color-blue);
+      background: #ffffff;
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
     }
 
     .smp-btn-submit-premium {
       width: 100%;
-      padding: 16px;
-      background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
-      color: #060913;
-      font-weight: 800;
-      font-size: 14px;
+      padding: 18px;
+      background: var(--color-blue);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 15px;
       text-transform: uppercase;
+      letter-spacing: 0.5px;
       border: none;
-      border-radius: 8px;
+      border-radius: 12px;
       cursor: pointer;
       margin-top: 12px;
-      box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
-      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+      transition: all 0.2s ease;
     }
     .smp-btn-submit-premium:hover {
-      box-shadow: 0 0 25px rgba(0, 242, 254, 0.5);
+      background: #2563eb;
       transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(59, 130, 246, 0.35);
     }
 
     /* 🦁 REJILLA DE LAS 4 MASCOTAS (COLUMNA DERECHA) */
@@ -148,59 +157,70 @@
     }
 
     .smp-mascot-showcase-card {
-      background: rgba(13, 20, 38, 0.45) !important;
-      backdrop-filter: blur(16px) !important;
-      -webkit-backdrop-filter: blur(16px) !important;
-      border: 1px solid rgba(255, 255, 255, 0.05) !important;
-      border-radius: 12px !important;
-      padding: 20px !important;
+      background: var(--card-bg) !important;
+      border: 1px solid var(--border-color) !important;
+      border-radius: 20px !important;
+      padding: 24px 16px !important;
       text-align: center !important;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
-      transition: all 0.25s ease !important;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02) !important;
+      transition: all 0.2s ease !important;
     }
     .smp-mascot-showcase-card:hover {
       transform: translateY(-3px) !important;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06) !important;
     }
 
-    /* Efectos de luces por House */
-    .smp-card-m-blue:hover   { border-color: #4facfe !important; box-shadow: 0 0 15px rgba(79, 172, 254, 0.25) !important; }
-    .smp-card-m-white:hover  { border-color: #f0f4f8 !important; box-shadow: 0 0 15px rgba(240, 244, 248, 0.2) !important; }
-    .smp-card-m-green:hover  { border-color: #2ed573 !important; box-shadow: 0 0 15px rgba(46, 213, 115, 0.25) !important; }
-    .smp-card-m-orange:hover { border-color: #ffb300 !important; box-shadow: 0 0 15px rgba(255, 179, 0, 0.25) !important; }
-
     .smp-img-mascot-sidebar {
-      width: 80px !important;
-      height: 80px !important;
+      width: 64px !important;
+      height: 64px !important;
       object-fit: contain !important;
-      margin-bottom: 8px !important;
-      filter: drop-shadow(0 0 6px rgba(255,255,255,0.1)) !important;
+      margin-bottom: 12px !important;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05)) !important;
     }
 
     .smp-txt-mascot-sidebar {
-      font-size: 11px !important;
+      font-size: 13px !important;
       font-weight: 800 !important;
-      letter-spacing: 0.5px !important;
       text-transform: uppercase;
     }
 
     /* NAVEGACIÓN GENERAL DESKTOP */
     .smp-grid-navigation { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px; }
-    .smp-nav-block { background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 24px 16px; text-align: center; text-decoration: none; color: #8a99ad; transition: all 0.3s ease; }
-    .smp-nav-block:hover { border-color: rgba(255, 255, 255, 0.1); transform: translateY(-2px); }
-    .smp-nav-block.active { border-color: var(--neon-cyan); color: #fff; }
-    .smp-btn-ico { font-size: 28px; margin-bottom: 8px; display: block; }
-    .smp-btn-title { font-size: 14px; font-weight: 800; text-transform: uppercase; color: #fff; }
-    .smp-btn-desc { font-size: 11px; color: #627285; margin-top: 4px; }
+    .smp-nav-block { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 24px 16px; text-align: center; text-decoration: none; color: var(--text-muted); transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.02);}
+    .smp-nav-block:hover { border-color: #cbd5e1; transform: translateY(-2px); }
+    .smp-nav-block.active { border-color: var(--color-blue); border-width: 2px; color: var(--text-main); background: #f8fafc; padding: 23px 15px;}
+    .smp-btn-ico { font-size: 28px; margin-bottom: 10px; display: block; }
+    .smp-btn-title { font-size: 14px; font-weight: 800; text-transform: uppercase; color: var(--text-main); }
+    .smp-btn-desc { font-size: 12px; color: var(--text-muted); margin-top: 6px; }
+
+    /* NAVEGACIÓN MOBILE */
+    .smp-navbar-mobile-only {
+      display: none; 
+      position: fixed; 
+      bottom: 0; left: 0; 
+      width: 100%; 
+      background: var(--card-bg); 
+      border-top: 1px solid var(--border-color); 
+      justify-content: space-around; 
+      padding: 16px 0; 
+      z-index: 99999;
+      box-shadow: 0 -4px 12px rgba(0,0,0,0.03);
+    }
+    .smp-nav-mob-item { text-decoration: none; text-align: center; color: var(--text-muted); }
+    .smp-nav-mob-item.active { color: var(--color-blue); }
+    .smp-nav-mob-ico { font-size: 22px; display: block; margin-bottom: 4px; }
+    .smp-nav-mob-txt { font-size: 10px; font-weight: 800; text-transform: uppercase; }
 
     /* Responsivo elástico */
     @media (max-width: 900px) {
       .smp-split-layout-container { grid-template-columns: 1fr !important; gap: 20px !important; }
-      body { padding: 16px 12px 140px 12px; }
-      .smp-brand-header { margin-bottom: 20px; }
-      .smp-main-title { font-size: 24px; }
-      .smp-form-container-block { padding: 24px 16px; }
+      body { padding: 24px 16px 100px 16px; }
+      .smp-brand-header { margin-bottom: 24px; }
+      .smp-main-title { font-size: 26px; }
+      .smp-form-container-block { padding: 24px 20px; border-radius: 20px; }
       .smp-grid-navigation { display: none !important; }
       .smp-mascots-sidebar-grid { display: none !important; }
+      .smp-navbar-mobile-only { display: flex !important; }
     }
   </style>
 </head>
@@ -210,8 +230,8 @@
     
     <header class="smp-brand-header">
       <span class="smp-institution">INNOVA SCHOOLS - SAN MARTÍN DE PORRES</span>
-      <h1 class="smp-main-title">OLIMPIADAS ESCOLARES 2026</h1>
-      <p class="smp-main-subtitle">Panel de control de actas para la asignación de puntos por House</p>
+      <h1 class="smp-main-title">Control de Arbitraje</h1>
+      <p class="smp-main-subtitle">Panel de registro de puntos y asignación por House</p>
     </header>
 
     <!-- CONTENEDOR MAESTRO DUAL DE DOS COLUMNAS ELÁSTICAS -->
@@ -260,6 +280,7 @@
             <label class="smp-field-label">4. Cantidad de Puntos</label>
             <input type="number" id="inputPuntos" class="smp-input-premium" placeholder="Ej: 100" min="1" max="500" required>
           </div>
+
           <!-- 5. ACTIVIDAD / JUEGO -->
           <div class="smp-input-group">
             <label class="smp-field-label">5. Actividad / Juego</label>
@@ -300,49 +321,45 @@
             </select>
           </div>
 
-          <button type="submit" class="smp-btn-submit-premium">Enviar Datos al Google Sheets</button>
+          <button type="submit" class="smp-btn-submit-premium">Enviar Datos al Sistema</button>
         </form>
       </section>
-      <!-- 🖼️ MITAD DERECHA: LA REJILLA PREMIUM CON LAS 4 FOTOS DE LAS MASCOTAS (HUACHO STYLE) -->
+
+      <!-- 🖼️ MITAD DERECHA: LA REJILLA PREMIUM -->
       <div class="smp-mascots-sidebar-grid">
-        
-        <!-- 🐬 DOLPHINS -->
-       <div class="smp-mascot-showcase-card smp-card-m-blue">
-        <img src="img/delfin.png" alt="Dolphins" class="smp-img-mascot-sidebar">
-        <p class="smp-txt-mascot-sidebar" style="color:#4facfe;">Dolphins</p>
+        <div class="smp-mascot-showcase-card">
+          <img src="img/delfin.png" alt="Dolphins" class="smp-img-mascot-sidebar">
+          <p class="smp-txt-mascot-sidebar" style="color:#3b82f6;">Dolphins</p>
+        </div>
+        <div class="smp-mascot-showcase-card">
+          <img src="img/gaviota.png" alt="Seagulls" class="smp-img-mascot-sidebar">
+          <p class="smp-txt-mascot-sidebar" style="color:#94a3b8;">Seagulls</p>
+        </div>
+        <div class="smp-mascot-showcase-card">
+          <img src="img/aguila.png" alt="Eagles" class="smp-img-mascot-sidebar">
+          <p class="smp-txt-mascot-sidebar" style="color:#10b981;">Eagles</p>
+        </div>
+        <div class="smp-mascot-showcase-card">
+          <img src="img/caballo.png" alt="Horses" class="smp-img-mascot-sidebar">
+          <p class="smp-txt-mascot-sidebar" style="color:#f59e0b;">Horses</p>
+        </div>
       </div>
-
-      <div class="smp-mascot-showcase-card smp-card-m-white">
-        <img src="img/gaviota.png" alt="Seagulls" class="smp-img-mascot-sidebar">
-        <p class="smp-txt-mascot-sidebar" style="color:#fff;">Seagulls</p>
-      </div>
-
-      <div class="smp-mascot-showcase-card smp-card-m-green">
-        <img src="img/aguila.png" alt="Eagles" class="smp-img-mascot-sidebar">
-        <p class="smp-txt-mascot-sidebar" style="color:#2ed573;">Eagles</p>
-      </div>
-
-      <div class="smp-mascot-showcase-card smp-card-m-orange">
-        <img src="img/caballo.png" alt="Horses" class="smp-img-mascot-sidebar">
-        <p class="smp-txt-mascot-sidebar" style="color:#ffb300;">Horses</p>
-      </div>
-    </div>
-
     </div>
 
     <!-- BOTONERA DE MENÚ INFERIOR ESTILO DESKTOP -->
     <div class="smp-grid-navigation">
-      <a href="/registrar" class="smp-nav-block active" style="border-color: var(--neon-cyan);">
+      <!-- CORRECCIÓN DE RUTAS: Ahora apuntan a archivos físicos .html -->
+      <a href="registrar.html" class="smp-nav-block active">
         <span class="smp-btn-ico">📋</span>
         <span class="smp-btn-title">Registrar</span>
         <p class="smp-btn-desc">Análisis de retos y puntuación por áreas</p>
       </a>
-      <a href="/" class="smp-nav-block">
+      <a href="index.html" class="smp-nav-block">
         <span class="smp-btn-ico">🏆</span>
         <span class="smp-btn-title">Puntaje</span>
-        <p class="smp-btn-desc">Marcador consolidado en vivo de la Sede SMP</p>
+        <p class="smp-btn-desc">Marcador consolidado en vivo de la Sede</p>
       </a>
-      <a href="/fixture" class="smp-nav-block">
+      <a href="fixture.html" class="smp-nav-block">
         <span class="smp-btn-ico">📊</span>
         <span class="smp-btn-title">Fixture</span>
         <p class="smp-btn-desc">Roles de partidos preliminares por recreos</p>
@@ -350,15 +367,26 @@
     </div>
 
   </div> <!-- CIERRE DE SMP-MAIN-LAYOUT -->
-    <!-- 📱 BARRA ELÁSTICA DE NAVEGACIÓN COMPACTA EN INFERIOR DE CELULAR -->
-    <div class="smp-navbar-mobile-only" style="display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: #0d1426; border-top: 1px solid rgba(0, 242, 254, 0.2); justify-content: space-around; padding: 12px 0; z-index: 99999;">
-      <a href="/registrar" style="text-decoration: none; text-align: center; color: var(--neon-cyan);"><span style="font-size: 20px; display: block;">📋</span><span style="font-size: 9px; font-weight: 800; text-transform: uppercase;">Registrar</span></a>
-      <a href="/" style="text-decoration: none; text-align: center; color: #8a99ad;"><span style="font-size: 20px; display: block;">🏆</span><span style="font-size: 9px; font-weight: 800; text-transform: uppercase;">Puntaje</span></a>
-      <a href="/fixture" style="text-decoration: none; text-align: center; color: #8a99ad;"><span style="font-size: 20px; display: block;">📊</span><span style="font-size: 9px; font-weight: 800; text-transform: uppercase;">Fixture</span></a>
-    </div>
+
+  <!-- 📱 BARRA DE NAVEGACIÓN COMPACTA EN INFERIOR DE CELULAR -->
+  <div class="smp-navbar-mobile-only">
+    <!-- CORRECCIÓN DE RUTAS PARA MÓVIL TAMBIÉN -->
+    <a href="registrar.html" class="smp-nav-mob-item active">
+      <span class="smp-nav-mob-ico">📋</span>
+      <span class="smp-nav-mob-txt">Registrar</span>
+    </a>
+    <a href="index.html" class="smp-nav-mob-item">
+      <span class="smp-nav-mob-ico">🏆</span>
+      <span class="smp-nav-mob-txt">Puntaje</span>
+    </a>
+    <a href="fixture.html" class="smp-nav-mob-item">
+      <span class="smp-nav-mob-ico">📊</span>
+      <span class="smp-nav-mob-txt">Fixture</span>
+    </a>
+  </div>
 
   <!-- =========================================================================
-       --- 📡 MOTOR DE ARBITRAJE: TRANSMISIÓN DE JSON AL WORKER DE CLOUDFLARE --
+       --- 📡 MOTOR DE ARBITRAJE CORREGIDO ---
        ========================================================================= -->
   <script>
     function enviarDataSheets(event) {
@@ -367,7 +395,6 @@
       const btn = document.querySelector('.smp-btn-submit-premium');
       const selectMotivo = document.getElementById('inputMotivo');
       
-      // Extraemos el texto limpio visible de la opción seleccionada para el registro
       const textoActividadLimpio = selectMotivo.options[selectMotivo.selectedIndex].text;
 
       const payload = {
@@ -375,13 +402,13 @@
         operacion: document.getElementById('selectOperacion').value,
         categoria: document.getElementById('selectCategoria').value,
         puntos: document.getElementById('inputPuntos').value,
-        fila: selectMotivo.value,       // Envía el número de fila exacto
-        motivo: textoActividadLimpio     // Envía el nombre del juego limpio
+        fila: selectMotivo.value,
+        motivo: textoActividadLimpio
       };
 
       if (btn) {
-        btn.innerText = "⚡ TRANSMITIENDO AL EXCEL...";
-        btn.style.opacity = "0.6";
+        btn.innerText = "⚡ PROCESANDO...";
+        btn.style.opacity = "0.7";
         btn.disabled = true;
       }
 
@@ -393,39 +420,32 @@
       formData.append('fila', payload.fila);
       formData.append('motivo', payload.motivo);
 
+      // CORRECCIÓN: Agregado { mode: 'no-cors' } para evitar bloqueos del navegador.
+      // Al usar no-cors, la respuesta es opaca, por lo que asumimos éxito si la petición se envía.
       fetch('https://script.google.com/macros/s/AKfycbyVCfzMa_iJEEHn8Hs1KBUBtkk6DfhT58UK77a2QdscxIiH8EbnU8_4NcaYG5Dz4ttjsA/exec', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, // Formato nativo ultra compatible
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: formData.toString()
       })
-      .then(res => {
-        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-        return res.text();
-      })
-     .then(textoResultado => {
-        // 🎯 ÉXITO ABSOLUTO: Al recibir texto de Google, liberamos la alerta nativa y limpiamos las cajas
-        alert(`🏆 ¡Arbitraje Registrado con éxito!\n\nSe impactó la fila ${payload.fila} de la House ${payload.house.toUpperCase()} en la pestaña Sábana.`);
+      .then(() => {
+        // Al usar no-cors no podemos leer la respuesta, pero si llega aquí, la red funcionó.
+        alert(`🏆 ¡Puntos Registrados con éxito!\n\nSe impactó la fila ${payload.fila} de la House ${payload.house.toUpperCase()}`);
         document.getElementById('formPuntajes').reset();
       })
       .catch(err => {
-        console.error("Detalle de depuración:", err);
-        alert(`🏆 ¡Arbitraje Registrado con éxito!\n\nSe impactó la fila ${payload.fila} de la House ${payload.house.toUpperCase()} en la pestaña Sábana.`);
-        document.getElementById('formPuntajes').reset();
+        // Si entra al catch AHORA SÍ es un error real (ej. se fue el internet del profesor)
+        console.error("Error de Red:", err);
+        alert(`❌ Error de Conexión.\n\nNo se pudo registrar el puntaje. Por favor, verifica tu conexión a internet y vuelve a intentarlo.`);
       })
       .finally(() => {
         if (btn) {
-          btn.innerText = "Enviar Datos al Google Sheets";
+          btn.innerText = "Enviar Datos al Sistema";
           btn.style.opacity = "1";
           btn.disabled = false;
         }
       });
     }
-    // =========================================================================
-    // --- ⏳ CONTROL INYECTOR DE NAVEGACIÓN COMPACTA RESPONSIVA --------------
-    // =========================================================================
-    const styleSheet = document.createElement("style");
-    styleSheet.innerText = "@media (max-width: 900px) { .smp-grid-navigation { display: none !important; } .smp-navbar-mobile-only { display: flex !important; } }";
-    document.head.appendChild(styleSheet);
   </script>
 </body>
 </html>
