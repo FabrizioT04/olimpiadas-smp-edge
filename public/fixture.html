@@ -132,7 +132,7 @@
 
     { s:1, f:'2026-09-18', t:'Vie 18/09', h:'09:35 - 09:55', d:'🏐 VÓLEY', e:'ANARANJADO VS AZUL', c:'Infantil (3º y 4º)', a:'MARIO NUÑEZ', r:'L. Gambini, K. Sopla, M. Reynaga, V. Valverde' },
     { s:1, f:'2026-09-18', t:'Vie 18/09', h:'09:55 - 10:15', d:'🏐 VÓLEY', e:'ANARANJADO VS AZUL', c:'Junior (5º y 6º)', a:'MARIO NUÑEZ', r:'K. Caballero, G. Huaman, N. Aguilar, L. Gambini' },
-    { s:1, f:'2026-09-18', t:'Vie 18/09', h:'10:55 - 11:15', d:'🏐 VÓLEY', e:'ANARANJADO VS AZUL', c:'Juvenil A (7º y 8º)', a:'ENRIQUE ALCAZAR', r:'D. Liviapoma, P. Coronado, G. Huaman, J. Esteban' },
+    { s:1, f:'2026-09-18', t:'Vie 18/09', h:'10:55 - 11:15', d:'🏐 VÓLEY', e:'ANARANJADO VS AZUL', c:'Juvenil A (7º y 8º)', a:'ENRIQUE ALCAZAR', r:'D. Liviapoma - 11A, P. Coronado, G. Huaman, J. Esteban' },
     { s:1, f:'2026-09-18', t:'Vie 18/09', h:'11:15 - 11:35', d:'🏐 PASABOLA', e:'ANARANJADO VS AZUL', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ 9B', r:'Tutores, Cotutores y Volantes' },
     { s:1, f:'2026-09-18', t:'Vie 18/09', h:'12:55 - 13:15', d:'🏐 VÓLEY', e:'ANARANJADO VS AZUL', c:'Juvenil B (9º a 11º)', a:'ENRIQUE ALCAZAR', r:'L. Figueroa, M. Nuñez, S. Ramirez, L. Delao' },
 
@@ -155,7 +155,7 @@
     { s:2, f:'2026-09-23', t:'Mié 23/09', h:'11:15 - 11:35', d:'⚽ FUTSAL', e:'BLANCO VS ANARANJADO', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ 8A/DAVID', r:'Tutores, Cotutores y Volantes' },
     { s:2, f:'2026-09-23', t:'Mié 23/09', h:'12:55 - 13:15', d:'⚽ FUTSAL', e:'BLANCO VS ANARANJADO', c:'Juvenil B (9º a 11º)', a:'ENRIQUE ALCAZAR', r:'D. Sajami, K. Sopla, P. Coronado' },
 
-    // DESDE EL 24 DE SEPTIEMBRE (AQUÍ ACTÚA LA MAGIA DE LA SINCRONIZACIÓN)
+    // DESDE EL 24 DE SEPTIEMBRE (AUTOMATIZADO)
     { s:2, f:'2026-09-24', t:'Jue 24/09', h:'09:35 - 09:55', d:'🥇 CONEBALL', e:'POR DEFINIR', c:'Infantil (3º y 4º)', a:'DAVID', r:'L. Natividad, K. Armas, V. Valverde' },
     { s:2, f:'2026-09-24', t:'Jue 24/09', h:'09:55 - 10:15', d:'🏀 BÁSQUET', e:'POR DEFINIR', c:'Junior (5º y 6º)', a:'DAVID', r:'L. Gambini, J. Romero, K. Armas, P. Coronado' },
     { s:2, f:'2026-09-24', t:'Jue 24/09', h:'10:55 - 11:15', d:'🏀 BÁSQUET', e:'POR DEFINIR', c:'Juvenil A (7º y 8º)', a:'ENRIQUE ALCAZAR', r:'D. Sajami, Enrique, L. Gambini, D. Liviapoma' },
@@ -316,72 +316,49 @@
   }
 
   // =======================================================================
-  // 3. MOTOR DE FUSIÓN 100% CALIBRADO PARA BaseDatosWeb
+  // 3. MOTOR DE FUSIÓN 100% BLINDADO (LEE LA URL DE TU APPS SCRIPT)
   // =======================================================================
-  function sincronizarFixtureEnVivo() {
-    const scriptAntiguo = document.getElementById('jsonp-fixture');
-    if (scriptAntiguo) scriptAntiguo.remove();
-    const nuevoScript = document.createElement('script');
-    nuevoScript.id = 'jsonp-fixture';
-    nuevoScript.src = `https://script.google.com/macros/s/AKfycbw6v_-hQor-DMh7Mg2qtodwpuIiXIuCOqqtV3mY3Gs5ueqZBrDH8LORqa7RTMWhIH1uqw/exec?page=api_fixture&callback=procesarFixtureRemoto&_t=${Date.now()}`;
-    document.body.appendChild(nuevoScript);
-  }
+  const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbw6v_-hQor-DMh7Mg2qtodwpuIiXIuCOqqtV3mY3Gs5ueqZBrDH8LORqa7RTMWhIH1uqw/exec";
 
-  window.procesarFixtureRemoto = function(respuestaRemota) {
-    if (respuestaRemota && Array.isArray(respuestaRemota.partidos)) {
-      let dbActualizada = JSON.parse(JSON.stringify(dbPartidosBase));
+  async function sincronizarFixtureEnVivo() {
+    try {
+      const response = await fetch(URL_APPS_SCRIPT);
+      const respuestaRemota = await response.json();
+      
+      if (respuestaRemota && Array.isArray(respuestaRemota.partidos)) {
+        let dbActualizada = JSON.parse(JSON.stringify(dbPartidosBase));
 
-      dbActualizada.forEach(local => {
-        // Solo automatizamos partidos a partir del 24 de Septiembre
-        if (local.f >= '2026-09-24') {
-          
-          const remoto = respuestaRemota.partidos.find(r => {
-            // 1. Coincidir Fecha
-            let rFecha = String(r.f || '');
-            if (rFecha.includes('T')) rFecha = rFecha.split('T')[0];
-            if (rFecha !== local.f) return false;
+        dbActualizada.forEach(local => {
+          if (local.f >= '2026-09-24') {
+            const remoto = respuestaRemota.partidos.find(r => {
+              let rFecha = String(r.f || '');
+              if (rFecha.includes('T')) rFecha = rFecha.split('T')[0];
+              if (rFecha !== local.f) return false;
 
-            // 2. Coincidir Hora
-            let localHora = String(local.h).split('-')[0].replace(/[^0-9]/g, '');
-            let rHora = String(r.h || '').split('-')[0].replace(/[^0-9]/g, '');
-            if (localHora !== rHora) return false;
+              let localHora = String(local.h).split('-')[0].replace(/[^0-9]/g, '');
+              let rHora = String(r.h || '').split('-')[0].replace(/[^0-9]/g, '');
+              if (localHora !== rHora) return false;
 
-            return true; // ¡Partido exacto encontrado en tu BaseDatosWeb!
-          });
+              return true;
+            });
 
-          // Si el Excel tiene datos para este partido, sobrescribimos
-          if (remoto) {
-            const nuevoEq = String(remoto.e || '').trim().toUpperCase();
-            if (nuevoEq && !nuevoEq.includes('DEFINIR')) local.e = nuevoEq;
+            if (remoto) {
+              const nuevoEq = String(remoto.e || '').trim().toUpperCase();
+              if (nuevoEq && !nuevoEq.includes('DEFINIR')) local.e = nuevoEq;
 
-            const nuevoArb = String(remoto.a || '').trim().toUpperCase();
-            if (nuevoArb && nuevoArb !== 'UNDEFINED') local.a = nuevoArb;
+              const nuevoArb = String(remoto.a || '').trim().toUpperCase();
+              if (nuevoArb && nuevoArb !== 'UNDEFINED') local.a = nuevoArb;
+            }
           }
-        }
-      });
+        });
 
-      dbPartidos = dbActualizada;
-
-      // Reconstruimos la interfaz silenciosamente
-      const partidosSemanaActual = dbPartidos.filter(p => Number(p.s) === Number(semanaActiva));
-      const fechasUnicasActuales = [...new Set(partidosSemanaActual.map(p => p.f))].sort();
-      
-      if (!fechasUnicasActuales.includes(fechaActiva) && fechasUnicasActuales.length > 0) {
-        fechaActiva = fechasUnicasActuales[0];
+        dbPartidos = dbActualizada;
+        renderizarTarjetasPartidos();
       }
-      
-      const containerDias = document.getElementById('botoneraDias');
-      if (fechasUnicasActuales.length > 0) {
-        containerDias.innerHTML = fechasUnicasActuales.map(f => {
-          const pMatch = partidosSemanaActual.find(p => p.f === f);
-          const nombreDia = pMatch && pMatch.t ? pMatch.t : f;
-          return `<button onclick="cambiarDia('${f}', this)" class="smp-day-btn ${f === fechaActiva ? 'active' : ''}">${nombreDia}</button>`;
-        }).join('');
-      }
-      
-      renderizarTarjetasPartidos();
+    } catch (error) {
+      console.error("Error sincronizando en segundo plano:", error);
     }
-  };
+  }
 
   // =======================================================================
   // 4. INICIALIZADOR
