@@ -2,13 +2,11 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fixture SMP - Olimpiadas 2026</title>
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Fixture de Olimpiadas - Sede SMP</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  
   <style>
     :root {
       --bg-color: #f4f7f9;
@@ -16,63 +14,55 @@
       --text-main: #0f172a;
       --text-muted: #64748b;
       --border-color: #e2e8f0;
-      
       --color-blue: #3b82f6;
-      --color-green: #10b981;
-      --color-orange: #f59e0b;
-      --color-gold: #fbbf24;
     }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; }
+    .app-container { width: 100%; max-width: 900px; margin: 0 auto; padding-bottom: 80px; }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; padding: 40px 20px; -webkit-font-smoothing: antialiased; }
-    .app-container { max-width: 900px; margin: 0 auto; padding-bottom: 90px; }
-
-    /* CABECERA */
     .header { text-align: center; margin-bottom: 32px; }
-    .institution { display: inline-block; font-size: 12px; color: var(--color-blue); background: #e0f2fe; padding: 6px 14px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; margin-bottom: 12px; }
-    .title { color: var(--text-main); font-size: 36px; font-weight: 900; letter-spacing: -1px; margin-bottom: 6px; text-transform: uppercase; }
-    .subtitle { color: var(--text-muted); font-size: 15px; font-weight: 500; }
+    .institution { font-size: 13px; color: var(--color-blue); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 800; }
+    .title { margin: 8px 0; font-size: 32px; font-weight: 900; letter-spacing: -0.5px; }
+    .subtitle { color: var(--text-muted); font-size: 15px; font-weight: 500; margin: 0; }
 
-    /* 📅 SELECTOR DE SEMANAS */
-    .smp-week-selector { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
-    .btn-week { background: var(--card-bg); border: 1px solid var(--border-color); padding: 14px 16px; border-radius: 16px; color: var(--text-muted); font-size: 13px; font-weight: 800; cursor: pointer; transition: all 0.2s ease; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.02); text-transform: uppercase; }
-    .btn-week:hover { border-color: #cbd5e1; transform: translateY(-1px); }
-    .btn-week.active { background: var(--text-main) !important; color: #ffffff !important; border-color: var(--text-main) !important; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15); }
-    .btn-week.final { border-color: #fde047; background: #fefce8; color: #b45309; }
-    .btn-week.final.active { background: #fbbf24 !important; color: #78350f !important; border-color: #fbbf24 !important; }
+    .smp-weeks-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+    .smp-week-btn { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 14px; padding: 14px 10px; text-align: center; font-size: 13px; font-weight: 800; color: var(--text-muted); cursor: pointer; transition: all 0.2s ease; text-transform: uppercase; }
+    .smp-week-btn.active { background: var(--text-main); color: #ffffff; border-color: var(--text-main); }
+    .smp-week-btn.final { border-color: #fde047; background: #fefce8; color: #b45309; }
+    .smp-week-btn.final.active { background: #fbbf24; color: #78350f; border-color: #fbbf24; }
 
-    /* 📅 CÁPSULAS DE DÍAS */
-    .container-fixture-days { display: flex; gap: 8px; margin-bottom: 28px; overflow-x: auto; padding-bottom: 4px; }
-    .btn-day-capsule { background: var(--card-bg); border: 1px solid var(--border-color); padding: 10px 20px; border-radius: 20px; color: var(--text-muted); font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; box-shadow: 0 2px 6px rgba(0,0,0,0.02); }
-    .btn-day-capsule:hover { border-color: #cbd5e1; color: var(--text-main); }
-    .btn-day-capsule.active { border-color: var(--color-blue); color: #ffffff; background: var(--color-blue); box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25); }
+    .smp-days-container { display: flex; gap: 8px; margin-bottom: 32px; overflow-x: auto; padding-bottom: 4px; width: 100%; }
+    .smp-day-btn { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 10px 18px; font-size: 13px; font-weight: 700; color: var(--text-muted); cursor: pointer; white-space: nowrap; }
+    .smp-day-btn.active { background: var(--color-blue); color: #ffffff; border-color: var(--color-blue); }
 
-    /* 🏆 REJILLA DE PARTIDOS */
-    .smp-grid-games { display: flex; flex-direction: column; gap: 16px; }
-    .smp-game-row { background: var(--card-bg) !important; border: 1px solid var(--border-color) !important; border-radius: 24px !important; padding: 24px !important; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03) !important; transition: transform 0.2s, box-shadow 0.2s; }
-    .smp-game-row:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06); }
+    .smp-fixture-list { display: flex; flex-direction: column; gap: 16px; }
+    .smp-match-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 24px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02); }
+    .smp-match-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 14px; flex-wrap: wrap; gap: 10px; }
+    .smp-time-badge { background: #f8fafc; border: 1px solid var(--border-color); padding: 8px 14px; border-radius: 12px; font-size: 14px; font-weight: 800; }
+    .smp-category-tag { font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--color-blue); display: flex; align-items: center; gap: 6px; background: #eff6ff; padding: 6px 12px; border-radius: 20px; }
+    .smp-teams-row { font-size: 20px; font-weight: 900; text-transform: uppercase; margin-bottom: 16px; text-align: center; padding: 12px; background: #f8fafc; border-radius: 14px; border: 1px solid #f1f5f9; }
+    .smp-referee-box { display: flex; justify-content: space-between; align-items: center; font-size: 13px; background: #fdf4ff; border: 1px solid #fae8ff; padding: 10px 16px; border-radius: 12px; color: #86198f; font-weight: 700; margin-bottom: 10px; }
+    .smp-support-box { font-size: 12px; color: var(--text-muted); background: #f8fafc; padding: 10px 16px; border-radius: 12px; border: 1px solid var(--border-color); font-weight: 500; }
     
-    .smp-time-badge { background: #f8fafc !important; border: 1px solid var(--border-color) !important; padding: 8px 16px !important; border-radius: 12px !important; font-size: 13px !important; font-weight: 800; color: var(--text-main) !important; }
+    .smp-grid-navigation { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 50px; width: 100%; }
+    .smp-nav-block { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 24px 16px; text-align: center; text-decoration: none; color: var(--text-muted); }
+    .smp-nav-block.active { border-color: var(--color-blue); border-width: 2px; color: var(--text-main); background: #f8fafc; }
+    .smp-btn-ico { font-size: 28px; margin-bottom: 10px; display: block; }
+    .smp-btn-title { font-size: 14px; font-weight: 800; text-transform: uppercase; color: var(--text-main); }
+    .smp-btn-desc { font-size: 12px; color: var(--text-muted); margin-top: 6px; }
 
-    /* MENÚ INFERIOR BENTO BOX */
-    .smp-menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 40px; }
-    .smp-menu-btn { background: var(--card-bg); border: 2px solid transparent; border-radius: 24px; padding: 24px; text-align: center; text-decoration: none; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
-    .smp-menu-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 24px rgba(0, 0, 0, 0.05); }
-    .smp-menu-btn.active { border-color: var(--color-blue); background: #f8fafc; }
-    .smp-btn-ico { font-size: 32px; margin-bottom: 12px; display: block; }
-    .smp-btn-title { font-size: 15px; font-weight: 800; text-transform: uppercase; color: var(--text-main); display: block; }
-    .smp-btn-desc { font-size: 13px; color: var(--text-muted); margin-top: 8px; font-weight: 500; line-height: 1.4; }
-
-    /* 📱 BARRA ELÁSTICA INFERIOR MÓVIL */
-    .smp-navbar-mobile-only { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: var(--card-bg); border-top: 1px solid var(--border-color); justify-content: space-around; padding: 16px 0; z-index: 99999; box-shadow: 0 -4px 12px rgba(0,0,0,0.03); }
+    .smp-navbar-mobile-only { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: var(--card-bg); border-top: 1px solid var(--border-color); justify-content: space-around; padding: 16px 0; z-index: 99999; }
+    .smp-nav-mob-item { text-decoration: none; text-align: center; color: var(--text-muted); }
+    .smp-nav-mob-item.active { color: var(--color-blue); }
+    .smp-nav-mob-ico { font-size: 22px; display: block; margin-bottom: 4px; }
+    .smp-nav-mob-txt { font-size: 10px; font-weight: 800; text-transform: uppercase; }
 
     @media (max-width: 768px) {
-      .smp-menu-grid { display: none !important; }
-      body { padding: 24px 16px 110px 16px; }
-      .title { font-size: 26px; }
-      .smp-week-selector { grid-template-columns: repeat(2, 1fr); }
-      .smp-game-row { padding: 18px !important; }
-      .smp-navbar-mobile-only { display: flex !important; }
+      body { padding: 20px 12px 100px 12px; }
+      .smp-weeks-container { grid-template-columns: repeat(2, 1fr); }
+      .smp-grid-navigation { display: none; }
+      .smp-navbar-mobile-only { display: flex; }
+      .smp-teams-row { font-size: 17px; }
     }
   </style>
 </head>
@@ -85,204 +75,230 @@
     <p class="subtitle">Programación oficial de encuentros, horarios y roles arbitrales</p>
   </div>
 
-  <div class="smp-week-selector">
-    <button onclick="cambiarSemana(1, this)" class="btn-week active">Semana 1</button>
-    <button onclick="cambiarSemana(2, this)" class="btn-week">Semana 2</button>
-    <button onclick="cambiarSemana(3, this)" class="btn-week">Semana 3</button>
-    <button onclick="cambiarSemana(4, this)" class="btn-week final">🏆 Finales</button>
+  <div class="smp-weeks-container">
+    <div onclick="cambiarSemana(1, this)" class="smp-week-btn active">SEMANA 1</div>
+    <div onclick="cambiarSemana(2, this)" class="smp-week-btn">SEMANA 2</div>
+    <div onclick="cambiarSemana(3, this)" class="smp-week-btn">SEMANA 3</div>
+    <div onclick="cambiarSemana(4, this)" class="smp-week-btn final">🏆 FINALES</div>
   </div>
 
-  <!-- Contenedor dinámico de días -->
-  <div class="container-fixture-days" id="botoneraDias"></div>
-  <!-- Contenedor dinámico de partidos -->
-  <div class="smp-grid-games" id="panelPartidos"></div>
+  <div class="smp-days-container" id="botoneraDias"></div>
+  <div class="smp-fixture-list" id="panelPartidos"></div>
 
-  <!-- NAVEGACIÓN DESKTOP -->
-  <div class="smp-menu-grid">
-    <a href="/registrar" class="smp-menu-btn">
-      <span class="smp-btn-ico">📋</span>
-      <span class="smp-btn-title">Registrar</span>
-      <p class="smp-btn-desc">Análisis de retos y puntuación por áreas</p>
-    </a>
-    <a href="/" class="smp-menu-btn">
-      <span class="smp-btn-ico">🏆</span>
-      <span class="smp-btn-title">Puntaje</span>
-      <p class="smp-btn-desc">Marcador consolidado en vivo de la Sede SMP</p>
-    </a>
-    <a href="/fixture" class="smp-menu-btn active">
-      <span class="smp-btn-ico">📊</span>
-      <span class="smp-btn-title">Fixture</span>
-      <p class="smp-btn-desc">Roles de partidos preliminares por recreos</p>
-    </a>
+  <!-- NAVEGACIÓN PC -->
+  <div class="smp-grid-navigation">
+    <a href="/registrar" class="smp-nav-block"><span class="smp-btn-ico">📋</span><span class="smp-btn-title">Registrar</span><p class="smp-btn-desc">Análisis de retos por áreas</p></a>
+    <a href="/" class="smp-nav-block"><span class="smp-btn-ico">🏆</span><span class="smp-btn-title">Puntaje</span><p class="smp-btn-desc">Marcador consolidado en vivo</p></a>
+    <a href="/fixture" class="smp-nav-block active"><span class="smp-btn-ico">📊</span><span class="smp-btn-title">Fixture</span><p class="smp-btn-desc">Roles de partidos preliminares</p></a>
   </div>
 </div>
 
-  <!-- 📱 BARRA ELÁSTICA DE NAVEGACIÓN INFERIOR MÓVIL -->
-  <div class="smp-navbar-mobile-only" style="display: none;">
-    <a href="/registrar" style="text-decoration: none; text-align: center; color: var(--text-muted);"><span style="font-size: 22px; display: block; margin-bottom: 4px;">📋</span><span style="font-size: 10px; font-weight: 800; text-transform: uppercase;">Registrar</span></a>
-    <a href="/" style="text-decoration: none; text-align: center; color: var(--text-muted);"><span style="font-size: 22px; display: block; margin-bottom: 4px;">🏆</span><span style="font-size: 10px; font-weight: 800; text-transform: uppercase;">Puntaje</span></a>
-    <a href="/fixture" style="text-decoration: none; text-align: center; color: var(--color-blue);"><span style="font-size: 22px; display: block; margin-bottom: 4px;">📊</span><span style="font-size: 10px; font-weight: 800; text-transform: uppercase;">Fixture</span></a>
-  </div>
+<!-- NAVEGACIÓN MÓVIL -->
+<div class="smp-navbar-mobile-only">
+  <a href="/registrar" class="smp-nav-mob-item"><span class="smp-nav-mob-ico">📋</span><span class="smp-nav-mob-txt">Registrar</span></a>
+  <a href="/" class="smp-nav-mob-item"><span class="smp-nav-mob-ico">🏆</span><span class="smp-nav-mob-txt">Puntaje</span></a>
+  <a href="/fixture" class="smp-nav-mob-item active"><span class="smp-nav-mob-ico">📊</span><span class="smp-nav-mob-txt">Fixture</span></a>
+</div>
 
-  <script>
-    let dbPartidos = [
-      // Semana 1 - Fija y robusta
-      { s:1, f:'2026-09-14', t:'Lun 14', h:'09:35 - 09:55', d:'🥇 CONEBALL', e:'BLANCO VS VERDE', c:'Infantil (3º y 4º)', a:'DAVID', r:'M. Gurrionero, G. Huaman, N. Aguilar, D. Quirica' },
-      { s:1, f:'2026-09-14', t:'Lun 14', h:'09:55 - 10:15', d:'🏀 BÁSQUET', e:'BLANCO VS VERDE', c:'Junior (5º y 6º)', a:'DAVID', r:'D. Quirica, J. Romero, K. Armas' },
-      { s:1, f:'2026-09-14', t:'Lun 14', h:'10:55 - 11:15', d:'🏀 BÁSQUET', e:'BLANCO VS VERDE', c:'Juvenil A (7º y 8º)', a:'ENRIQUE ALCAZAR', r:'J. Esteban, D. Sajami, K. Caballero, D. Liviapoma' },
-      { s:1, f:'2026-09-14', t:'Lun 14', h:'11:15 - 11:35', d:'🥇 CONEBALL', e:'BLANCO VS VERDE', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ 9A / DAVID', r:'Tutores, Cotutores y Volantes SMP' },
-      { s:1, f:'2026-09-14', t:'Lun 14', h:'12:55 - 13:15', d:'🏀 BÁSQUET', e:'BLANCO VS VERDE', c:'Juvenil B (9º a 11º)', a:'ENRIQUE ALCAZAR 9C', r:'S. Ramirez, M. Nuñez, K. Caballero, D. Liviapoma' },
+<script>
+  // 1. BASE DE DATOS MAESTRA PARA SEMANA 1 Y 2 (INMUTABLE)
+  const dbPartidosBase = [
+    // SEMANA 1
+    { s:1, f:'2026-09-14', t:'Lun 14', h:'09:35 - 09:55', d:'🥇 CONEBALL', e:'BLANCO VS VERDE', c:'Infantil (3º y 4º)', a:'DAVID', r:'M. Gurrionero, G. Huaman, N. Aguilar, D. Quirica' },
+    { s:1, f:'2026-09-14', t:'Lun 14', h:'09:55 - 10:15', d:'🏀 BÁSQUET', e:'BLANCO VS VERDE', c:'Junior (5º y 6º)', a:'DAVID', r:'D. Quirica, J. Romero, K. Armas' },
+    { s:1, f:'2026-09-14', t:'Lun 14', h:'10:55 - 11:15', d:'🏀 BÁSQUET', e:'BLANCO VS VERDE', c:'Juvenil A (7º y 8º)', a:'ENRIQUE ALCAZAR', r:'J. Esteban, D. Sajami, K. Caballero, D. Liviapoma' },
+    { s:1, f:'2026-09-14', t:'Lun 14', h:'11:15 - 11:35', d:'🥇 CONEBALL', e:'BLANCO VS VERDE', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ 9A / DAVID', r:'Tutores, Cotutores y Volantes SMP' },
+    { s:1, f:'2026-09-14', t:'Lun 14', h:'12:55 - 13:15', d:'🏀 BÁSQUET', e:'BLANCO VS VERDE', c:'Juvenil B (9º a 11º)', a:'ENRIQUE ALCAZAR 9C', r:'S. Ramirez, M. Nuñez, K. Caballero, D. Liviapoma' },
 
-      { s:1, f:'2026-09-15', t:'Mar 15', h:'09:35 - 09:55', d:'🥇 CONEBALL', e:'ANARANJADO VS AZUL', c:'Infantil (3º y 4º)', a:'DAVID', r:'M. Gurrionero, L. Natividad, V. Valverde, D. Sajami' },
-      { s:1, f:'2026-09-15', t:'Mar 15', h:'09:55 - 10:15', d:'🏀 BÁSQUET MIXTO', e:'ANARANJADO VS AZUL', c:'Junior (5º y 6º)', a:'DAVID', r:'G. Huaman, P. Coronado, K. Sopla, M. Castillo' },
-      { s:1, f:'2026-09-15', t:'Mar 15', h:'10:55 - 11:15', d:'🏀 BÁSQUET MIXTO', e:'ANARANJADO VS AZUL', c:'Juvenil A (7º y 8º)', a:'ENRIQUE ALCAZAR', r:'M. Nuñez, K. Caballero, D. Sajami' },
-      { s:1, f:'2026-09-15', t:'Mar 15', h:'11:15 - 11:35', d:'🥇 CONEBALL', e:'ANARANJADO VS AZUL', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ / DAVID', r:'Tutores, Cotutores y Volantes SMP' },
-      { s:1, f:'2026-09-15', t:'Mar 15', h:'12:55 - 13:15', d:'🏀 BÁSQUET MIXTO', e:'ANARANJADO VS AZUL', c:'Juvenil B (9º a 11º)', a:'ENRIQUE ALCAZAR', r:'K. Ramos, L. Figueroa, S. Ramirez' },
+    { s:1, f:'2026-09-15', t:'Mar 15', h:'09:35 - 09:55', d:'🥇 CONEBALL', e:'ANARANJADO VS AZUL', c:'Infantil (3º y 4º)', a:'DAVID', r:'M. Gurrionero, L. Natividad, V. Valverde, D. Sajami' },
+    { s:1, f:'2026-09-15', t:'Mar 15', h:'09:55 - 10:15', d:'🏀 BÁSQUET MIXTO', e:'ANARANJADO VS AZUL', c:'Junior (5º y 6º)', a:'DAVID', r:'G. Huaman, P. Coronado, K. Sopla, M. Castillo' },
+    { s:1, f:'2026-09-15', t:'Mar 15', h:'10:55 - 11:15', d:'🏀 BÁSQUET MIXTO', e:'ANARANJADO VS AZUL', c:'Juvenil A (7º y 8º)', a:'ENRIQUE ALCAZAR', r:'M. Nuñez, K. Caballero, D. Sajami' },
+    { s:1, f:'2026-09-15', t:'Mar 15', h:'11:15 - 11:35', d:'🥇 CONEBALL', e:'ANARANJADO VS AZUL', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ / DAVID', r:'Tutores, Cotutores y Volantes SMP' },
+    { s:1, f:'2026-09-15', t:'Mar 15', h:'12:55 - 13:15', d:'🏀 BÁSQUET MIXTO', e:'ANARANJADO VS AZUL', c:'Juvenil B (9º a 11º)', a:'ENRIQUE ALCAZAR', r:'K. Ramos, L. Figueroa, S. Ramirez' },
 
-      { s:1, f:'2026-09-16', t:'Mié 16', h:'09:35 - 09:55', d:'🤾 BALONMANO', e:'BLANCO VS VERDE', c:'Infantil (3º y 4º)', a:'MARIO NUÑEZ', r:'M. Alarcon, K. Armas, J. Romero, V. Valverde' },
-      { s:1, f:'2026-09-16', t:'Mié 16', h:'09:55 - 10:15', d:'🤾 BALONMANO', e:'BLANCO VS VERDE', c:'Junior (5º y 6º)', a:'MARIO NUÑEZ', r:'D. Sajami, L. Gambini, D. Quirica' },
-      { s:1, f:'2026-09-16', t:'Mié 16', h:'10:55 - 11:15', d:'🤾 BALONMANO', e:'BLANCO VS VERDE', c:'Juvenil A (7º y 8º)', a:'MARIO NUÑEZ', r:'L. Figueroa, K. Ramos, P. Coronado' },
-      { s:1, f:'2026-09-16', t:'Mié 16', h:'11:15 - 11:35', d:'🤾 BALONMANO', e:'BLANCO VS VERDE', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ 8A / DAVID', r:'Tutores, Cotutores y Volantes SMP' },
-      { s:1, f:'2026-09-16', t:'Mié 16', h:'12:55 - 13:15', d:'🤾 BALONMANO', e:'BLANCO VS VERDE', c:'Juvenil B (9º a 11º)', a:'MARIO NUÑEZ', r:'D. Sajami, K. Sopla, P. Coronado' },
+    { s:1, f:'2026-09-16', t:'Mié 16', h:'09:35 - 09:55', d:'🤾 BALONMANO', e:'BLANCO VS VERDE', c:'Infantil (3º y 4º)', a:'MARIO NUÑEZ', r:'M. Alarcon, K. Armas, J. Romero, V. Valverde' },
+    { s:1, f:'2026-09-16', t:'Mié 16', h:'09:55 - 10:15', d:'🤾 BALONMANO', e:'BLANCO VS VERDE', c:'Junior (5º y 6º)', a:'MARIO NUÑEZ', r:'D. Sajami, L. Gambini, D. Quirica' },
+    { s:1, f:'2026-09-16', t:'Mié 16', h:'10:55 - 11:15', d:'🤾 BALONMANO', e:'BLANCO VS VERDE', c:'Juvenil A (7º y 8º)', a:'MARIO NUÑEZ', r:'L. Figueroa, K. Ramos, P. Coronado' },
+    { s:1, f:'2026-09-16', t:'Mié 16', h:'11:15 - 11:35', d:'🤾 BALONMANO', e:'BLANCO VS VERDE', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ 8A / DAVID', r:'Tutores, Cotutores y Volantes SMP' },
+    { s:1, f:'2026-09-16', t:'Mié 16', h:'12:55 - 13:15', d:'🤾 BALONMANO', e:'BLANCO VS VERDE', c:'Juvenil B (9º a 11º)', a:'MARIO NUÑEZ', r:'D. Sajami, K. Sopla, P. Coronado' },
 
-      { s:1, f:'2026-09-17', t:'Jue 17', h:'09:35 - 09:55', d:'🤾 BALONMANO', e:'ANARANJADO VS AZUL', c:'Infantil (3º y 4º)', a:'DAVID', r:'L. Natividad, D. Sajami, K. Armas, V. Valverde' },
-      { s:1, f:'2026-09-17', t:'Jue 17', h:'09:55 - 10:15', d:'🤾 BALONMANO', e:'ANARANJADO VS AZUL', c:'Junior (5º y 6º)', a:'DAVID', r:'L. Gambini, J. Romero, K. Armas, P. Coronado' },
-      { s:1, f:'2026-09-17', t:'Jue 17', h:'10:55 - 11:15', d:'🤾 BALONMANO', e:'ANARANJADO VS AZUL', c:'Juvenil A (7º y 8º)', a:'ENRIQUE ALCAZAR', r:'D. Sajami, Dayanara, D. Liviapoma' },
-      { s:1, f:'2026-09-17', t:'Jue 17', h:'11:15 - 11:35', d:'🤾 BALONMANO', e:'ANARANJADO VS AZUL', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ / DAVID 9C', r:'Tutores, Cotutores y Volantes SMP' },
-      { s:1, f:'2026-09-17', t:'Jue 17', h:'12:55 - 13:15', d:'🤾 BALONMANO', e:'ANARANJADO VS AZUL', c:'Juvenil B (9º a 11º)', a:'MARIO NUÑEZ', r:'D. Sajami, D. Quirica 9C, L. Gambini' },
+    { s:1, f:'2026-09-17', t:'Jue 17', h:'09:35 - 09:55', d:'🤾 BALONMANO', e:'ANARANJADO VS AZUL', c:'Infantil (3º y 4º)', a:'DAVID', r:'L. Natividad, D. Sajami, K. Armas, V. Valverde' },
+    { s:1, f:'2026-09-17', t:'Jue 17', h:'09:55 - 10:15', d:'🤾 BALONMANO', e:'ANARANJADO VS AZUL', c:'Junior (5º y 6º)', a:'DAVID', r:'L. Gambini, J. Romero, K. Armas, P. Coronado' },
+    { s:1, f:'2026-09-17', t:'Jue 17', h:'10:55 - 11:15', d:'🤾 BALONMANO', e:'ANARANJADO VS AZUL', c:'Juvenil A (7º y 8º)', a:'ENRIQUE ALCAZAR', r:'D. Sajami, Dayanara, D. Liviapoma' },
+    { s:1, f:'2026-09-17', t:'Jue 17', h:'11:15 - 11:35', d:'🤾 BALONMANO', e:'ANARANJADO VS AZUL', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ / DAVID 9C', r:'Tutores, Cotutores y Volantes SMP' },
+    { s:1, f:'2026-09-17', t:'Jue 17', h:'12:55 - 13:15', d:'🤾 BALONMANO', e:'ANARANJADO VS AZUL', c:'Juvenil B (9º a 11º)', a:'MARIO NUÑEZ', r:'D. Sajami, D. Quirica 9C, L. Gambini' },
 
-      { s:1, f:'2026-09-18', t:'Vie 18', h:'09:35 - 09:55', d:'🏐 VÓLEY', e:'ANARANJADO VS AZUL', c:'Infantil (3º y 4º)', a:'MARIO NUÑEZ', r:'L. Gambini, K. Sopla, M. Reynaga, V. Valverde' },
-      { s:1, f:'2026-09-18', t:'Vie 18', h:'09:55 - 10:15', d:'🏐 VÓLEY', e:'ANARANJADO VS AZUL', c:'Junior (5º y 6º)', a:'MARIO NUÑEZ', r:'K. Caballero, G. Huaman, N. Aguilar, L. Gambini' },
-      { s:1, f:'2026-09-18', t:'Vie 18', h:'10:55 - 11:15', d:'🏐 VÓLEY', e:'ANARANJADO VS AZUL', c:'Juvenil A (7º y 8º)', a:'ENRIQUE ALCAZAR', r:'D. Liviapoma, P. Coronado, G. Huaman, J. Esteban' },
-      { s:1, f:'2026-09-18', t:'Vie 18', h:'11:15 - 11:35', d:'🏐 PASABOLA', e:'ANARANJADO VS AZUL', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ 9B', r:'Tutores, Cotutores y Volantes SMP' },
-      { s:1, f:'2026-09-18', t:'Vie 18', h:'12:55 - 13:15', d:'🏐 VÓLEY', e:'ANARANJADO VS AZUL', c:'Juvenil B (9º a 11º)', a:'ENRIQUE ALCAZAR', r:'L. Figueroa, M. Nuñez, S. Ramirez, L. Delao' },
+    { s:1, f:'2026-09-18', t:'Vie 18', h:'09:35 - 09:55', d:'🏐 VÓLEY', e:'ANARANJADO VS AZUL', c:'Infantil (3º y 4º)', a:'MARIO NUÑEZ', r:'L. Gambini, K. Sopla, M. Reynaga, V. Valverde' },
+    { s:1, f:'2026-09-18', t:'Vie 18', h:'09:55 - 10:15', d:'🏐 VÓLEY', e:'ANARANJADO VS AZUL', c:'Junior (5º y 6º)', a:'MARIO NUÑEZ', r:'K. Caballero, G. Huaman, N. Aguilar, L. Gambini' },
+    { s:1, f:'2026-09-18', t:'Vie 18', h:'10:55 - 11:15', d:'🏐 VÓLEY', e:'ANARANJADO VS AZUL', c:'Juvenil A (7º y 8º)', a:'ENRIQUE ALCAZAR', r:'D. Liviapoma, P. Coronado, G. Huaman, J. Esteban' },
+    { s:1, f:'2026-09-18', t:'Vie 18', h:'11:15 - 11:35', d:'🏐 PASABOLA', e:'ANARANJADO VS AZUL', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ 9B', r:'Tutores, Cotutores y Volantes SMP' },
+    { s:1, f:'2026-09-18', t:'Vie 18', h:'12:55 - 13:15', d:'🏐 VÓLEY', e:'ANARANJADO VS AZUL', c:'Juvenil B (9º a 11º)', a:'ENRIQUE ALCAZAR', r:'L. Figueroa, M. Nuñez, S. Ramirez, L. Delao' },
 
-      // Semana 2 - Fija y robusta
-      { s:2, f:'2026-09-21', t:'Lun 21', h:'09:35 - 09:55', d:'🏐 VÓLEY', e:'BLANCO VS VERDE', c:'Infantil (3º y 4º)', a:'DAVID', r:'M. Gurrionero, G. Huaman, N. Aguilar, L. Gambini' },
-      { s:2, f:'2026-09-21', t:'Lun 21', h:'09:55 - 10:15', d:'🏐 VÓLEY', e:'BLANCO VS VERDE', c:'Junior (5º y 6º)', a:'DAVID', r:'D. Quirica, J. Romero, K. Armas' },
-      { s:2, f:'2026-09-21', t:'Lun 21', h:'10:55 - 11:15', d:'🏐 VÓLEY', e:'BLANCO VS VERDE', c:'Juvenil A (7º y 8º)', a:'KATTY RAMOS', r:'J. Esteban, D. Sajami, K. Caballero, D. Liviapoma' },
-      { s:2, f:'2026-09-21', t:'Lun 21', h:'11:15 - 11:35', d:'🏐 VÓLEY', e:'BLANCO VS VERDE', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ 9A / DAVID', r:'Tutores, Cotutores y Volantes' },
-      { s:2, f:'2026-09-21', t:'Lun 21', h:'12:55 - 13:15', d:'🏐 VÓLEY', e:'BLANCO VS VERDE', c:'Juvenil B (9º a 11º)', a:'KATTY RAMOS', r:'Saira, M. Nuñez, K. Caballero, D. Liviapoma' },
-      
-      { s:2, f:'2026-09-22', t:'Mar 22', h:'09:35 - 09:55', d:'⚽ FUTSAL', e:'VERDE VS AZUL', c:'Infantil (3º y 4º)', a:'DAVID', r:'M. Gurrionero, L. Natividad, V. Valverde' }
-    ];
+    // SEMANA 2
+    { s:2, f:'2026-09-21', t:'Lun 21', h:'09:35 - 09:55', d:'🏐 VÓLEY', e:'BLANCO VS VERDE', c:'Infantil (3º y 4º)', a:'DAVID', r:'M. Gurrionero, G. Huaman, N. Aguilar, L. Gambini' },
+    { s:2, f:'2026-09-21', t:'Lun 21', h:'09:55 - 10:15', d:'🏐 VÓLEY', e:'BLANCO VS VERDE', c:'Junior (5º y 6º)', a:'DAVID', r:'D. Quirica, J. Romero, K. Armas' },
+    { s:2, f:'2026-09-21', t:'Lun 21', h:'10:55 - 11:15', d:'🏐 VÓLEY', e:'BLANCO VS VERDE', c:'Juvenil A (7º y 8º)', a:'KATTY RAMOS', r:'J. Esteban, D. Sajami, K. Caballero, D. Liviapoma' },
+    { s:2, f:'2026-09-21', t:'Lun 21', h:'11:15 - 11:35', d:'🏐 VÓLEY', e:'BLANCO VS VERDE', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ 9A / DAVID', r:'Tutores, Cotutores y Volantes' },
+    { s:2, f:'2026-09-21', t:'Lun 21', h:'12:55 - 13:15', d:'🏐 VÓLEY', e:'BLANCO VS VERDE', c:'Juvenil B (9º a 11º)', a:'KATTY RAMOS', r:'Saira, M. Nuñez, K. Caballero, D. Liviapoma' },
 
-    let semanaActiva = 1;
-    let fechaActiva = '';
+    { s:2, f:'2026-09-22', t:'Mar 22', h:'09:35 - 09:55', d:'⚽ FUTSAL', e:'VERDE VS AZUL', c:'Infantil (3º y 4º)', a:'DAVID', r:'M. Gurrionero, L. Natividad, V. Valverde' },
+    { s:2, f:'2026-09-22', t:'Mar 22', h:'09:55 - 10:15', d:'⚽ FUTSAL', e:'VERDE VS AZUL', c:'Junior (5º y 6º)', a:'DAVID', r:'G. Huaman, P. Coronado, K. Sopla' },
+    { s:2, f:'2026-09-22', t:'Mar 22', h:'10:55 - 11:15', d:'⚽ FUTSAL', e:'VERDE VS AZUL', c:'Juvenil A (7º y 8º)', a:'ENRIQUE ALCAZAR', r:'M. Nuñez, K. Caballero, D. Sajami' },
+    { s:2, f:'2026-09-22', t:'Mar 22', h:'11:15 - 11:35', d:'⚽ FUTSAL', e:'VERDE VS AZUL', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ / DAVID', r:'Tutores, Cotutores y Volantes' },
+    { s:2, f:'2026-09-22', t:'Mar 22', h:'12:55 - 13:15', d:'⚽ FUTSAL', e:'VERDE VS AZUL', c:'Juvenil B (9º a 11º)', a:'ENRIQUE ALCAZAR', r:'K. Ramos, L. Figueroa, S. Ramirez' },
 
-    function procesarFixtureRemoto(respuestaRemota) {
-      if (respuestaRemota && Array.isArray(respuestaRemota.partidos) && respuestaRemota.partidos.length > 0) {
-        const partidosRemotos = respuestaRemota.partidos.map(p => ({
-          s: Number(p.s || p.semana || 3),
-          f: String(p.f || p.fecha || '2026-09-28'),
-          t: String(p.t || p.dia || 'Lun 28'),
-          h: String(p.h || p.hora || '09:35 - 09:55'),
-          d: String(p.d || p.deporte || 'DEPORTE'),
-          e: String(p.e || p.enfrentamiento || 'EQUIPO VS EQUIPO'),
-          c: String(p.c || p.categoria || 'Categoría'),
-          a: String(p.a || p.arbitro || 'POR DESIGNAR'),
-          r: String(p.r || p.apoyo || 'Delegados generales')
-        }));
-        
-        // Conservamos semanas 1 y 2 estables, y actualizamos/añadimos semanas 3 y 4 desde Google Sheets
-        const semanas1y2 = dbPartidos.filter(p => p.s === 1 || p.s === 2);
-        const semanas3yMas = partidosRemotos.filter(p => p.s >= 3);
-        dbPartidos = [...semanas1y2, ...semanas3yMas];
-        console.log("📊 Fixture sincronizado dinámicamente:", dbPartidos);
-      }
-      cambiarSemana(semanaActiva, document.querySelector('.btn-week'));
+    { s:2, f:'2026-09-23', t:'Mié 23', h:'09:35 - 09:55', d:'⚽ FUTSAL', e:'BLANCO VS ANARANJADO', c:'Infantil (3º y 4º)', a:'MARIO NUÑEZ', r:'M. Alarcon, K. Armas, J. Romero' },
+    { s:2, f:'2026-09-23', t:'Mié 23', h:'09:55 - 10:15', d:'⚽ FUTSAL', e:'BLANCO VS ANARANJADO', c:'Junior (5º y 6º)', a:'MARIO NUÑEZ', r:'D. Sajami, L. Gambini, D. Quirica' },
+    { s:2, f:'2026-09-23', t:'Mié 23', h:'10:55 - 11:15', d:'⚽ FUTSAL', e:'BLANCO VS ANARANJADO', c:'Juvenil A (7º y 8º)', a:'MARIO NUÑEZ', r:'L. Figueroa, K. Ramos, P. Coronado' },
+    { s:2, f:'2026-09-23', t:'Mié 23', h:'11:15 - 11:35', d:'⚽ FUTSAL', e:'BLANCO VS ANARANJADO', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ 8A / DAVID', r:'Tutores y Volantes' },
+    { s:2, f:'2026-09-23', t:'Mié 23', h:'12:55 - 13:15', d:'⚽ FUTSAL', e:'BLANCO VS ANARANJADO', c:'Juvenil B (9º a 11º)', a:'MARIO NUÑEZ', r:'D. Sajami, K. Sopla, P. Coronado' },
+
+    { s:2, f:'2026-09-24', t:'Jue 24', h:'09:35 - 09:55', d:'🥇 CONEBALL', e:'3ER Y 4TO PUESTO', c:'Infantil (3º y 4º)', a:'DAVID', r:'L. Natividad, D. Sajami, K. Armas' },
+    { s:2, f:'2026-09-24', t:'Jue 24', h:'09:55 - 10:15', d:'🏀 BÁSQUET', e:'3ER Y 4TO PUESTO', c:'Junior (5º y 6º)', a:'DAVID', r:'L. Gambini, J. Romero, K. Armas' },
+    { s:2, f:'2026-09-24', t:'Jue 24', h:'10:55 - 11:15', d:'🏀 BÁSQUET', e:'3ER Y 4TO PUESTO', c:'Juvenil A (7º y 8º)', a:'ENRIQUE ALCAZAR', r:'D. Sajami, Dayanara, D. Liviapoma' },
+    { s:2, f:'2026-09-24', t:'Jue 24', h:'11:15 - 11:35', d:'🥇 CONEBALL', e:'3ER Y 4TO PUESTO', c:'Promesas (1º y 2º)', a:'MARIO NUÑEZ / DAVID', r:'Tutores y Volantes SMP' },
+    { s:2, f:'2026-09-24', t:'Jue 24', h:'12:55 - 13:15', d:'🏀 BÁSQUET', e:'3ER Y 4TO PUESTO', c:'Juvenil B (9º a 11º)', a:'MARIO NUÑEZ', r:'D. Sajami, D. Quirica, L. Gambini' },
+
+    { s:2, f:'2026-09-25', t:'Vie 25', h:'08:00', d:'🎉 INAUGURACIÓN', e:'BIENVENIDA A ESTUDIANTES', c:'Campo Deportivo Navarro', a:'COMISIÓN', r:'Tutores y Docentes SMP' },
+    { s:2, f:'2026-09-25', t:'Vie 25', h:'09:55 - 10:15', d:'🎉 INAUGURACIÓN', e:'DESFILE DE LAS HOUSE', c:'Todas las Houses', a:'COMISIÓN', r:'Tutores y Docentes SMP' },
+    { s:2, f:'2026-09-25', t:'Vie 25', h:'10:55 - 11:15', d:'🎉 INAUGURACIÓN', e:'DRILL GIMNASITICO', c:'Todas las Houses', a:'COMISIÓN', r:'Tutores y Docentes SMP' },
+    { s:2, f:'2026-09-25', t:'Vie 25', h:'11:15 - 11:35', d:'🎉 INAUGURACIÓN', e:'ENCUENTRO DE PADRES', c:'Todas las Houses', a:'COMISIÓN', r:'Tutores y Docentes SMP' }
+  ];
+
+  // 2. VARIABLES DE NAVEGACIÓN
+  let dbPartidos = [...dbPartidosBase];
+  let semanaActiva = 1;
+  let fechaActiva = '';
+
+  // 3. FUNCIONES DE INTERFAZ
+  function cambiarSemana(numSemana, boton) {
+    semanaActiva = numSemana;
+    document.querySelectorAll('.smp-week-btn').forEach(b => b.classList.remove('active'));
+    if (boton) boton.classList.add('active');
+
+    const partidosSemana = dbPartidos.filter(p => Number(p.s) === Number(semanaActiva));
+    const fechasUnicas = [...new Set(partidosSemana.map(p => p.f))].sort();
+
+    const containerDias = document.getElementById('botoneraDias');
+    if (fechasUnicas.length > 0) {
+      fechaActiva = fechasUnicas[0];
+      containerDias.innerHTML = fechasUnicas.map(f => {
+        const pMatch = partidosSemana.find(p => p.f === f);
+        return `<button onclick="cambiarDia('${f}', this)" class="smp-day-btn ${f === fechaActiva ? 'active' : ''}">${pMatch ? pMatch.t : f}</button>`;
+      }).join('');
+    } else {
+      containerDias.innerHTML = `<p style="font-size:13px; color:var(--text-muted); padding:4px;">No hay encuentros listos para esta fase aún.</p>`;
+      fechaActiva = '';
+    }
+    renderizarTarjetasPartidos();
+  }
+
+  function cambiarDia(strFecha, boton) {
+    fechaActiva = strFecha;
+    document.querySelectorAll('.smp-day-btn').forEach(b => b.classList.remove('active'));
+    if (boton) boton.classList.add('active');
+    renderizarTarjetasPartidos();
+  }
+
+  function renderizarTarjetasPartidos() {
+    const panel = document.getElementById('panelPartidos');
+    if (!fechaActiva) {
+      panel.innerHTML = '<div style="text-align:center; padding: 40px; color: var(--text-muted);">Seleccione un día válido.</div>';
+      return;
     }
 
-    function sincronizarFixtureEnVivo() {
-      const scriptViejo = document.getElementById('smpFixtureScript');
-      if (scriptViejo) scriptViejo.remove();
+    const filtrados = dbPartidos.filter(p => Number(p.s) === Number(semanaActiva) && p.f === fechaActiva);
+    let html = '';
 
-      const nuevoScript = document.createElement('script');
-      nuevoScript.id = 'smpFixtureScript';
-      nuevoScript.src = `https://script.google.com/macros/s/AKfycbw6v_-hQor-DMh7Mg2qtodwpuIiXIuCOqqtV3mY3Gs5ueqZBrDH8LORqa7RTMWhIH1uqw/exec?page=api_fixture&callback=procesarFixtureRemoto&_t=${Date.now()}`;
-      document.body.appendChild(nuevoScript);
-    }
-
-    function cambiarSemana(numSemana, boton) {
-      semanaActiva = numSemana;
-      document.querySelectorAll('.btn-week').forEach(b => b.classList.remove('active'));
-      if(boton) boton.classList.add('active');
-
-      const partidosSemana = dbPartidos.filter(p => Number(p.s) === semanaActiva);
-      const fechasUnicas = [...new Set(partidosSemana.map(p => String(p.f)))].sort();
-
-      const containerDias = document.getElementById('botoneraDias');
-      if (fechasUnicas.length > 0) {
-        fechaActiva = fechasUnicas[0];
-        containerDias.innerHTML = fechasUnicas.map(f => {
-          const pMatch = partidosSemana.find(p => String(p.f) === f);
-          const etiquetaDia = pMatch ? (pMatch.t || f) : f;
-          return `<button onclick="cambiarDia('${f}', this)" class="btn-day-capsule ${f === fechaActiva ? 'active' : ''}">${etiquetaDia}</button>`;
-        }).join('');
-      } else {
-        containerDias.innerHTML = `<p style="font-size:13px; color:var(--text-muted); padding-left:5px; font-weight:500;">No hay encuentros programados para esta fase.</p>`;
-        fechaActiva = '';
-      }
-      renderizarTarjetasPartidos();
-    }
-
-    function cambiarDia(strFecha, boton) {
-      fechaActiva = strFecha;
-      document.querySelectorAll('.btn-day-capsule').forEach(b => b.classList.remove('active'));
-      if(boton) boton.classList.add('active');
-      renderizarTarjetasPartidos();
-    }
-
-    function renderizarTarjetasPartidos() {
-      const panel = document.getElementById('panelPartidos');
-      if (!fechaActiva) {
-        panel.innerHTML = `<div style="background:#fff; border:1px solid var(--border-color); border-radius:16px; padding:30px; text-align:center; color:var(--text-muted); font-weight:600;">No hay partidos programados para esta fecha.</div>`;
-        return;
-      }
-
-      const filtrados = dbPartidos.filter(p => Number(p.s) === semanaActiva && String(p.f) === fechaActiva);
-      let html = '';
-
-      filtrados.forEach(p => {
-        let esFinal = semanaActiva === 4;
-        const hora = p.h || p.hora || '09:35 - 09:55';
-        const deporte = p.d || p.deporte || 'DEPORTE';
-        const enfrentamiento = p.e || p.enfrentamiento || 'EQUIPOS';
-        const categoria = p.c || p.categoria || 'Categoría';
-        const arbitro = p.a || p.arbitro || 'POR DESIGNAR';
-        const apoyo = p.r || p.apoyo || 'Delegados generales';
-        
-        html += `
-          <div class="smp-game-row" style="${esFinal ? 'border-color: #fde047; background: #fefce8 !important;' : ''}">
-            <div style="display:flex; align-items:center; width:100%; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:14px;">
-              <div class="smp-time-badge" style="${esFinal ? 'color:#b45309; border-color:#fde047; background:#fef9c3 !important;' : ''}"><span>⏰ ${hora}</span></div>
-              <div class="info-block" style="flex-grow:1; margin-left:5px; min-width:200px;">
-                <h4 style="margin: 0; font-size: 12px; color: var(--text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">
-                  ${categoria} — <span style="color: ${esFinal ? '#b45309' : 'var(--color-blue)'}; font-weight: 900;">${deporte}</span>
-                </h4>
-                <p class="game-match-text" style="margin: 4px 0 0 0; font-size: 20px; font-weight: 900; letter-spacing: -0.5px; color: var(--text-main);">
-                  ${enfrentamiento}
-                </p>
-              </div>
-              <div class="arb-badge" style="text-align: right; min-width: 120px; background: #f8fafc; padding: 8px 14px; border-radius: 12px; border: 1px solid var(--border-color);">
-                <span style="font-size: 10px; font-weight: 800; color: #b45309; display: block; letter-spacing: 0.5px; text-transform:uppercase;">⚡ Árbitro</span>
-                <span style="font-size: 13px; color: var(--text-main); font-weight: 800; display: block; margin-top: 2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">📢 ${arbitro}</span>
-              </div>
-            </div>
-            <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: 14px; padding: 12px 16px; font-size: 13px;">
-              <span style="font-size: 10px; font-weight: 800; color: var(--color-blue); display:block; letter-spacing: 0.5px; text-transform:uppercase; margin-bottom:3px;">📋 Profesores de Apoyo (Mesa / Actas / Control)</span>
-              <span style="color: var(--text-muted); font-weight: 600; line-height: 1.4;">${apoyo}</span>
-            </div>
-          </div>`;
-      });
-      panel.innerHTML = html;
-    }
-
-    window.addEventListener('load', () => {
-      cambiarSemana(1, document.querySelector('.btn-week'));
-      sincronizarFixtureEnVivo();
-      setInterval(sincronizarFixtureEnVivo, 10000);
+    filtrados.forEach(p => {
+      let isFinal = Number(semanaActiva) === 4;
+      html += `
+        <div class="smp-match-card" ${isFinal ? 'style="border-color: #fde047; background: #fffefc;"' : ''}>
+          <div class="smp-match-header">
+            <span class="smp-time-badge" ${isFinal ? 'style="color:#b45309; border-color:#fde047; background:#fefce8;"' : ''}>⏰ ${p.h}</span>
+            <span class="smp-category-tag">${p.c} — 🏆 ${p.d}</span>
+          </div>
+          <div class="smp-teams-row">${p.e}</div>
+          <div class="smp-referee-box"><span>⚡ Árbitro Principal</span><strong>📢 ${p.a}</strong></div>
+          <div class="smp-support-box"><strong>📋 Mesa / Control:</strong> ${p.r}</div>
+        </div>`;
     });
-  </script>
+    panel.innerHTML = html;
+  }
+
+  // 4. SINCRONIZACIÓN EN VIVO (CON FILTRO EXTREMO DE BASURA)
+  function sincronizarFixtureEnVivo() {
+    const scriptAntiguo = document.getElementById('jsonp-fixture');
+    if (scriptAntiguo) scriptAntiguo.remove();
+    const nuevoScript = document.createElement('script');
+    nuevoScript.id = 'jsonp-fixture';
+    nuevoScript.src = `https://script.google.com/macros/s/AKfycbw6v_-hQor-DMh7Mg2qtodwpuIiXIuCOqqtV3mY3Gs5ueqZBrDH8LORqa7RTMWhIH1uqw/exec?page=api_fixture&callback=procesarFixtureRemoto&_t=${Date.now()}`;
+    document.body.appendChild(nuevoScript);
+  }
+
+  window.procesarFixtureRemoto = function(respuestaRemota) {
+    if (respuestaRemota && Array.isArray(respuestaRemota.partidos)) {
+      
+      // FILTRO EXTREMO: Eliminamos filas vacías, títulos, y datos sin sentido ("English Race")
+      const partidosValidos = respuestaRemota.partidos.filter(p => {
+        const horaStr = String(p.h || p.hora || '').trim().toLowerCase();
+        const equipoStr = String(p.e || p.enfrentamiento || '').trim().toLowerCase();
+        
+        // Regla 1: Un partido real DEBE tener una hora escrita.
+        if (horaStr === '' || horaStr === 'undefined') return false;
+        
+        // Regla 2: Un partido real DEBE tener equipos ("X VS Y").
+        if (equipoStr === '' || equipoStr === 'undefined') return false;
+        
+        return true; 
+      });
+
+      // Mapeamos SOLO los partidos que sobrevivieron al filtro
+      const sem3y4Limpias = partidosValidos.map(p => ({
+        s: Number(p.s || p.semana || 3), 
+        f: String(p.f || p.fecha || '2026-09-28'),
+        t: String(p.t || p.dia || 'Día por definir'),
+        h: String(p.h || p.hora),
+        d: String(p.d || p.deporte || 'Deporte'),
+        e: String(p.e || p.enfrentamiento),
+        c: String(p.c || p.categoria || 'Categoría'),
+        a: String(p.a || p.arbitro || 'POR DESIGNAR'),
+        r: String(p.r || p.apoyo || 'Delegados generales')
+      })).filter(p => p.s >= 3); // Nos aseguramos de que no reescriban semana 1 o 2
+
+      // Actualizamos la base maestra sin tocar Semana 1 y 2
+      dbPartidos = [...dbPartidosBase, ...sem3y4Limpias];
+      
+      // RECONSTRUCCIÓN SILENCIOSA (Evita saltos a la semana 1)
+      const partidosSemanaActual = dbPartidos.filter(p => Number(p.s) === Number(semanaActiva));
+      const fechasUnicasActuales = [...new Set(partidosSemanaActual.map(p => p.f))].sort();
+      
+      if (!fechasUnicasActuales.includes(fechaActiva) && fechasUnicasActuales.length > 0) {
+        fechaActiva = fechasUnicasActuales[0];
+      }
+      
+      const containerDias = document.getElementById('botoneraDias');
+      if (fechasUnicasActuales.length > 0) {
+        containerDias.innerHTML = fechasUnicasActuales.map(f => {
+          const pMatch = partidosSemanaActual.find(p => p.f === f);
+          const nombreDia = pMatch && pMatch.t ? pMatch.t : f;
+          return `<button onclick="cambiarDia('${f}', this)" class="smp-day-btn ${f === fechaActiva ? 'active' : ''}">${nombreDia}</button>`;
+        }).join('');
+      }
+      
+      // Finalmente, repintamos las tarjetas en el mismo lugar donde está el usuario
+      renderizarTarjetasPartidos();
+    }
+  };
+
+  // 5. INICIALIZADOR
+  window.addEventListener('load', () => {
+    // Solo hace el click de "Semana 1" al entrar por primera vez
+    cambiarSemana(1, document.querySelector('.smp-week-btn'));
+    
+    // Consulta los datos remotos cada 30 segundos en silencio
+    setInterval(sincronizarFixtureEnVivo, 30000);
+  });
+</script>
 </body>
 </html>
