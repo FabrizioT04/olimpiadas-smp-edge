@@ -4,81 +4,170 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Fixture de Olimpiadas - Sede SMP</title>
+  
+  <!-- 🎨 Fuente ultra moderna y corporativa -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
   <style>
     /* =========================================================================
-       --- 📐 MAQUETACIÓN CYBERPUNK INTEGRADA FRONTAL PARA EL FIXTURE SMP -----
+       --- 🎨 DISEÑO MINIMALISTA "BENTO BOX" (ESTILO APPLE / CLARO) ----------
        ========================================================================= */
     :root {
-      --bg-dark: #060913;
-      --card-bg: rgba(13, 20, 38, 0.4);
-      --border-glow: rgba(0, 242, 254, 0.12);
-      --text-main: #f0f4f8;
-      --smp-neon: #00f2fe;
-      --neon-cyan: #00f2fe;
+      --bg-color: #f1f5f9;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      
+      --color-blue: #3b82f6;
+      --color-green: #10b981;
+      --color-orange: #f97316;
+      --color-gold: #f59e0b;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Roboto, sans-serif;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      background-color: var(--bg-dark) !important;
-      color: var(--text-main) !important;
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
       min-height: 100vh;
       padding: 40px 20px;
-      overflow-x: hidden;
-      display: flex !important;
-      flex-direction: column !important;
-      align-items: center !important; 
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .app-container {
-      width: 100% !important;
-      max-width: 1200px;
-      margin: 0 auto !important; 
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
       padding-bottom: 80px;
     }
 
-    .header {
-      border-left: 4px solid var(--smp-neon);
-      padding-left: 16px;
-      margin-bottom: 30px;
+    /* --- CABECERA --- */
+    .header { text-align: center; margin-bottom: 36px; }
+    .institution {
+      display: inline-block;
+      font-size: 12px;
+      color: var(--color-blue);
+      background: #e0f2fe;
+      padding: 6px 14px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 800;
+      margin-bottom: 12px;
     }
-    .institution { font-size: 11px; font-weight: 800; letter-spacing: 2px; color: var(--smp-neon); text-transform: uppercase; }
-    .title { font-size: 32px; font-weight: 800; margin-top: 4px; text-transform: uppercase; color: #fff; }
-    .subtitle { font-size: 14px; color: #8a99ad; margin-top: 6px; }
+    .title {
+      color: var(--text-main);
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+    .subtitle { color: var(--text-muted); font-size: 15px; font-weight: 500; }
 
     /* Selector de Semanas */
-    .smp-week-selector { display: flex; gap: 12px; margin-bottom: 25px; flex-wrap: wrap; }
-    .btn-week { background: rgba(13, 20, 38, 0.6); border: 1px solid rgba(255, 255, 255, 0.08); padding: 12px 20px; border-radius: 8px; color: #8a99ad; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.3s ease; }
-    .btn-week.active { background: var(--smp-neon) !important; color: #060913 !important; border-color: var(--smp-neon) !important; box-shadow: 0 0 12px rgba(0, 242, 254, 0.3); }
+    .smp-week-selector { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+    .btn-week {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      padding: 14px 16px;
+      border-radius: 16px;
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+      text-transform: uppercase;
+    }
+    .btn-week:hover { border-color: #cbd5e1; transform: translateY(-1px); }
+    .btn-week.active {
+      background: var(--text-main) !important;
+      color: #ffffff !important;
+      border-color: var(--text-main) !important;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+    }
+    .btn-week.final { border-color: #fde047; background: #fefce8; color: #b45309; }
+    .btn-week.final.active { background: #fbbf24 !important; color: #78350f !important; border-color: #fbbf24 !important; }
 
     /* Cápsulas de Días */
-    .container-fixture-days { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
-    .btn-day-capsule { background: rgba(6, 9, 19, 0.5); border: 1px solid rgba(255, 255, 255, 0.04); padding: 8px 16px; border-radius: 20px; color: #94a3b8; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
-    .btn-day-capsule.active { border-color: var(--smp-neon); color: var(--smp-neon); background: rgba(0, 242, 254, 0.05); }
+    .container-fixture-days { display: flex; gap: 8px; margin-bottom: 28px; overflow-x: auto; padding-bottom: 4px; }
+    .btn-day-capsule {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      padding: 10px 20px;
+      border-radius: 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+    }
+    .btn-day-capsule:hover { border-color: #cbd5e1; color: var(--text-main); }
+    .btn-day-capsule.active {
+      border-color: var(--color-blue);
+      color: #ffffff;
+      background: var(--color-blue);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+    }
 
     /* Rejilla de Partidos */
     .smp-grid-games { display: flex; flex-direction: column; gap: 16px; }
-    .smp-game-row { background: var(--card-bg) !important; border: 1px solid var(--border-glow) !important; border-radius: 12px !important; padding: 20px !important; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important; }
-    .smp-time-badge { background: rgba(6, 9, 19, 0.8) !important; border: 1px solid rgba(0, 242, 254, 0.2) !important; padding: 10px 16px !important; border-radius: 8px !important; font-size: 14px !important; font-weight: 800; color: var(--smp-neon) !important; }
+    .smp-game-row {
+      background: var(--card-bg) !important;
+      border: 1px solid var(--border-color) !important;
+      border-radius: 24px !important;
+      padding: 24px !important;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03) !important;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .smp-game-row:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06); }
+    
+    .smp-time-badge {
+      background: #f8fafc !important;
+      border: 1px solid var(--border-color) !important;
+      padding: 8px 16px !important;
+      border-radius: 12px !important;
+      font-size: 13px !important;
+      font-weight: 800;
+      color: var(--text-main) !important;
+    }
 
-    /* Menú Inferior Estilo Cristal Líquido */
-    .smp-menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px; }
-    .smp-menu-btn { background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 24px 16px; text-align: center; text-decoration: none; color: #8a99ad; transition: all 0.3s ease; }
-    .smp-menu-btn:hover { border-color: rgba(255, 255, 255, 0.1); transform: translateY(-2px); }
-    .smp-btn-ico { font-size: 28px; margin-bottom: 8px; display: block; }
-    .smp-btn-title { font-size: 14px; font-weight: 800; text-transform: uppercase; color: #fff; }
-    .smp-btn-desc { font-size: 11px; color: #627285; margin-top: 4px; }
+    /* Menú Inferior Estilo Bento Box */
+    .smp-menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 40px; }
+    .smp-menu-btn {
+      background: var(--card-bg);
+      border: 2px solid transparent;
+      border-radius: 24px;
+      padding: 24px;
+      text-align: center;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    }
+    .smp-menu-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 24px rgba(0, 0, 0, 0.05); }
+    .smp-menu-btn.active { border-color: var(--color-blue); background: #f8fafc; }
+    .smp-btn-ico { font-size: 32px; margin-bottom: 12px; display: block; }
+    .smp-btn-title { font-size: 15px; font-weight: 800; text-transform: uppercase; color: var(--text-main); display: block; }
+    .smp-btn-desc { font-size: 13px; color: var(--text-muted); margin-top: 8px; font-weight: 500; line-height: 1.4; }
 
-    @media (max-width: 900px) {
+    @media (max-width: 768px) {
       .smp-menu-grid { display: none !important; }
-      body { padding: 16px 12px 140px 12px; }
-      .title { font-size: 24px; }
-      .smp-game-row { padding: 16px !important; }
+      body { padding: 24px 16px 110px 16px; }
+      .title { font-size: 26px; }
+      .smp-week-selector { grid-template-columns: repeat(2, 1fr); }
+      .smp-game-row { padding: 18px !important; }
+      .smp-navbar-mobile-only { display: flex !important; }
     }
   </style>
 </head>
@@ -87,35 +176,49 @@
   
   <div class="header">
     <span class="institution">INNOVA SCHOOLS - SAN MARTÍN DE PORRES</span>
-    <h1 class="title">FIXTURE DE OLIMPIADAS</h1>
-    <p class="subtitle">Filtrado en cascada por fases semanales y roles de partidos por recreos</p>
+    <h1 class="title">Fixture de Olimpiadas</h1>
+    <p class="subtitle">Programación oficial de encuentros, horarios y roles arbitrales</p>
   </div>
 
   <div class="smp-week-selector">
-    <button onclick="cambiarSemana(1, this)" class="btn-week active">Semana 1 (Preliminares)</button>
-    <button onclick="cambiarSemana(2, this)" class="btn-week">Semana 2 (Preliminares)</button>
-    <button onclick="cambiarSemana(3, this)" class="btn-week">Semana 3 (Preliminares)</button>
-    <button onclick="cambiarSemana(4, this)" class="btn-week" style="color: #fbbf24; border-color: rgba(251, 191, 36, 0.2);">🏆 FINALES (Día Central)</button>
+    <button onclick="cambiarSemana(1, this)" class="btn-week active">Semana 1</button>
+    <button onclick="cambiarSemana(2, this)" class="btn-week">Semana 2</button>
+    <button onclick="cambiarSemana(3, this)" class="btn-week">Semana 3</button>
+    <button onclick="cambiarSemana(4, this)" class="btn-week final">🏆 Finales</button>
   </div>
 
   <div class="container-fixture-days" id="botoneraDias"></div>
   <div class="smp-grid-games" id="panelPartidos"></div>
 
+  <!-- NAVEGACIÓN DESKTOP -->
   <div class="smp-menu-grid">
-    <a href="/registrar" class="smp-menu-btn"><span class="smp-btn-ico">📋</span><span class="smp-menu-btn-title" style="font-size:14px; font-weight:800; text-transform:uppercase; color:#fff; display:block;">Registrar</span><p class="smp-btn-desc">Análisis de retos y puntuación por áreas</p></a>
-    <a href="/" class="smp-menu-btn"><span class="smp-btn-ico">🏆</span><span class="smp-menu-btn-title" style="font-size:14px; font-weight:800; text-transform:uppercase; color:#fff; display:block;">Puntaje</span><p class="smp-btn-desc">Marcador consolidado en vivo de la Sede SMP</p></a>
-    <a href="/fixture" class="smp-menu-btn" style="border-color: var(--smp-neon); background: rgba(0, 242, 254, 0.02);"><span class="smp-btn-ico">📊</span><span class="smp-menu-btn-title" style="font-size:14px; font-weight:800; text-transform:uppercase; color:#fff; display:block;">Fixture</span><p class="smp-btn-desc">Roles de partidos preliminares por recreos</p></a>
+    <a href="/registrar" class="smp-menu-btn">
+      <span class="smp-btn-ico">📋</span>
+      <span class="smp-btn-title">Registrar</span>
+      <p class="smp-btn-desc">Análisis de retos y puntuación por áreas</p>
+    </a>
+    <a href="/" class="smp-menu-btn">
+      <span class="smp-btn-ico">🏆</span>
+      <span class="smp-btn-title">Puntaje</span>
+      <p class="smp-btn-desc">Marcador consolidado en vivo de la Sede SMP</p>
+    </a>
+    <a href="/fixture" class="smp-menu-btn active">
+      <span class="smp-btn-ico">📊</span>
+      <span class="smp-btn-title">Fixture</span>
+      <p class="smp-btn-desc">Roles de partidos preliminares por recreos</p>
+    </a>
   </div>
 </div>
-  <!-- 📱 BARRA ELÁSTICA DE NAVEGACIÓN COMPACTA EN INFERIOR DE CELULAR -->
-  <div class="smp-navbar-mobile-only" style="display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: #0d1426; border-top: 1px solid rgba(0, 242, 254, 0.2); justify-content: space-around; padding: 12px 0; z-index: 99999;">
-    <a href="/registrar" style="text-decoration: none; text-align: center; color: #8a99ad;"><span style="font-size: 20px; display: block;">📋</span><span style="font-size: 9px; font-weight: 800; text-transform: uppercase;">Registrar</span></a>
-    <a href="/" style="text-decoration: none; text-align: center; color: #8a99ad;"><span style="font-size: 20px; display: block;">🏆</span><span style="font-size: 9px; font-weight: 800; text-transform: uppercase;">Puntaje</span></a>
-    <a href="/fixture" style="text-decoration: none; text-align: center; color: var(--smp-neon);"><span style="font-size: 20px; display: block;">📊</span><span style="font-size: 9px; font-weight: 800; text-transform: uppercase;">Fixture</span></a>
+
+  <!-- 📱 BARRA ELÁSTICA DE NAVEGACIÓN INFERIOR MÓVIL -->
+  <div class="smp-navbar-mobile-only" style="display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: var(--card-bg); border-top: 1px solid var(--border-color); justify-content: space-around; padding: 16px 0; z-index: 99999; box-shadow: 0 -4px 12px rgba(0,0,0,0.03);">
+    <a href="/registrar" style="text-decoration: none; text-align: center; color: var(--text-muted);"><span style="font-size: 22px; display: block; margin-bottom: 4px;">📋</span><span style="font-size: 10px; font-weight: 800; text-transform: uppercase;">Registrar</span></a>
+    <a href="/" style="text-decoration: none; text-align: center; color: var(--text-muted);"><span style="font-size: 22px; display: block; margin-bottom: 4px;">🏆</span><span style="font-size: 10px; font-weight: 800; text-transform: uppercase;">Puntaje</span></a>
+    <a href="/fixture" style="text-decoration: none; text-align: center; color: var(--color-blue);"><span style="font-size: 22px; display: block; margin-bottom: 4px;">📊</span><span style="font-size: 10px; font-weight: 800; text-transform: uppercase;">Fixture</span></a>
   </div>
 
   <script>
-    // MATRIZ INSTITUCIONAL UNIFICADA EXTRAÍDA COMPLETA DE TU SHEET
+    // MATRIZ INSTITUCIONAL UNIFICADA
     const dbPartidos = [
       // === SEMANA 1 ===
       { s:1, f:'2026-09-14', t:'Lun 14', h:'09:35 - 09:55', d:'🥇 CONEBALL', e:'BLANCO VS VERDE', c:'Infantil (3º y 4º)', a:'DAVID', r:'M. Gurrionero, G. Huaman, N. Aguilar, D. Quirica' },
@@ -169,11 +272,9 @@
       document.querySelectorAll('.btn-week').forEach(b => b.classList.remove('active'));
       if(boton) boton.classList.add('active');
 
-      // Extraer días disponibles en esta semana
       const partidosSemana = dbPartidos.filter(p => p.s === semanaActiva);
       const fechasUnicas = [...new Set(partidosSemana.map(p => p.f))].sort();
 
-      // Generar cápsulas redondeadas de días
       const containerDias = document.getElementById('botoneraDias');
       if (fechasUnicas.length > 0) {
         fechaActiva = fechasUnicas[0];
@@ -182,8 +283,8 @@
           return `<button onclick="cambiarDia('${f}', this)" class="btn-day-capsule ${f === fechaActiva ? 'active' : ''}">${pMatch.t}</button>`;
         }).join('');
       } else {
-        containerDias.innerHTML = `<p style="font-size:12px; color:#627285; padding-left:5px;">No hay encuentros programados para esta fase.</p>`;
-                fechaActiva = '';
+        containerDias.innerHTML = `<p style="font-size:13px; color:var(--text-muted); padding-left:5px; font-weight:500;">No hay encuentros programados para esta fase.</p>`;
+        fechaActiva = '';
       }
       renderizarTarjetasPartidos();
     }
@@ -206,42 +307,37 @@
       let html = '';
 
       filtrados.forEach(p => {
-        let colorEstado = semanaActiva === 4 ? '#fbbf24' : '#38bdf8';
-        let textoEstado = semanaActiva === 4 ? '🏆 Finales' : '⚔️ Programado';
+        let esFinal = semanaActiva === 4;
         
         html += `
-          <div class="smp-game-row" style="display:flex; flex-direction:column; align-items:stretch; gap:12px; margin-bottom:12px; ${semanaActiva === 4 ? 'border-color: rgba(251, 191, 36, 0.25); background: rgba(251, 191, 36, 0.01);' : ''}">
-            <div style="display:flex; align-items:center; width:100%; justify-content:space-between; flex-wrap:wrap; gap:10px;">
-              <div class="smp-time-badge" style="${semanaActiva === 4 ? 'color:#fbbf24; border-color: rgba(251, 191, 36, 0.2);' : ''}"><span>${p.h}</span></div>
+          <div class="smp-game-row" style="${esFinal ? 'border-color: #fde047; background: #fefce8 !important;' : ''}">
+            <div style="display:flex; align-items:center; width:100%; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:14px;">
+              <div class="smp-time-badge" style="${esFinal ? 'color:#b45309; border-color:#fde047; background:#fef9c3 !important;' : ''}"><span>⏰ ${p.h}</span></div>
               <div class="info-block" style="flex-grow:1; margin-left:5px; min-width:200px;">
-                <h4 style="margin: 0; font-size: 11px; color: #8a99ad; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">
-                  ${p.c} — <span style="color: ${colorEstado}; font-weight: 900;">${p.d}</span>
+                <h4 style="margin: 0; font-size: 12px; color: var(--text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">
+                  ${p.c} — <span style="color: ${esFinal ? '#b45309' : 'var(--color-blue)'}; font-weight: 900;">${p.d}</span>
                 </h4>
-                <p class="game-match-text" style="margin: 3px 0 0 0; font-size: 16px; font-weight: 900; tracking-tight: -0.3px; color: #ffffff;">
+                <p class="game-match-text" style="margin: 4px 0 0 0; font-size: 20px; font-weight: 900; letter-spacing: -0.5px; color: var(--text-main);">
                   ${p.e}
                 </p>
               </div>
-              <div class="arb-badge" style="text-align: right; min-width: 110px; background: rgba(255,255,255,0.01); padding: 5px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.03);">
-                <span style="font-size: 9px; font-weight: 900; color: #fbbf24; display: block; letter-spacing: 0.5px; text-transform:uppercase;">Árbitro</span>
-                <span style="font-size: 12px; color: #e2e8f0; font-weight: 700; display: block; margin-top: 1px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">📢 ${p.a || 'POR DESIGNAR'}</span>
+              <div class="arb-badge" style="text-align: right; min-width: 120px; background: #f8fafc; padding: 8px 14px; border-radius: 12px; border: 1px solid var(--border-color);">
+                <span style="font-size: 10px; font-weight: 800; color: #b45309; display: block; letter-spacing: 0.5px; text-transform:uppercase;">⚡ Árbitro</span>
+                <span style="font-size: 13px; color: var(--text-main); font-weight: 800; display: block; margin-top: 2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">📢 ${p.a || 'POR DESIGNAR'}</span>
               </div>
             </div>
-            <div style="background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.03); border-radius: 8px; padding: 10px 14px; font-size: 12px;">
-              <span style="font-size: 9px; font-weight: 800; color: var(--smp-neon); display:block; letter-spacing: 1px; text-transform:uppercase; margin-bottom:2px;">📋 Profesores de Apoyo (Mesa / Actas / Control)</span>
-              <span style="color: #94a3b8; font-weight: 500; line-height: 1.4;">${p.r || 'Asignación general de delegados'}</span>
+            <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: 14px; padding: 12px 16px; font-size: 13px;">
+              <span style="font-size: 10px; font-weight: 800; color: var(--color-blue); display:block; letter-spacing: 0.5px; text-transform:uppercase; margin-bottom:3px;">📋 Profesores de Apoyo (Mesa / Actas / Control)</span>
+              <span style="color: var(--text-muted); font-weight: 600; line-height: 1.4;">${p.r || 'Asignación general de delegados'}</span>
             </div>
           </div>`;
       });
       panel.innerHTML = html;
     }
 
-    // =========================================================================
-    // --- ⏳ DISPARADOR DE ARRANQUE PARA CLOUDFLARE PAGES ---------------------
-    // =========================================================================
     window.addEventListener('load', () => {
       cambiarSemana(1, document.querySelector('.btn-week'));
     });
   </script>
 </body>
 </html>
-
