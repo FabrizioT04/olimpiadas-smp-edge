@@ -515,30 +515,31 @@
     </div>
   </div>
 
-  <script>
+  <>
 
+    <script>
     let fotosActuales = [];
     let indiceActual = 0;
 
-    function abrirAlbum(titulo, linkDrive) {
+    function abrirAlbum(titulo, linkDrive, tipo) {
       document.getElementById('modalTitle').innerText = titulo;
       document.getElementById('modalDriveBtn').href = linkDrive;
 
-      // 🎯 Asignamos imágenes únicas y específicas para cada álbum
-      if (titulo.includes('Deportes')) {
-        fotosActuales = ['img/delfin.png', 'img/aguila.png', 'img/caballo.png'];
+      // 🎯 Aquí defines exactamente qué fotos quieres que se deslizen en cada categoría
+      if (tipo === 'deportes') {
+        fotosActuales = ['img/delfin.png', 'img/aguila.png']; // Cambia por tus fotos de deportes
       } 
-      else if (titulo.includes('Convivencia')) {
-        fotosActuales = ['img/gaviota.png', 'img/delfin.png', 'img/aguila.png'];
+      else if (tipo === 'convivencia') {
+        fotosActuales = ['img/gaviota.png', 'img/caballo.png']; // Cambia por tus fotos de convivencia
       } 
-      else if (titulo.includes('Bases')) {
-        fotosActuales = ['img/aguila.png', 'img/caballo.png', 'img/gaviota.png'];
+      else if (tipo === 'bases') {
+        fotosActuales = ['img/aguila.png', 'img/delfin.png']; // Cambia por tus fotos de bases
       } 
-      else if (titulo.includes('Ecohouse')) {
-        fotosActuales = ['img/caballo.png', 'img/delfin.png', 'img/gaviota.png'];
+      else if (tipo === 'ecohouse') {
+        fotosActuales = ['img/caballo.png', 'img/gaviota.png']; // Cambia por tus fotos de ecohouse
       } 
       else {
-        fotosActuales = ['img/delfin.png', 'img/gaviota.png'];
+        fotosActuales = ['img/delfin.png'];
       }
 
       indiceActual = 0;
