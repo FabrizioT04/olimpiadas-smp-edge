@@ -284,29 +284,64 @@
     .smp-menu-toggle:hover { background: #f8fafc; transform: translateY(-2px); }
     
     .smp-side-menu {
-      position: fixed; top: 0; left: -320px; width: 280px; height: 100vh;
-      background: var(--card-bg); box-shadow: 10px 0 30px rgba(0,0,0,0.1);
-      transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1); z-index: 9999;
-      padding: 30px 20px; display: flex; flex-direction: column;
+      position: fixed; top: 0; left: -320px; width: 300px; height: 100vh;
+      background: var(--card-bg); box-shadow: 20px 0 50px rgba(15, 23, 42, 0.15);
+      transition: left 0.35s cubic-bezier(0.16, 1, 0.3, 1); z-index: 9999;
+      padding: 32px 24px; display: flex; flex-direction: column;
     }
     .smp-side-menu.open { left: 0; }
-    
-    .smp-close-menu {
-      position: absolute; top: 20px; right: 20px; background: #f1f5f9;
-      border: none; width: 36px; height: 36px; border-radius: 50%;
-      font-size: 16px; cursor: pointer; color: var(--text-muted); transition: background 0.2s;
+
+    /* Overlay de fondo difuminado */
+    .smp-menu-overlay-bg {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(15, 23, 42, 0.3); backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px); opacity: 0; visibility: hidden;
+      transition: all 0.3s ease; z-index: 9998;
     }
-    .smp-close-menu:hover { background: #e2e8f0; color: var(--text-main); }
-    .smp-side-header { padding-bottom: 20px; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); }
-    .smp-side-menu-content { display: flex; flex-direction: column; gap: 10px; }
+    .smp-menu-overlay-bg.active { opacity: 1; visibility: visible; }
+
+    .smp-close-menu {
+      position: absolute; top: 24px; right: 24px; background: #f1f5f9;
+      border: none; width: 36px; height: 36px; border-radius: 50%;
+      font-size: 15px; cursor: pointer; color: var(--text-muted);
+      display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+    }
+    .smp-close-menu:hover { background: #e2e8f0; color: var(--text-main); transform: scale(1.05); }
+
+    .smp-side-header { 
+      padding-bottom: 24px; margin-bottom: 24px; 
+      border-bottom: 1px solid var(--border-color); 
+      display: flex; align-items: center; gap: 14px;
+    }
+    .smp-side-header-icon {
+      width: 46px; height: 46px; border-radius: 14px; background: #eff6ff;
+      display: flex; align-items: center; justify-content: center; font-size: 22px;
+      border: 1px solid #dbeafe; flex-shrink: 0;
+    }
+    .smp-side-header-title {
+      font-size: 18px; font-weight: 900; color: var(--text-main); margin: 0;
+      letter-spacing: -0.3px;
+    }
+    .smp-side-header-subtitle {
+      font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;
+      letter-spacing: 0.5px; margin-top: 2px;
+    }
+
+    .smp-side-menu-content { display: flex; flex-direction: column; gap: 8px; }
     
     .smp-side-link {
-      display: flex; align-items: center; gap: 12px; padding: 16px; text-decoration: none;
-      color: var(--text-muted); font-weight: 700; font-size: 15px; border-radius: 12px; transition: all 0.2s ease;
+      display: flex; align-items: center; gap: 14px; padding: 14px 18px; text-decoration: none;
+      color: var(--text-muted); font-weight: 700; font-size: 14px; border-radius: 14px; 
+      transition: all 0.2s ease;
     }
-    .smp-side-link:hover { background: #f8fafc; color: var(--text-main); }
-    .smp-side-link.active { background: #eff6ff; color: var(--color-blue); border-left: 4px solid var(--color-blue); }
-
+    .smp-side-link:hover { background: #f8fafc; color: var(--text-main); transform: translateX(4px); }
+    .smp-side-link.active { 
+      background: #eff6ff; color: var(--color-blue); 
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.08);
+    }
+    .smp-side-link span.icon {
+      font-size: 18px; width: 28px; text-align: center;
+    }
     /* --- 🌟 MODAL Y DISEÑO GENERAL --- */
     .smp-modal-overlay { 
       position: fixed; 
@@ -447,28 +482,40 @@
   <!-- 📂 PANEL LATERAL DESPLEGABLE -->
   <div id="sideMenu" class="smp-side-menu">
     <button class="smp-close-menu" onclick="toggleMenu()">✕</button>
+    
     <div class="smp-side-header">
-      <span style="font-size: 24px;">🏫</span>
-      <h3 style="margin-top: 10px; font-weight: 900; color: var(--text-main);">Olimpiadas SMP</h3>
+      <div class="smp-side-header-icon">🏫</div>
+      <div>
+        <h3 class="smp-side-header-title">Olimpiadas SMP</h3>
+        <p class="smp-side-header-subtitle">Panel de Navegación</p>
+      </div>
     </div>
+
     <div class="smp-side-menu-content">
       <a href="registrar.html" class="smp-side-link">
-        <span style="font-size: 18px;">📋</span> Registrar Puntos
+        <span class="icon">📋</span> Registrar Puntos
       </a>
       <a href="index.html" class="smp-side-link active">
-        <span style="font-size: 18px;">🏆</span> Marcador en Vivo
+        <span class="icon">🏆</span> Marcador en Vivo
       </a>
       <a href="fixture.html" class="smp-side-link">
-        <span style="font-size: 18px;">📊</span> Fixture y Roles
+        <span class="icon">📊</span> Fixture y Roles
       </a>
       <a href="fotos.html" class="smp-side-link">
-        <span style="font-size: 18px;">📁</span> Archivos del Drive
+        <span class="icon">📁</span> Archivos del Drive
       </a>
     </div>
   </div>
 
+  <div class="smp-menu-overlay-bg" id="menuOverlay" onclick="toggleMenu()"></div>
+
   <script>
-    function toggleMenu() { document.getElementById('sideMenu').classList.toggle('open'); }
+    function toggleMenu() { 
+    const menu = document.getElementById('sideMenu');
+    const overlay = document.getElementById('menuOverlay');
+    if (menu) menu.classList.toggle('open');
+    if (overlay) overlay.classList.toggle('active');
+  }
   </script>
 
   <div class="app-container">
