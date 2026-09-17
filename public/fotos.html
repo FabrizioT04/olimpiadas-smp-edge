@@ -136,61 +136,45 @@
       align-items: center;
       gap: 8px;
     }
-
     .smp-drive-btn:hover {
       background: #2563eb;
       transform: translateY(-2px);
       box-shadow: 0 6px 16px rgba(59, 130, 246, 0.35);
     }
 
-    /* --- 📋 BOTONERA DE MENÚ INFERIOR --- */
-    .smp-menu-grid { 
-      display: grid; 
-      grid-template-columns: repeat(3, 1fr); 
-      gap: 20px; 
-      max-width: 900px; 
-      margin: 40px auto 0 auto; 
+    /* --- 🍔 MENÚ LATERAL DESPLEGABLE (SIDEBAR) --- */
+    .smp-menu-toggle {
+      position: fixed; top: 20px; left: 20px; background: var(--card-bg);
+      border: 1px solid var(--border-color); padding: 12px 18px;
+      border-radius: 12px; font-size: 15px; font-weight: 800;
+      color: var(--text-main); cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05); z-index: 99; transition: all 0.2s ease;
     }
-    .smp-menu-btn { 
-      background: var(--card-bg); 
-      border: 1px solid var(--border-color); 
-      border-radius: 16px; 
-      padding: 24px 16px; 
-      text-align: center; 
-      text-decoration: none; 
-      transition: all 0.2s ease;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-      color: var(--text-muted);
+    .smp-menu-toggle:hover { background: #f8fafc; transform: translateY(-2px); }
+    
+    .smp-side-menu {
+      position: fixed; top: 0; left: -320px; width: 280px; height: 100vh;
+      background: var(--card-bg); box-shadow: 10px 0 30px rgba(0,0,0,0.1);
+      transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1); z-index: 9999;
+      padding: 30px 20px; display: flex; flex-direction: column;
     }
-    .smp-menu-btn:hover { 
-      border-color: #cbd5e1; 
-      transform: translateY(-2px); 
+    .smp-side-menu.open { left: 0; }
+    
+    .smp-close-menu {
+      position: absolute; top: 20px; right: 20px; background: #f1f5f9;
+      border: none; width: 36px; height: 36px; border-radius: 50%;
+      font-size: 16px; cursor: pointer; color: var(--text-muted); transition: background 0.2s;
     }
-    .smp-menu-btn.active {
-      border-color: var(--color-blue);
-      border-width: 2px;
-      background: #f8fafc;
-      color: var(--text-main);
-      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.08);
+    .smp-close-menu:hover { background: #e2e8f0; color: var(--text-main); }
+    .smp-side-header { padding-bottom: 20px; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); }
+    .smp-side-menu-content { display: flex; flex-direction: column; gap: 10px; }
+    
+    .smp-side-link {
+      display: flex; align-items: center; gap: 12px; padding: 16px; text-decoration: none;
+      color: var(--text-muted); font-weight: 700; font-size: 15px; border-radius: 12px; transition: all 0.2s ease;
     }
-    .smp-btn-ico { 
-      font-size: 28px; 
-      margin-bottom: 10px; 
-      display: block; 
-    }
-    .smp-btn-title { 
-      font-size: 14px; 
-      font-weight: 800; 
-      text-transform: uppercase; 
-      color: var(--text-main); 
-      letter-spacing: 0.5px;
-    }
-    .smp-btn-desc { 
-      font-size: 12px; 
-      color: var(--text-muted); 
-      margin-top: 6px; 
-      line-height: 1.4;
-    }
+    .smp-side-link:hover { background: #f8fafc; color: var(--text-main); }
+    .smp-side-link.active { background: #eff6ff; color: var(--color-blue); border-left: 4px solid var(--color-blue); }
 
     /* --- RESPONSIVE MOBILE --- */
     @media (max-width: 768px) {
@@ -199,11 +183,40 @@
       .title { font-size: 24px; }
       .smp-drive-card { flex-direction: column; align-items: stretch; padding: 20px; text-align: left; }
       .smp-drive-btn { width: 100%; justify-content: center; margin-top: 10px; }
-      .smp-menu-grid { grid-template-columns: 1fr; gap: 12px; }
     }
   </style>
 </head>
 <body>
+
+  <!-- 🍔 BOTÓN FLOTANTE DEL MENÚ -->
+  <button class="smp-menu-toggle" onclick="toggleMenu()">☰ Menú</button>
+
+  <!-- 📂 PANEL LATERAL DESPLEGABLE -->
+  <div id="sideMenu" class="smp-side-menu">
+    <button class="smp-close-menu" onclick="toggleMenu()">✕</button>
+    <div class="smp-side-header">
+      <span style="font-size: 24px;">🏫</span>
+      <h3 style="margin-top: 10px; font-weight: 900; color: var(--text-main);">Olimpiadas SMP</h3>
+    </div>
+    <div class="smp-side-menu-content">
+      <a href="registrar.html" class="smp-side-link">
+        <span style="font-size: 18px;">📋</span> Registrar Puntos
+      </a>
+      <a href="index.html" class="smp-side-link">
+        <span style="font-size: 18px;">🏆</span> Marcador en Vivo
+      </a>
+      <a href="fixture.html" class="smp-side-link">
+        <span style="font-size: 18px;">📊</span> Fixture y Roles
+      </a>
+      <a href="fotos.html" class="smp-side-link active">
+        <span style="font-size: 18px;">📁</span> Archivos del Drive
+      </a>
+    </div>
+  </div>
+
+  <script>
+    function toggleMenu() { document.getElementById('sideMenu').classList.toggle('open'); }
+  </script>
 
   <div class="app-container">
     
@@ -256,25 +269,6 @@
         <a href="https://drive.google.com/drive/folders/1U5MHWDJCpB33ucweOlHlH3Cfls8heLhu" target="_blank" class="smp-drive-btn">📁 Abrir Carpeta</a>
       </div>
 
-    </div>
-
-    <!-- 📋 BOTONERA DE MENÚ INFERIOR -->
-    <div class="smp-menu-grid">
-      <a href="registrar.html" class="smp-menu-btn">
-        <span class="smp-btn-ico">📋</span>
-        <span class="smp-btn-title">Registrar</span>
-        <p class="smp-btn-desc">Análisis de retos y puntuación por áreas</p>
-      </a>
-      <a href="index.html" class="smp-menu-btn">
-        <span class="smp-btn-ico">🏆</span>
-        <span class="smp-btn-title">Puntaje</span>
-        <p class="smp-btn-desc">Marcador consolidado en vivo de la Sede</p>
-      </a>
-      <a href="fixture.html" class="smp-menu-btn">
-        <span class="smp-btn-ico">📊</span>
-        <span class="smp-btn-title">Fixture</span>
-        <p class="smp-btn-desc">Roles de partidos preliminares por recreos</p>
-      </a>
     </div>
 
   </div> <!-- CIERRE DE APP-CONTAINER -->
