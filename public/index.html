@@ -241,49 +241,51 @@
 
     /* --- 📋 BOTONERA DE MENÚ INFERIOR --- */
     .smp-menu-grid { 
-      display: grid; 
-      grid-template-columns: repeat(3, 1fr); 
-      gap: 20px; 
-    }
-    .smp-menu-btn { 
-      background: var(--card-bg); 
-      border: 1px solid var(--border-color); 
-      border-radius: 14px; 
-      padding: 20px; 
-      text-align: center; 
-      text-decoration: none; 
-      transition: all 0.2s ease;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-    }
-    .smp-menu-btn:hover { 
-      border-color: var(--color-blue); 
-      transform: translateY(-2px);
-      box-shadow: 0 8px 12px -3px rgba(59, 130, 246, 0.15); 
-    }
-    .smp-menu-btn.active {
-      border-color: var(--color-blue);
-      border-width: 2px;
-      padding: 19px; /* Compensar 1px de borde extra */
-      background: #f8fafc;
-    }
-    .smp-btn-ico { 
-      font-size: 28px; 
-      margin-bottom: 10px; 
-      display: block; 
-    }
-    .smp-btn-title { 
-      font-size: 14px; 
-      font-weight: 800; 
-      text-transform: uppercase; 
-      color: var(--text-main); 
-      letter-spacing: 0.5px;
-    }
-    .smp-btn-desc { 
-      font-size: 12px; 
-      color: var(--text-muted); 
-      margin-top: 6px; 
-      line-height: 1.4;
-    }
+  display: grid; 
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 20px; 
+  margin-top: 40px;
+}
+.smp-menu-btn { 
+  background: var(--card-bg); 
+  border: 1px solid var(--border-color); 
+  border-radius: 16px; 
+  padding: 24px 16px; 
+  text-align: center; 
+  text-decoration: none; 
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+  color: var(--text-muted);
+}
+.smp-menu-btn:hover { 
+  border-color: #cbd5e1; 
+  transform: translateY(-2px); 
+}
+.smp-menu-btn.active {
+  border-color: var(--color-blue);
+  border-width: 2px;
+  background: #f8fafc;
+  color: var(--text-main);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.08);
+}
+.smp-btn-ico { 
+  font-size: 28px; 
+  margin-bottom: 10px; 
+  display: block; 
+}
+.smp-btn-title { 
+  font-size: 14px; 
+  font-weight: 800; 
+  text-transform: uppercase; 
+  color: var(--text-main); 
+  letter-spacing: 0.5px;
+}
+.smp-btn-desc { 
+  font-size: 12px; 
+  color: var(--text-muted); 
+  margin-top: 6px; 
+  line-height: 1.4;
+}
 
     /* --- 📌 VENTANA MODAL (CLEAN DESIGN) --- */
     .smp-modal-overlay { 
