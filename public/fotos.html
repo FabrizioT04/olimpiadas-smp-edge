@@ -486,36 +486,66 @@
 
   </div>
 
-  <!-- 🌟 VENTANA DESPLEGABLE (MODAL) PARA LAS FOTOS -->
+  <!-- 🌟 VENTANA DESPLEGABLE CON EFECTO CARRUSEL -->
   <div id="albumModal" class="smp-modal-overlay" onclick="cerrarAlbumFuera(event)">
-    <div class="smp-modal-container">
+    <div class="smp-modal-container" style="max-width: 500px; text-align: center;">
       <button class="smp-modal-close" onclick="cerrarAlbum()">✕</button>
-      <h2 id="modalTitle" class="smp-modal-title">Título del Álbum</h2>
-      <p class="smp-modal-subtitle">Colección oficial de momentos y archivos de la Sede SMP.</p>
+      <h2 id="modalTitle" class="smp-modal-title" style="margin-bottom: 4px;">Título del Álbum</h2>
+      <p class="smp-modal-subtitle">Desliza para ver los mejores momentos de la Sede SMP.</p>
       
-      <!-- Cuadrícula de fotos simulada o galería previa -->
-      <div class="smp-modal-gallery">
-        <div class="smp-modal-thumb"><img src="img/delfin.png" alt="Foto SMP" style="width:100%; height:100%; object-fit:cover;"></div>
-        <div class="smp-modal-thumb"><img src="img/gaviota.png" alt="Foto SMP" style="width:100%; height:100%; object-fit:cover;"></div>
-        <div class="smp-modal-thumb"><img src="img/aguila.png" alt="Foto SMP" style="width:100% ;height:100%; object-fit:cover;"></div>
-        <div class="smp-modal-thumb"><img src="img/caballo.png" alt="Foto SMP" style="width:100%; height:100%; object-fit:cover;"></div>
-        <div class="smp-modal-thumb"><img src="img/delfin.png" alt="Foto SMP" style="width:100%; height:100%; object-fit:cover;"></div>
-        <div class="smp-modal-thumb"><img src="img/gaviota.png" alt="Foto SMP" style="width:100%; height:100%; object-fit:cover;"></div>
+      <!-- CONTENEDOR DEL CARRUSEL -->
+      <div class="smp-carousel-box" style="position: relative; width: 100%; height: 280px; background: #f1f5f9; border-radius: 16px; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-color);">
+        
+        <!-- FOTO ACTUAL DEL CARRUSEL -->
+        <img id="carouselImg" src="img/delfin.png" alt="Foto del evento" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+
+        <!-- BOTONES DE NAVEGACIÓN (ANTERIOR / SIGUIENTE) -->
+        <button onclick="cambiarFoto(-1)" style="position: absolute; left: 12px; background: rgba(255,255,255,0.9); border: none; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; transition: transform 0.2s;">❮</button>
+        <button onclick="cambiarFoto(1)" style="position: absolute; right: 12px; background: rgba(255,255,255,0.9); border: none; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; transition: transform 0.2s;">❯</button>
       </div>
 
-      <div class="smp-modal-footer">
-        <a id="modalDriveBtn" href="#" target="_blank" class="ig-post-action" style="max-width: 220px; text-decoration: none;">
-          <span>📂 Abrir en Google Drive</span>
+      <!-- INDICADOR DE FOTO (Ej: 1 de 4) -->
+      <p id="carouselCounter" style="font-size: 12px; font-weight: 700; color: var(--text-muted); margin-top: 12px;">Foto 1 de 4</p>
+
+      <div class="smp-modal-footer" style="margin-top: 20px; display: flex; justify-content: center;">
+        <a id="modalDriveBtn" href="#" target="_blank" class="ig-post-action" style="max-width: 260px; text-decoration: none;">
+          <span>📂 Ver todas en Google Drive</span>
         </a>
       </div>
     </div>
   </div>
 
   <script>
+    // Lista de fotos de ejemplo para el carrusel (puedes poner las que gustes en tu carpeta img/)
+    let fotosActuales = [];
+    let indiceActual = 0;
+
     function abrirAlbum(titulo, linkDrive) {
       document.getElementById('modalTitle').innerText = titulo;
       document.getElementById('modalDriveBtn').href = linkDrive;
+
+      // Simulamos un conjunto de fotos destacadas para cada sección
+      if(titulo.includes('Deportes')) {
+        fotosActuales = ['img/delfin.png', 'img/aguila.png', 'img/gaviota.png', 'img/caballo.png'];
+      } else {
+        fotosActuales = ['img/gaviota.png', 'img/delfin.png', 'img/caballo.png'];
+      }
+
+      indiceActual = 0;
+      actualizarCarrusel();
       document.getElementById('albumModal').classList.add('open');
+    }
+
+    function cambiarFoto(direccion) {
+      indiceActual += direccion;
+      if (indiceActual < 0) indiceActual = fotosActuales.length - 1;
+      if (indiceActual >= fotosActuales.length) indiceActual = 0;
+      actualizarCarrusel();
+    }
+
+    function actualizarCarrusel() {
+      document.getElementById('carouselImg').src = fotosActuales[indiceActual];
+      document.getElementById('carouselCounter').innerText = `Foto ${indiceActual + 1} de ${fotosActuales.length}`;
     }
 
     function cerrarAlbum() {
@@ -528,6 +558,5 @@
       }
     }
   </script>
-
 </body>
 </html>
