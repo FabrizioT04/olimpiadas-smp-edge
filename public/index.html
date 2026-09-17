@@ -88,7 +88,7 @@
       display: flex; 
       justify-content: space-between; 
       align-items: center; 
-      margin-bottom: 32px;
+      margin-bottom: 24px;
       box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
       position: relative;
       overflow: hidden;
@@ -491,20 +491,22 @@
       </div>
     </div>
 
-  <!-- 👑 TARJETA COMPACTA DEL HOUSE LÍDER -->
-  <div class="smp-leader-card" id="smpLeaderCard">
-    <div>
-      <span class="smp-leader-badge">👑 House Líder</span>
+  <!-- 👑 TARJETA DEL HOUSE LÍDER -->
+    <div class="smp-leader-card">
       <div class="smp-leader-info">
-        <span class="smp-leader-shield" id="smpLeaderShield">🏁</span>
-        <h2 class="smp-leader-name" id="smpLeaderName">Calculando...</h2>
+        <div class="smp-leader-shield">
+          <img src="img/aguila.png" alt="Escudo Líder">
+        </div>
+        <div>
+          <span class="smp-leader-badge">👑 House Líder</span>
+          <h2 class="smp-leader-name">Seagulls (White House)</h2>
+        </div>
+      </div>
+      <div class="smp-leader-score">
+        <span class="number">0</span>
+        <div class="smp-leader-label">Puntos Acumulados</div>
       </div>
     </div>
-    <div class="smp-leader-score">
-      <div class="smp-leader-points" id="smpLeaderPoints">0</div>
-      <div class="smp-leader-label">Puntos Acumulados</div>
-    </div>
-  </div>
 
   <div class="smp-podium-grid" id="smpContenedorPodio"></div>
 
