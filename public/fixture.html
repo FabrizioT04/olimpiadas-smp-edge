@@ -122,21 +122,23 @@
     .smp-support-box { font-size: 12px; color: var(--text-muted); background: #f8fafc; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border-color); font-weight: 500; }
 
     /* --- 🍔 MENÚ LATERAL MODERNO Y ELEGANTE --- */
+    /* --- 🍔 MENÚ LATERAL INTERACTIVO Y MODERNO --- */
     .smp-menu-toggle {
       position: fixed; top: 20px; left: 20px; background: var(--card-bg);
       border: 1px solid var(--border-color); padding: 12px 18px;
       border-radius: 14px; font-size: 15px; font-weight: 800;
       color: var(--text-main); cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.04); z-index: 99; transition: all 0.2s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06); z-index: 99; transition: all 0.2s ease;
     }
-    .smp-menu-toggle:hover { background: #f8fafc; transform: translateY(-2px); border-color: #cbd5e1; }
+    .smp-menu-toggle:hover { background: #f8fafc; transform: translateY(-2px); border-color: var(--color-blue); }
+    .smp-menu-toggle:active { transform: scale(0.95); } /* Efecto al presionar el botón */
     
     .smp-side-menu {
       position: fixed; top: 0; left: -320px; width: 300px; height: 100vh;
-      background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
-      box-shadow: 15px 0 40px rgba(0,0,0,0.08);
+      background: #ffffff;
+      box-shadow: 20px 0 50px rgba(0,0,0,0.08);
       transition: left 0.35s cubic-bezier(0.16, 1, 0.3, 1); z-index: 9999;
-      padding: 30px 24px; display: flex; flex-direction: column;
+      padding: 35px 24px; display: flex; flex-direction: column;
       border-right: 1px solid var(--border-color);
     }
     .smp-side-menu.open { left: 0; }
@@ -147,37 +149,57 @@
       font-size: 16px; cursor: pointer; color: var(--text-muted); transition: all 0.2s;
       display: flex; align-items: center; justify-content: center;
     }
-    .smp-close-menu:hover { background: #e2e8f0; color: var(--text-main); transform: rotate(90deg); }
+    .smp-close-menu:hover { background: #e2e8f0; color: var(--text-main); transform: rotate(90deg) scale(1.05); }
+    .smp-close-menu:active { transform: scale(0.9); }
     
     .smp-side-header { 
-      padding-bottom: 20px; 
-      margin-bottom: 20px; 
+      padding-bottom: 24px; 
+      margin-bottom: 24px; 
       border-bottom: 1px solid var(--border-color); 
       display: flex;
       flex-direction: column;
       gap: 6px;
     }
-    .smp-side-header span { font-size: 28px; }
-    .smp-side-header h3 { font-size: 18px; font-weight: 900; color: var(--text-main); letter-spacing: -0.5px; }
+    .smp-side-header span { font-size: 32px; }
+    .smp-side-header h3 { font-size: 19px; font-weight: 900; color: var(--text-main); letter-spacing: -0.5px; }
 
-    .smp-side-menu-content { display: flex; flex-direction: column; gap: 8px; }
+    .smp-side-menu-content { display: flex; flex-direction: column; gap: 10px; }
     
     .smp-side-link {
-      display: flex; align-items: center; gap: 14px; padding: 14px 16px; text-decoration: none;
-      color: var(--text-muted); font-weight: 700; font-size: 14px; border-radius: 14px; transition: all 0.2s ease;
-      background: transparent;
-      border: 1px solid transparent;
+      display: flex; align-items: center; gap: 14px; padding: 14px 18px; text-decoration: none;
+      color: var(--text-muted); font-weight: 700; font-size: 14px; border-radius: 14px; 
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      background: #f8fafc;
+      border: 1px solid #f1f5f9;
     }
-    .smp-side-link:hover { background: #f8fafc; color: var(--text-main); transform: translateX(4px); border-color: #f1f5f9; }
-    .smp-side-link.active { background: #eff6ff; color: var(--color-blue); border-color: #dbeafe; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.08); }
+    .smp-side-link:hover { background: #f1f5f9; color: var(--text-main); transform: translateX(4px); border-color: var(--border-color); }
+    
+    /* ⚡ EFECTO CLIC (Active / Press) */
+    .smp-side-link:active {
+      transform: scale(0.96) translateX(4px);
+      background: #e2e8f0;
+    }
+
+    .smp-side-link.active { 
+      background: #eff6ff; 
+      color: var(--color-blue); 
+      border-color: #bfdbfe; 
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.12); 
+    }
+    .smp-side-link.active:active {
+      transform: scale(0.96);
+    }
     
     .smp-side-link span {
-      width: 32px; height: 32px; background: #f8fafc; border-radius: 10px;
+      width: 34px; height: 34px; background: #ffffff; border-radius: 10px;
       display: flex; align-items: center; justify-content: center; font-size: 16px;
       border: 1px solid var(--border-color);
       flex-shrink: 0;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+      transition: transform 0.2s;
     }
-    .smp-side-link.active span { background: #ffffff; border-color: #bfdbfe; }
+    .smp-side-link:hover span { transform: scale(1.1); }
+    .smp-side-link.active span { background: #ffffff; border-color: #93c5fd; }
 
     @media (max-width: 768px) {
       body { padding: 20px 12px; }
