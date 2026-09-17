@@ -45,12 +45,13 @@
     }
     
     .app-container { 
-      width: 100%;
-      max-width: 960px; 
-      margin: 0 auto;   
+      width: 100% !important;
+      max-width: 960px !important; 
+      margin: 0 auto !important;   
       display: flex;
       flex-direction: column;
       gap: 20px;
+      box-sizing: border-box;
     }
 
     /* --- CABECERA DE LA PLATAFORMA --- */
@@ -88,11 +89,10 @@
       display: flex; 
       justify-content: space-between; 
       align-items: center; 
-      margin-bottom: 24px;
       box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
       position: relative;
       overflow: hidden;
-      width: 100%;
+      width: 100% !important;
       box-sizing: border-box;
     }
     .smp-leader-card::before {
@@ -772,11 +772,12 @@
     actualizarMarcadorEnVivo();
     setInterval(actualizarMarcadorEnVivo, 3000); 
   });
-  <!-- 🏁 PIE DE PÁGINA -->
+</script>
+
+ <!-- 🏁 PIE DE PÁGINA -->
      <footer style="text-align: center; padding-top: 60px; color: var(--text-muted); font-size: 12px; font-weight: 500;">
       <p>© 2026 Innova Schools - San Martín de Porres.</p>
       <p style="margin-top: 4px;">Plataforma Oficial de Puntajes.</p>
     </footer>
-</script>
 </body>
 </html>
