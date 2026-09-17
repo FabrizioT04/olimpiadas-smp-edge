@@ -130,14 +130,18 @@
       position: relative;
       width: 100%;
       height: 200px;
-      background: #e2e8f0;
+      background: #f1f5f9;
       overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .ig-post-image-container img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
+      padding: 20px;
       transition: transform 0.4s ease;
     }
 
@@ -198,6 +202,9 @@
       text-transform: uppercase;
       letter-spacing: 0.5px;
       transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+      width: 100%;
     }
 
     .ig-post-action:hover {
@@ -205,22 +212,108 @@
       color: #fff;
     }
 
-    /* --- 🍔 MENÚ LATERAL MODERNO Y ELEGANTE --- */
+    /* --- 🌟 MODAL / DESPLEGABLE FLOTANTE --- */
+    .smp-modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 99999;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      padding: 20px;
+    }
+    .smp-modal-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .smp-modal-container {
+      background: var(--card-bg);
+      width: 100%;
+      max-width: 600px;
+      border-radius: 24px;
+      padding: 30px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      transform: translateY(20px);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+    .smp-modal-overlay.open .smp-modal-container {
+      transform: translateY(0);
+    }
+    .smp-modal-close {
+      position: absolute;
+      top: 20px; right: 20px;
+      background: #f1f5f9;
+      border: none;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      font-size: 16px;
+      cursor: pointer;
+      color: var(--text-muted);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .smp-modal-close:hover { background: #e2e8f0; color: var(--text-main); }
+    .smp-modal-title {
+      font-size: 20px;
+      font-weight: 900;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+    .smp-modal-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+    .smp-modal-gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      max-height: 350px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .smp-modal-thumb {
+      background: #f1f5f9;
+      border-radius: 12px;
+      height: 110px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+    }
+    .smp-modal-footer {
+      margin-top: 24px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+
+    /* --- 🍔 MENÚ LATERAL MODERNO E INTERACTIVO --- */
     .smp-menu-toggle {
       position: fixed; top: 20px; left: 20px; background: var(--card-bg);
       border: 1px solid var(--border-color); padding: 12px 18px;
       border-radius: 14px; font-size: 15px; font-weight: 800;
       color: var(--text-main); cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.04); z-index: 99; transition: all 0.2s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06); z-index: 99; transition: all 0.2s ease;
     }
-    .smp-menu-toggle:hover { background: #f8fafc; transform: translateY(-2px); border-color: #cbd5e1; }
+    .smp-menu-toggle:hover { background: #f8fafc; transform: translateY(-2px); border-color: var(--color-blue); }
+    .smp-menu-toggle:active { transform: scale(0.95); }
     
     .smp-side-menu {
       position: fixed; top: 0; left: -320px; width: 300px; height: 100vh;
-      background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
-      box-shadow: 15px 0 40px rgba(0,0,0,0.08);
+      background: #ffffff;
+      box-shadow: 20px 0 50px rgba(0,0,0,0.08);
       transition: left 0.35s cubic-bezier(0.16, 1, 0.3, 1); z-index: 9999;
-      padding: 30px 24px; display: flex; flex-direction: column;
+      padding: 35px 24px; display: flex; flex-direction: column;
       border-right: 1px solid var(--border-color);
     }
     .smp-side-menu.open { left: 0; }
@@ -231,48 +324,52 @@
       font-size: 16px; cursor: pointer; color: var(--text-muted); transition: all 0.2s;
       display: flex; align-items: center; justify-content: center;
     }
-    .smp-close-menu:hover { background: #e2e8f0; color: var(--text-main); transform: rotate(90deg); }
+    .smp-close-menu:hover { background: #e2e8f0; color: var(--text-main); transform: rotate(90deg) scale(1.05); }
+    .smp-close-menu:active { transform: scale(0.9); }
     
     .smp-side-header { 
-      padding-bottom: 20px; 
-      margin-bottom: 20px; 
+      padding-bottom: 24px; 
+      margin-bottom: 24px; 
       border-bottom: 1px solid var(--border-color); 
       display: flex;
       flex-direction: column;
       gap: 6px;
     }
-    .smp-side-header span { font-size: 28px; }
-    .smp-side-header h3 { font-size: 18px; font-weight: 900; color: var(--text-main); letter-spacing: -0.5px; }
+    .smp-side-header span { font-size: 32px; }
+    .smp-side-header h3 { font-size: 19px; font-weight: 900; color: var(--text-main); letter-spacing: -0.5px; }
 
-    .smp-side-menu-content { display: flex; flex-direction: column; gap: 8px; }
+    .smp-side-menu-content { display: flex; flex-direction: column; gap: 10px; }
     
     .smp-side-link {
-      display: flex; align-items: center; gap: 14px; padding: 14px 16px; text-decoration: none;
-      color: var(--text-muted); font-weight: 700; font-size: 14px; border-radius: 14px; transition: all 0.2s ease;
-      background: transparent;
-      border: 1px solid transparent;
+      display: flex; align-items: center; gap: 14px; padding: 14px 18px; text-decoration: none;
+      color: var(--text-muted); font-weight: 700; font-size: 14px; border-radius: 14px; 
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      background: #f8fafc;
+      border: 1px solid #f1f5f9;
     }
-    .smp-side-link:hover { background: #f8fafc; color: var(--text-main); transform: translateX(4px); border-color: #f1f5f9; }
-    .smp-side-link.active { background: #eff6ff; color: var(--color-blue); border-color: #dbeafe; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.08); }
+    .smp-side-link:hover { background: #f1f5f9; color: var(--text-main); transform: translateX(4px); border-color: var(--border-color); }
+    .smp-side-link:active { transform: scale(0.96) translateX(4px); background: #e2e8f0; }
+    .smp-side-link.active { background: #eff6ff; color: var(--color-blue); border-color: #bfdbfe; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.12); }
     
     .smp-side-link span {
-      width: 32px; height: 32px; background: #f8fafc; border-radius: 10px;
+      width: 34px; height: 34px; background: #ffffff; border-radius: 10px;
       display: flex; align-items: center; justify-content: center; font-size: 16px;
-      border: 1px solid var(--border-color);
-      flex-shrink: 0;
+      border: 1px solid var(--border-color); flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+      transition: transform 0.2s;
     }
-    .smp-side-link.active span { background: #ffffff; border-color: #bfdbfe; }
+    .smp-side-link:hover span { transform: scale(1.1); }
 
     @media (max-width: 768px) {
       body { padding: 20px 12px; }
       .ig-profile-header { flex-direction: column; text-align: center; gap: 16px; padding: 20px; }
       .ig-stats { justify-content: center; }
-      .smp-weeks-container { grid-template-columns: repeat(2, 1fr); }
-      .smp-teams-row { font-size: 17px; }
+      .ig-feed-grid { grid-template-columns: 1fr; }
+      .smp-modal-gallery { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
 <body>
+
   <!-- 🍔 BOTÓN FLOTANTE DEL MENÚ -->
   <button class="smp-menu-toggle" onclick="toggleMenu()">☰ Menú</button>
 
@@ -280,21 +377,21 @@
   <div id="sideMenu" class="smp-side-menu">
     <button class="smp-close-menu" onclick="toggleMenu()">✕</button>
     <div class="smp-side-header">
-      <span style="font-size: 24px;">🏫</span>
-      <h3 style="margin-top: 10px; font-weight: 900; color: var(--text-main);">Olimpiadas SMP</h3>
+      <span>🏫</span>
+      <h3>Olimpiadas SMP</h3>
     </div>
     <div class="smp-side-menu-content">
       <a href="registrar.html" class="smp-side-link">
-        <span style="font-size: 18px;">📋</span> Registrar Puntos
+        <span>📋</span> Registrar Puntos
       </a>
       <a href="index.html" class="smp-side-link">
-        <span style="font-size: 18px;">🏆</span> Marcador en Vivo
+        <span>🏆</span> Marcador en Vivo
       </a>
       <a href="fixture.html" class="smp-side-link">
-        <span style="font-size: 18px;">📊</span> Fixture y Roles
+        <span>📊</span> Fixture y Roles
       </a>
       <a href="fotos.html" class="smp-side-link active">
-        <span style="font-size: 18px;">📸</span> Galería y Fotos
+        <span>📸</span> Galería y Fotos
       </a>
     </div>
   </div>
@@ -302,12 +399,7 @@
   <script>
     function toggleMenu() { document.getElementById('sideMenu').classList.toggle('open'); }
   </script>
-   <!-- 🏁 PIE DE PÁGINA -->
-     <footer style="text-align: center; padding-top: 60px; color: var(--text-muted); font-size: 12px; font-weight: 500;">
-      <p>© 2026 Innova Schools - San Martín de Porres.</p>
-      <p style="margin-top: 4px;">Plataforma Oficial de Fotos.</p>
-    </footer>
-  </div>
+
   <div class="app-container">
     
     <!-- PERFIL ESTILO INSTAGRAM -->
@@ -333,66 +425,109 @@
       <!-- POST 1: Deportes -->
       <div class="ig-post-card">
         <div class="ig-post-image-container">
-          <img src="img/delfin.png" alt="Deportes" style="object-fit: contain; padding: 20px; background: #f1f5f9;">
+          <img src="img/delfin.png" alt="Deportes">
           <span class="ig-post-badge">🏆 Deportes</span>
         </div>
         <div class="ig-post-content">
           <h3 class="ig-post-title">Actividades Deportivas y Recreativas</h3>
           <p class="ig-post-desc">Explora las fotos, registros y las mejores jugadas de nuestras disciplinas deportivas.</p>
-          <a href="https://drive.google.com/drive/folders/1Ich6i8qYq6JvYOfBGMdcBEBemPAThUp2" target="_blank" class="ig-post-action">
-            <span>✨ Ver Fotos </span>
-          </a>
+          <button onclick="abrirAlbum('Actividades Deportivas y Recreativas', 'https://drive.google.com/drive/folders/1Ich6i8qYq6JvYOfBGMdcBEBemPAThUp2')" class="ig-post-action">
+            <span>✨ Ver Fotos</span>
+          </button>
         </div>
       </div>
 
       <!-- POST 2: Convivencia -->
       <div class="ig-post-card">
         <div class="ig-post-image-container">
-          <img src="img/gaviota.png" alt="Convivencia" style="object-fit: contain; padding: 20px; background: #f1f5f9;">
+          <img src="img/gaviota.png" alt="Convivencia">
           <span class="ig-post-badge">🤝 Comunidad</span>
         </div>
         <div class="ig-post-content">
           <h3 class="ig-post-title">Acuerdos de Sana Convivencia</h3>
           <p class="ig-post-desc">Compromisos, actas y normas compartidas por nuestros capitanes y alumnos.</p>
-          <a href="https://drive.google.com/drive/folders/1HvGLi6VJvEtTHpQWcw3GGd5o-j3GeKNj" target="_blank" class="ig-post-action">
-            <span>✨ Ver Acuerdos </span>
-          </a>
+          <button onclick="abrirAlbum('Acuerdos de Sana Convivencia', 'https://drive.google.com/drive/folders/1HvGLi6VJvEtTHpQWcw3GGd5o-j3GeKNj')" class="ig-post-action">
+            <span>✨ Ver Acuerdos</span>
+          </button>
         </div>
       </div>
 
       <!-- POST 3: Bases -->
       <div class="ig-post-card">
         <div class="ig-post-image-container">
-          <img src="img/aguila.png" alt="Bases" style="object-fit: contain; padding: 20px; background: #f1f5f9;">
+          <img src="img/aguila.png" alt="Bases">
           <span class="ig-post-badge">📜 Reglamento</span>
         </div>
         <div class="ig-post-content">
           <h3 class="ig-post-title">Bases de Áreas</h3>
           <p class="ig-post-desc">Lineamientos oficiales y reglamentos de cada disciplina para las olimpiadas.</p>
-          <a href="https://drive.google.com/drive/folders/1jxMwQTACN6YRSieJyOvZ9hLHpxo4pOUR" target="_blank" class="ig-post-action">
-            <span>✨ Ver Bases </span>
-          </a>
+          <button onclick="abrirAlbum('Bases de Áreas', 'https://drive.google.com/drive/folders/1jxMwQTACN6YRSieJyOvZ9hLHpxo4pOUR')" class="ig-post-action">
+            <span>✨ Ver Bases</span>
+          </button>
         </div>
       </div>
 
       <!-- POST 4: Ecohouse -->
       <div class="ig-post-card">
         <div class="ig-post-image-container">
-          <img src="img/caballo.png" alt="Ecohouse" style="object-fit: contain; padding: 20px; background: #f1f5f9;">
+          <img src="img/caballo.png" alt="Ecohouse">
           <span class="ig-post-badge">🌱 Ecohouse</span>
         </div>
         <div class="ig-post-content">
           <h3 class="ig-post-title">Proyectos Ecohouse</h3>
           <p class="ig-post-desc">Iniciativas ecológicas, reciclaje y puntajes ambientales acumulados por las Houses.</p>
-          <a href="https://drive.google.com/drive/folders/1U5MHWDJCpB33ucweOlHlH3Cfls8heLhu" target="_blank" class="ig-post-action">
-            <span>✨ Ver EcoHouse</span>
-          </a>
+          <button onclick="abrirAlbum('Proyectos Ecohouse', 'https://drive.google.com/drive/folders/1U5MHWDJCpB33ucweOlHlH3Cfls8heLhu')" class="ig-post-action">
+            <span>✨ Ver Ecohouse</span>
+          </button>
         </div>
       </div>
 
     </div>
 
   </div>
+
+  <!-- 🌟 VENTANA DESPLEGABLE (MODAL) PARA LAS FOTOS -->
+  <div id="albumModal" class="smp-modal-overlay" onclick="cerrarAlbumFuera(event)">
+    <div class="smp-modal-container">
+      <button class="smp-modal-close" onclick="cerrarAlbum()">✕</button>
+      <h2 id="modalTitle" class="smp-modal-title">Título del Álbum</h2>
+      <p class="smp-modal-subtitle">Colección oficial de momentos y archivos de la Sede SMP.</p>
+      
+      <!-- Cuadrícula de fotos simulada o galería previa -->
+      <div class="smp-modal-gallery">
+        <div class="smp-modal-thumb">🥇</div>
+        <div class="smp-modal-thumb">⚽</div>
+        <div class="smp-modal-thumb">📸</div>
+        <div class="smp-modal-thumb">🏆</div>
+        <div class="smp-modal-thumb">🏅</div>
+        <div class="smp-modal-thumb">🎉</div>
+      </div>
+
+      <div class="smp-modal-footer">
+        <a id="modalDriveBtn" href="#" target="_blank" class="ig-post-action" style="max-width: 220px; text-decoration: none;">
+          <span>📂 Abrir en Google Drive</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function abrirAlbum(titulo, linkDrive) {
+      document.getElementById('modalTitle').innerText = titulo;
+      document.getElementById('modalDriveBtn').href = linkDrive;
+      document.getElementById('albumModal').classList.add('open');
+    }
+
+    function cerrarAlbum() {
+      document.getElementById('albumModal').classList.remove('open');
+    }
+
+    function cerrarAlbumFuera(event) {
+      if (event.target.id === 'albumModal') {
+        cerrarAlbum();
+      }
+    }
+  </script>
 
 </body>
 </html>
