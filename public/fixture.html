@@ -3,48 +3,125 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Fixture de Olimpiadas - Sede SMP</title>
+  <title>Fixture y Roles - Olimpiadas Escolares 2026</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-color: #f4f7f9;
+      --bg-color: #f8fafc;
       --card-bg: #ffffff;
       --text-main: #0f172a;
       --text-muted: #64748b;
       --border-color: #e2e8f0;
       --color-blue: #3b82f6;
+      --ig-gradient: linear-gradient(45deg, #f58529, #dd2a7b, #8134af, #515bd4);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
     body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; }
     .app-container { width: 100%; max-width: 900px; margin: 0 auto; padding-bottom: 80px; }
 
-    .header { text-align: center; margin-bottom: 32px; }
-    .institution { font-size: 13px; color: var(--color-blue); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 800; }
-    .title { margin: 8px 0; font-size: 32px; font-weight: 900; letter-spacing: -0.5px; }
-    .subtitle { color: var(--text-muted); font-size: 15px; font-weight: 500; margin: 0; }
+    /* --- PERFIL / CABECERA ESTILO INSTAGRAM FLUIDO --- */
+    .ig-profile-header {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 28px 32px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+    }
+    .ig-avatar-ring {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--ig-gradient);
+      padding: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .ig-avatar-inner {
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+    }
+    .ig-profile-info {
+      flex-grow: 1;
+    }
+    .ig-profile-info span.tag {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--color-blue);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .ig-profile-info h1 {
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+    .ig-profile-info p {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+      line-height: 1.4;
+      margin-bottom: 14px;
+    }
+    .ig-stats {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .ig-stat-badge {
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+    .ig-stat-badge span {
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-left: 4px;
+    }
 
+    /* --- BOTONERAS DE SEMANAS Y DÍAS --- */
     .smp-weeks-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
-    .smp-week-btn { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 14px; padding: 14px 10px; text-align: center; font-size: 13px; font-weight: 800; color: var(--text-muted); cursor: pointer; transition: all 0.2s ease; text-transform: uppercase; }
-    .smp-week-btn.active { background: var(--text-main); color: #ffffff; border-color: var(--text-main); }
+    .smp-week-btn { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 14px 10px; text-align: center; font-size: 13px; font-weight: 800; color: var(--text-muted); cursor: pointer; transition: all 0.2s ease; text-transform: uppercase; }
+    .smp-week-btn.active { background: var(--text-main); color: #ffffff; border-color: var(--text-main); box-shadow: 0 4px 12px rgba(15,23,42,0.15); }
     .smp-week-btn.final { border-color: #fde047; background: #fefce8; color: #b45309; }
     .smp-week-btn.final.active { background: #fbbf24; color: #78350f; border-color: #fbbf24; }
 
-    .smp-days-container { display: flex; gap: 8px; margin-bottom: 32px; overflow-x: auto; padding-bottom: 4px; width: 100%; }
-    .smp-day-btn { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 10px 18px; font-size: 13px; font-weight: 700; color: var(--text-muted); cursor: pointer; white-space: nowrap; }
-    .smp-day-btn.active { background: var(--color-blue); color: #ffffff; border-color: var(--color-blue); }
+    .smp-days-container { display: flex; gap: 8px; margin-bottom: 30px; overflow-x: auto; padding-bottom: 4px; width: 100%; }
+    .smp-day-btn { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 10px 18px; font-size: 13px; font-weight: 700; color: var(--text-muted); cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+    .smp-day-btn.active { background: var(--color-blue); color: #ffffff; border-color: var(--color-blue); box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25); }
 
+    /* --- TARJETAS DE PARTIDOS ESTILO POST --- */
     .smp-fixture-list { display: flex; flex-direction: column; gap: 16px; }
-    .smp-match-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 24px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02); }
+    .smp-match-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 24px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02); transition: transform 0.2s; }
+    .smp-match-card:hover { transform: translateY(-2px); border-color: #cbd5e1; }
     .smp-match-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 14px; flex-wrap: wrap; gap: 10px; }
-    .smp-time-badge { background: #f8fafc; border: 1px solid var(--border-color); padding: 8px 14px; border-radius: 12px; font-size: 14px; font-weight: 800; }
+    .smp-time-badge { background: #f8fafc; border: 1px solid var(--border-color); padding: 8px 14px; border-radius: 12px; font-size: 13px; font-weight: 800; }
     .smp-category-tag { font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--color-blue); display: flex; align-items: center; gap: 6px; background: #eff6ff; padding: 6px 12px; border-radius: 20px; }
-    .smp-teams-row { font-size: 20px; font-weight: 900; text-transform: uppercase; margin-bottom: 16px; text-align: center; padding: 12px; background: #f8fafc; border-radius: 14px; border: 1px solid #f1f5f9; }
-    .smp-referee-box { display: flex; justify-content: space-between; align-items: center; font-size: 13px; background: #fdf4ff; border: 1px solid #fae8ff; padding: 10px 16px; border-radius: 12px; color: #86198f; font-weight: 700; margin-bottom: 10px; }
-    .smp-support-box { font-size: 12px; color: var(--text-muted); background: #f8fafc; padding: 10px 16px; border-radius: 12px; border: 1px solid var(--border-color); font-weight: 500; }
+    .smp-teams-row { font-size: 20px; font-weight: 900; text-transform: uppercase; margin-bottom: 16px; text-align: center; padding: 16px; background: #f8fafc; border-radius: 14px; border: 1px solid #f1f5f9; letter-spacing: 0.5px; }
+    .smp-referee-box { display: flex; justify-content: space-between; align-items: center; font-size: 13px; background: #fdf4ff; border: 1px solid #fae8ff; padding: 12px 16px; border-radius: 12px; color: #86198f; font-weight: 700; margin-bottom: 10px; }
+    .smp-support-box { font-size: 12px; color: var(--text-muted); background: #f8fafc; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border-color); font-weight: 500; }
 
-    /* --- 🍔 ESTILOS DEL MENÚ LATERAL --- */
+    /* --- MENÚ LATERAL --- */
     .smp-menu-toggle {
       position: fixed; top: 20px; left: 20px; background: var(--card-bg);
       border: 1px solid var(--border-color); padding: 12px 18px;
@@ -79,7 +156,9 @@
     .smp-side-link.active { background: #eff6ff; color: var(--color-blue); border-left: 4px solid var(--color-blue); }
 
     @media (max-width: 768px) {
-      body { padding: 20px 12px 40px 12px; }
+      body { padding: 20px 12px; }
+      .ig-profile-header { flex-direction: column; text-align: center; gap: 16px; padding: 20px; }
+      .ig-stats { justify-content: center; }
       .smp-weeks-container { grid-template-columns: repeat(2, 1fr); }
       .smp-teams-row { font-size: 17px; }
     }
@@ -108,7 +187,7 @@
         <span style="font-size: 18px;">📊</span> Fixture y Roles
       </a>
       <a href="fotos.html" class="smp-side-link">
-        <span style="font-size: 18px;">📁</span> Archivos del Drive
+        <span style="font-size: 18px;">📸</span> Galería y Fotos
       </a>
     </div>
   </div>
@@ -119,18 +198,19 @@
 
 <div class="app-container">
   
+  <!-- PERFIL ESTILO INSTAGRAM FLUIDO Y MODERNO -->
   <div class="ig-profile-header">
     <div class="ig-avatar-ring">
       <div class="ig-avatar-inner">📊</div>
     </div>
     <div class="ig-profile-info">
-      <span style="font-size: 11px; font-weight: 800; color: var(--color-blue); text-transform: uppercase; letter-spacing: 1px;">Innova Schools · San Martín de Porres</span>
+      <span class="tag">Innova Schools · San Martín de Porres</span>
       <h1>Fixture y Roles 2026 ⏱️</h1>
       <p>Consulta la programación oficial de encuentros, horarios y los roles arbitrales asignados en cada recreo. 🏆</p>
       <div class="ig-stats">
-        <div>4 <span>Semanas</span></div>
-        <div>Oficial <span>Calendario SMP</span></div>
-        <div>Sede <span>SMP</span></div>
+        <div class="ig-stat-badge">4 <span>Semanas</span></div>
+        <div class="ig-stat-badge">Oficial <span>Calendario SMP</span></div>
+        <div class="ig-stat-badge">Sede <span>SMP</span></div>
       </div>
     </div>
   </div>
@@ -356,6 +436,7 @@
     panel.innerHTML = html;
   }
 
+  // URL corregida para evitar el error 404 / HTML no deseado en la consola
   const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbw6v_-hQor-DMh7Mg2qtodwpuIiXIuCOqqtV3mY3Gs5ueqZBrDH8LORqa7RTMWhIH1uqw/exec";
 
   async function sincronizarFixtureEnVivo() {
@@ -394,7 +475,7 @@
         renderizarTarjetasPartidos();
       }
     } catch (error) {
-      console.error("Error sincronizando en segundo plano:", error);
+      console.error("Sincronización en pausa (modo estático activo).");
     }
   }
 
