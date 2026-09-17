@@ -179,11 +179,11 @@
       background: var(--card-bg); 
       border: 1px solid var(--border-color); 
       border-radius: 20px; 
-      padding: 20px 32px;  
+      padding: 20px 32px; 
       cursor: pointer; 
       transition: all 0.2s ease; 
       box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-      width: 100%;       
+      width: 100% !important;
       box-sizing: border-box;
     }
     .smp-card:hover { 
@@ -489,8 +489,8 @@
       </div>
     </div>
 
-  <!-- 👑 TARJETA COMPACTA DEL HOUSE LÍDER -->
-  <div class="smp-leader-card" id="smpLeaderCard">
+ <!-- 👑 TARJETA COMPACTA DEL HOUSE LÍDER -->
+    <div class="smp-leader-card" id="smpLeaderCard">
       <div>
         <span class="smp-leader-badge">👑 House Líder</span>
         <div class="smp-leader-info">
@@ -504,82 +504,86 @@
       </div>
     </div>
 
-  <div class="smp-podium-grid" id="smpContenedorPodio">
+    <!-- 🏆 REJILLA DE FILAS HORIZONTALES (¡TODAS LAS TARJETAS DENTRO DE ESTE CONTENEDOR!) -->
+    <div class="smp-podium-grid" id="smpContenedorPodio">
 
-  </div>
-  </div>
-
-  <!-- 🏆 REJILLA DE FILAS HORIZONTALES -->
-   <div class="smp-card smp-card-blue" id="smp-blue" data-score="0" onclick="abrirModalResumen('blue', 'DOLPHINS', '/img/delfin.png')">
-      <div class="smp-rank-number" id="smp-rank-blue">1</div>
-      
-      <!-- 🎯 PARCHE MAESTRO: Reemplazamos el emoji por tu imagen física real descargada -->
-      <div class="smp-mascot-shield" style="display: flex; align-items: center; justify-content: center;">
-        <img src="img/delfin.png" alt="Dolphins" style="width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 0 8px rgba(0, 242, 254, 0.2));">
+      <!-- FILA BLUE: Dolphins -->
+      <div class="smp-card smp-card-blue" id="smp-blue" data-score="0" onclick="abrirModalResumen('blue', 'DOLPHINS', '/img/delfin.png')">
+        <div class="smp-rank-number" id="smp-rank-blue">1</div>
+        <div class="smp-mascot-shield" style="display: flex; align-items: center; justify-content: center;">
+          <img src="img/delfin.png" alt="Dolphins" style="width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 0 8px rgba(0, 242, 254, 0.2));">
+        </div>
+        <div class="smp-house-ident">
+          <h4 class="smp-house-title">Dolphins</h4>
+          <p class="smp-house-label">BLUE HOUSE</p>
+        </div>
+        <div class="smp-progress-container">
+          <div class="smp-progress-bar" id="smp-bar-blue"></div>
+        </div>
+        <div class="smp-score-block">
+          <span class="smp-score-text" id="smp-score-blue">0</span>
+          <p class="smp-vs-leader-label" id="smp-diff-blue">en la cima</p>
+        </div>
       </div>
 
-      <div class="smp-house-ident">
-        <h4 class="smp-house-title">Dolphins</h4>
-        <p class="smp-house-label">BLUE HOUSE</p>
+      <!-- FILA WHITE: Seagulls -->
+      <div class="smp-card smp-card-white" id="smp-white" data-score="0" onclick="abrirModalResumen('white', 'SEAGULLS', '/img/gaviota.png')">
+        <div class="smp-rank-number" id="smp-rank-white">2</div>
+        <div class="smp-mascot-shield" style="display: flex; align-items: center; justify-content: center;">
+          <img src="img/gaviota.png" alt="Seagulls" style="width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));">
+        </div>
+        <div class="smp-house-ident">
+          <h4 class="smp-house-title">Seagulls</h4>
+          <p class="smp-house-label">WHITE HOUSE</p>
+        </div>
+        <div class="smp-progress-container">
+          <div class="smp-progress-bar" id="smp-bar-white"></div>
+        </div>
+        <div class="smp-score-block">
+          <span class="smp-score-text" id="smp-score-white">0</span>
+          <p class="smp-vs-leader-label" id="smp-diff-white">-0 vs líder</p>
+        </div>
       </div>
-      <div class="smp-progress-container">
-        <div class="smp-progress-bar" id="smp-bar-blue"></div>
+
+      <!-- FILA GREEN: Eagles -->
+      <div class="smp-card smp-card-green" id="smp-green" data-score="0" onclick="abrirModalResumen('green', 'EAGLES', '/img/aguila.png')">
+        <div class="smp-rank-number" id="smp-rank-green">3</div>
+        <div class="smp-mascot-shield" style="display: flex; align-items: center; justify-content: center;">
+          <img src="img/aguila.png" alt="Eagles" style="width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 0 8px rgba(46, 213, 115, 0.2));">
+        </div>
+        <div class="smp-house-ident">
+          <h4 class="smp-house-title">Eagles</h4>
+          <p class="smp-house-label">GREEN HOUSE</p>
+        </div>
+        <div class="smp-progress-container">
+          <div class="smp-progress-bar" id="smp-bar-green"></div>
+        </div>
+        <div class="smp-score-block">
+          <span class="smp-score-text" id="smp-score-green">0</span>
+          <p class="smp-vs-leader-label" id="smp-diff-green">-0 vs líder</p>
+        </div>
       </div>
-      <div class="smp-score-block">
-        <span class="smp-score-text" id="smp-score-blue">0</span>
-        <p class="smp-vs-leader-label" id="smp-diff-blue">en la cima</p>
+
+      <!-- FILA ORANGE: Horses -->
+      <div class="smp-card smp-card-orange" id="smp-orange" data-score="0" onclick="abrirModalResumen('orange', 'HORSES', '/img/caballo.png')">
+        <div class="smp-rank-number" id="smp-rank-orange">4</div>
+        <div class="smp-mascot-shield" style="display: flex; align-items: center; justify-content: center;">
+          <img src="img/caballo.png" alt="Horses" style="width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 0 8px rgba(255, 179, 0, 0.2));">
+        </div>
+        <div class="smp-house-ident">
+          <h4 class="smp-house-title">Horses</h4>
+          <p class="smp-house-label">ORANGE HOUSE</p>
+        </div>
+        <div class="smp-progress-container">
+          <div class="smp-progress-bar" id="smp-bar-orange"></div>
+        </div>
+        <div class="smp-score-block">
+          <span class="smp-score-text" id="smp-score-orange">0</span>
+          <p class="smp-vs-leader-label" id="smp-diff-orange">-0 vs líder</p>
+        </div>
       </div>
+
     </div>
-
-    <!-- FILA WHITE -->
-        <!-- 🕊️ SEAGULLS (WHITE HOUSE) -->
-    <div class="smp-card smp-card-white" id="smp-white" data-score="0" onclick="abrirModalResumen('white', 'SEAGULLS', '/img/gaviota.png')">
-      <div class="smp-rank-number" id="smp-rank-white">2</div>
-      
-      <!-- 🎯 PARCHE MAESTRO: Reemplazamos el emoji por tu imagen física real de madera -->
-      <div class="smp-mascot-shield" style="display: flex; align-items: center; justify-content: center;">
-        <img src="img/gaviota.png" alt="Seagulls" style="width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));">
-      </div>
-
-      <div class="smp-house-ident">
-        <h4 class="smp-house-title">Seagulls</h4>
-        <p class="smp-house-label">WHITE HOUSE</p>
-      </div>
-      <div class="smp-progress-container">
-        <div class="smp-progress-bar" id="smp-bar-white"></div>
-      </div>
-      <div class="smp-score-block">
-        <span class="smp-score-text" id="smp-score-white">0</span>
-        <p class="smp-vs-leader-label" id="smp-diff-white">-0 vs líder</p>
-      </div>
-    </div>
-
-    <!-- 🦅 EAGLES (GREEN HOUSE) -->
-    <div class="smp-card smp-card-green" id="smp-green" data-score="0" onclick="abrirModalResumen('green', 'EAGLES', '/img/aguila.png')">
-      <div class="smp-rank-number" id="smp-rank-green">3</div>
-      <div class="smp-mascot-shield" style="display: flex; align-items: center; justify-content: center;">
-        <img src="img/aguila.png" alt="Eagles" style="width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 0 8px rgba(46, 213, 115, 0.2));">
-      </div>
-
-      <div class="smp-house-ident">
-        <h4 class="smp-house-title">Eagles</h4>
-        <p class="smp-house-label">GREEN HOUSE</p>
-      </div>
-      <div class="smp-progress-container">
-        <div class="smp-progress-bar" id="smp-bar-green"></div>
-      </div>
-      <div class="smp-score-block">
-        <span class="smp-score-text" id="smp-score-green">0</span>
-        <p class="smp-vs-leader-label" id="smp-diff-green">-0 vs líder</p>
-      </div>
-    </div>
-
-    <!-- HORSES (ORANGE HOUSE) -->
-    <div class="smp-card smp-card-orange" id="smp-orange" data-score="0" onclick="abrirModalResumen('orange', 'HORSES', '/img/caballo.png')">
-      <div class="smp-rank-number" id="smp-rank-orange">4</div>
-      <div class="smp-mascot-shield" style="display: flex; align-items: center; justify-content: center;">
-        <img src="img/caballo.png" alt="Horses" style="width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 0 8px rgba(255, 179, 0, 0.2));">
-      </div>
 
       <div class="smp-house-ident">
         <h4 class="smp-house-title">Horses</h4>
