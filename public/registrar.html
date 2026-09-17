@@ -410,30 +410,43 @@
       </div>
     </div>
 
-    <!-- BOTONERA DE MENÚ INFERIOR ESTILO DESKTOP -->
-    <div class="smp-grid-navigation" style="grid-template-columns: repeat(4, 1fr);">
-      <!-- CORRECCIÓN DE RUTAS: Ahora apuntan a archivos físicos .html -->
-      <a href="registrar.html" class="smp-nav-block active">
-        <span class="smp-btn-ico">📋</span>
-        <span class="smp-btn-title">Registrar</span>
-        <p class="smp-btn-desc">Análisis de retos y puntuación por áreas</p>
+    <body>
+  <!-- 🍔 BOTÓN FLOTANTE DEL MENÚ -->
+  <button class="smp-menu-toggle" onclick="toggleMenu()">
+    ☰ Menú
+  </button>
+
+  <!-- 📂 PANEL LATERAL DESPLEGABLE -->
+  <div id="sideMenu" class="smp-side-menu">
+    <button class="smp-close-menu" onclick="toggleMenu()">✕</button>
+    
+    <div class="smp-side-header">
+      <span style="font-size: 24px;">🏫</span>
+      <h3 style="margin-top: 10px; font-weight: 900; color: var(--text-main);">Olimpiadas SMP</h3>
+    </div>
+
+    <div class="smp-side-menu-content">
+      <a href="registrar.html" class="smp-side-link active">
+        <span style="font-size: 18px;">📋</span> Registrar Puntos
       </a>
-      <a href="index.html" class="smp-nav-block">
-        <span class="smp-btn-ico">🏆</span>
-        <span class="smp-btn-title">Puntaje</span>
-        <p class="smp-btn-desc">Marcador consolidado en vivo de la Sede</p>
+      <a href="index.html" class="smp-side-link">
+        <span style="font-size: 18px;">🏆</span> Marcador en Vivo
       </a>
-      <a href="fixture.html" class="smp-nav-block">
-        <span class="smp-btn-ico">📊</span>
-        <span class="smp-btn-title">Fixture</span>
-        <p class="smp-btn-desc">Roles de partidos preliminares por recreos</p>
+      <a href="fixture.html" class="smp-side-link">
+        <span style="font-size: 18px;">📊</span> Fixture y Roles
       </a>
-      <a href="fotos.html" class="smp-nav-block">
-        <span class="smp-btn-ico">📁</span>
-        <span class="smp-btn-title">Archivos</span>
-        <p class="smp-btn-desc">Carpetas oficiales del Drive</p>
+      <a href="fotos.html" class="smp-side-link">
+        <span style="font-size: 18px;">📁</span> Archivos del Drive
       </a>
     </div>
+  </div>
+
+  <!-- Script para abrir/cerrar -->
+  <script>
+    function toggleMenu() {
+      document.getElementById('sideMenu').classList.toggle('open');
+    }
+  </script>
 
   </div> <!-- CIERRE DE SMP-MAIN-LAYOUT -->
 
