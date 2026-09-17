@@ -207,81 +207,98 @@
     }
     
     .smp-side-menu {
-      position: fixed; top: 0; left: -340px; width: 320px; height: 100vh;
-      background: #ffffff; box-shadow: 30px 0 60px rgba(15, 23, 42, 0.25);
-      transition: left 0.4s cubic-bezier(0.16, 1, 0.3, 1); z-index: 9999;
-      padding: 36px 28px; display: flex; flex-direction: column;
+      position: fixed !important; 
+      top: 0 !important; 
+      left: -340px !important; 
+      width: 320px !important; 
+      height: 100vh !important;
+      background: #ffffff !important; 
+      box-shadow: 30px 0 60px rgba(15, 23, 42, 0.25) !important;
+      transition: left 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important; 
+      z-index: 9999 !important;
+      padding: 36px 28px !important; 
+      display: flex !important; 
+      flex-direction: column !important;
+      box-sizing: border-box !important;
     }
-    .smp-side-menu.open { left: 0; }
+    .smp-side-menu.open { left: 0 !important; }
     
     .smp-menu-overlay-bg {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(15, 23, 42, 0.5); backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px); opacity: 0; visibility: hidden;
-      transition: all 0.4s ease; z-index: 9998;
+      position: fixed !important; top: 0 !important; left: 0 !important; 
+      width: 100% !important; height: 100% !important;
+      background: rgba(15, 23, 42, 0.5) !important; 
+      backdrop-filter: blur(8px) !important;
+      -webkit-backdrop-filter: blur(8px) !important; 
+      opacity: 0 !important; visibility: hidden !important;
+      transition: all 0.4s ease !important; z-index: 9998 !important;
     }
-    .smp-menu-overlay-bg.active { opacity: 1; visibility: visible; }
+    .smp-menu-overlay-bg.active { opacity: 1 !important; visibility: visible !important; }
 
     .smp-close-menu {
-      position: absolute; top: 28px; right: 28px; background: #f8fafc;
-      border: 1px solid var(--border-color); width: 40px; height: 40px; border-radius: 12px;
-      font-size: 16px; cursor: pointer; color: var(--text-muted);
-      display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+      position: absolute !important; top: 28px !important; right: 28px !important; 
+      background: #f8fafc !important; border: 1px solid var(--border-color) !important; 
+      width: 40px !important; height: 40px !important; border-radius: 12px !important;
+      font-size: 16px !important; cursor: pointer !important; color: var(--text-muted) !important;
+      display: flex !important; align-items: center !important; justify-content: center !important; 
+      transition: all 0.2s !important;
     }
-    .smp-close-menu:hover { background: #fee2e2; color: #ef4444; border-color: #fecaca; transform: rotate(90deg); }
+    .smp-close-menu:hover { background: #fee2e2 !important; color: #ef4444 !important; transform: rotate(90deg) !important; }
 
+    .smp-side-header { 
+      padding-bottom: 24px !important; margin-bottom: 24px !important; 
+      border-bottom: 2px dashed var(--border-color) !important; 
+      display: flex !important; align-items: center !important; gap: 16px !important;
+    }
     .smp-side-header-icon {
-      width: 54px; height: 54px; border-radius: 16px; 
-      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-      display: flex; align-items: center; justify-content: center; font-size: 26px;
-      box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3); flex-shrink: 0;
+      width: 54px !important; height: 54px !important; border-radius: 16px !important; 
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8) !important;
+      display: flex !important; align-items: center !important; justify-content: center !important; 
+      font-size: 26px !important; box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3) !important; 
+      flex-shrink: 0 !important;
     }
     .smp-side-header-title {
-      font-size: 20px; font-weight: 900; color: var(--text-main); margin: 0;
-      letter-spacing: -0.5px;
+      font-size: 20px !important; font-weight: 900 !important; color: var(--text-main) !important; margin: 0 !important;
     }
     .smp-side-header-subtitle {
-      font-size: 11px; font-weight: 800; color: var(--color-blue); text-transform: uppercase;
-      letter-spacing: 1px; margin-top: 4px;
+      font-size: 11px !important; font-weight: 800 !important; color: var(--color-blue) !important; 
+      text-transform: uppercase !important; letter-spacing: 1px !important; margin-top: 4px !important;
     }
 
-    .smp-side-menu-content { display: flex; flex-direction: column; gap: 12px; }
-
+    .smp-side-menu-content { display: flex !important; flex-direction: column !important; gap: 12px !important; }
+    
     .smp-side-link {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 16px 20px; text-decoration: none;
-      color: var(--text-muted); font-weight: 800; font-size: 15px; border-radius: 16px; 
-      transition: all 0.25s ease; border: 1px solid transparent;
-      background: #f8fafc;
+      display: flex !important; align-items: center !important; justify-content: space-between !important;
+      padding: 16px 20px !important; text-decoration: none !important;
+      color: var(--text-muted) !important; font-weight: 800 !important; font-size: 15px !important; 
+      border-radius: 16px !important; transition: all 0.25s ease !important; 
+      border: 1px solid transparent !important; background: #f8fafc !important;
+      box-sizing: border-box !important;
     }
     .smp-side-link:hover { 
-      background: #ffffff; color: var(--text-main); 
-      border-color: #cbd5e1; box-shadow: 0 8px 20px rgba(0,0,0,0.04);
-      transform: translateY(-2px);
+      background: #ffffff !important; color: var(--text-main) !important; 
+      border-color: #cbd5e1 !important; box-shadow: 0 8px 20px rgba(0,0,0,0.04) !important;
+      transform: translateY(-2px) !important;
     }
     .smp-side-link.active { 
-      background: linear-gradient(135deg, #0f172a, #1e293b); 
-      color: #ffffff; 
-      box-shadow: 0 12px 25px rgba(15, 23, 42, 0.25);
-      border-color: transparent;
+      background: linear-gradient(135deg, #0f172a, #1e293b) !important; 
+      color: #ffffff !important; 
+      box-shadow: 0 12px 25px rgba(15, 23, 42, 0.25) !important;
+      border-color: transparent !important;
     }
     .smp-side-link-left {
-      display: flex; align-items: center; gap: 14px;
+      display: flex !important; align-items: center !important; gap: 14px !important;
     }
     .smp-side-link span.icon {
-      font-size: 20px; width: 34px; height: 34px; border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      background: #e2e8f0; transition: background 0.2s;
+      font-size: 20px !important; width: 34px !important; height: 34px !important; border-radius: 10px !important;
+      display: flex !important; align-items: center !important; justify-content: center !important;
+      background: #e2e8f0 !important; transition: background 0.2s !important;
     }
-    .smp-side-link:hover span.icon {
-      background: #dbeafe;
-    }
-    .smp-side-link.active span.icon {
-      background: rgba(255, 255, 255, 0.15);
-    }
+    .smp-side-link:hover span.icon { background: #dbeafe !important; }
+    .smp-side-link.active span.icon { background: rgba(255, 255, 255, 0.15) !important; }
+    
     .smp-badge-active {
-      background: #3b82f6; color: white; font-size: 10px; font-weight: 900;
-      padding: 4px 10px; border-radius: 8px; text-transform: uppercase; letter-spacing: 0.5px;
+      background: #3b82f6 !important; color: white !important; font-size: 10px !important; font-weight: 900 !important;
+      padding: 4px 10px !important; border-radius: 8px !important; text-transform: uppercase !important; 
     }
 
     /* Responsivo elástico */
