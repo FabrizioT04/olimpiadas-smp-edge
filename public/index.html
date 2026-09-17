@@ -240,11 +240,12 @@
     }
 
     /* --- 📋 BOTONERA DE MENÚ INFERIOR --- */
-    .smp-menu-grid { 
+.smp-menu-grid { 
   display: grid; 
   grid-template-columns: repeat(3, 1fr); 
   gap: 20px; 
-  margin-top: 40px;
+  max-width: 900px; /* Ancho máximo para que no se estiren de más */
+  margin: 40px auto 0 auto; /* Centrado automático */
 }
 .smp-menu-btn { 
   background: var(--card-bg); 
