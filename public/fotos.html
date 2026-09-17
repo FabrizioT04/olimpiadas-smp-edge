@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Galería e Información - Olimpiadas Escolares 2026</title>
+  
+  <!-- Fuente corporativa: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-color: #f4f7f9;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --color-blue: #3b82f6;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body { 
+      font-family: 'Inter', system-ui, -apple-system, sans-serif; 
+      background-color: var(--bg-color); 
+      color: var(--text-main); 
+      min-height: 100vh;
+      padding: 40px 20px; 
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    .app-container { 
+      max-width: 1000px; 
+      margin: 0 auto; 
+    }
+
+    /* --- CABECERA --- */
+    .header { 
+      text-align: center; 
+      margin-bottom: 30px; 
+    }
+    .institution { 
+      font-size: 13px; 
+      color: var(--color-blue); 
+      text-transform: uppercase; 
+      letter-spacing: 1.5px; 
+      font-weight: 700;
+    }
+    .title { 
+      color: var(--text-main); 
+      margin: 8px 0; 
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+    .subtitle { 
+      color: var(--text-muted); 
+      font-size: 15px; 
+      font-weight: 500; 
+      margin: 0;
+    }
+
+    /* --- 🗂️ BOTONES DE CATEGORÍAS (PILLS) --- */
+    .smp-filter-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 35px;
+    }
+
+    .smp-filter-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+      text-transform: uppercase;
+    }
+
+    .smp-filter-btn:hover {
+      border-color: #cbd5e1;
+      color: var(--text-main);
+      transform: translateY(-1px);
+    }
+
+    .smp-filter-btn.active {
+      background: var(--color-blue);
+      border-color: var(--color-blue);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+    }
+
+    /* --- 📸 REJILLA DE GALERÍA --- */
+    .smp-gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .smp-gallery-item {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+      transition: all 0.2s ease;
+    }
+
+    .smp-gallery-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      border-color: #cbd5e1;
+    }
+
+    .smp-gallery-thumb {
+      width: 100%;
+      height: 170px;
+      background: #f8fafc;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .smp-gallery-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .smp-gallery-item:hover .smp-gallery-thumb img {
+      transform: scale(1.05);
+    }
+
+    .smp-gallery-caption {
+      padding: 12px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      background: var(--card-bg);
+      border-top: 1px solid var(--border-color);
+    }
+
+    /* --- 🔍 VENTANA VISOR (LIGHTBOX) --- */
+    .smp-lightbox-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 99999;
+      padding: 20px;
+    }
+
+    .smp-lightbox-container {
+      position: relative;
+      max-width: 900px;
+      max-height: 90vh;
+      text-align: center;
+    }
+
+    .smp-lightbox-img {
+      max-width: 100%;
+      max-height: 75vh;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .smp-lightbox-title {
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 16px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .smp-lightbox-close {
+      position: absolute;
+      top: -45px;
+      right: 0;
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: #ffffff;
+      font-size: 22px;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .smp-lightbox-close:hover {
+      background: rgba(255,255,255,0.25);
+    }
+
+    /* --- 📋 BOTONERA DE MENÚ INFERIOR --- */
+    .smp-menu-grid { 
+      display: grid; 
+      grid-template-columns: repeat(3, 1fr); 
+      gap: 20px; 
+      max-width: 900px; 
+      margin: 40px auto 0 auto; 
+    }
+    .smp-menu-btn { 
+      background: var(--card-bg); 
+      border: 1px solid var(--border-color); 
+      border-radius: 16px; 
+      padding: 24px 16px; 
+      text-align: center; 
+      text-decoration: none; 
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+      color: var(--text-muted);
+    }
+    .smp-menu-btn:hover { 
+      border-color: #cbd5e1; 
+      transform: translateY(-2px); 
+    }
+    .smp-menu-btn.active {
+      border-color: var(--color-blue);
+      border-width: 2px;
+      background: #f8fafc;
+      color: var(--text-main);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.08);
+    }
+    .smp-btn-ico { 
+      font-size: 28px; 
+      margin-bottom: 10px; 
+      display: block; 
+    }
+    .smp-btn-title { 
+      font-size: 14px; 
+      font-weight: 800; 
+      text-transform: uppercase; 
+      color: var(--text-main); 
+      letter-spacing: 0.5px;
+    }
+    .smp-btn-desc { 
+      font-size: 12px; 
+      color: var(--text-muted); 
+      margin-top: 6px; 
+      line-height: 1.4;
+    }
+
+    /* --- RESPONSIVE MOBILE --- */
+    @media (max-width: 768px) {
+      body { padding: 20px 12px; }
+      .header { margin-bottom: 20px; }
+      .title { font-size: 24px; }
+      .smp-gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .smp-menu-grid { grid-template-columns: 1fr; gap: 12px; }
+      .smp-filter-container { gap: 6px; }
+      .smp-filter-btn { padding: 10px 12px; font-size: 11px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <header class="header">
+      <span class="institution">Innova Schools - San Martín de Porres</span>
+      <h1 class="title">Información y Galería 2026</h1>
+      <p class="subtitle">Explora los momentos y documentos oficiales de las olimpiadas</p>
+    </header>
+
+    <!-- 🗂️ BOTONES DE FILTRADO (BASADOS EN TU WHATSAPP) -->
+    <div class="smp-filter-container">
+      <button class="smp-filter-btn active" onclick="filtrarCategoria('todos', this)">🌟 Todo</button>
+      <button class="smp-filter-btn" onclick="filtrarCategoria('convivencia', this)">🤝 Acuerdos de Convivencia</button>
+      <button class="smp-filter-btn" onclick="filtrarCategoria('revelacion', this)">🏰 Revelación de Casas</button>
+      <button class="smp-filter-btn" onclick="filtrarCategoria('inauguracion', this)">🔥 Inauguración</button>
+      <button class="smp-filter-btn" onclick="filtrarCategoria('lideres', this)">👑 Estudiantes Líderes</button>
+      <button class="smp-filter-btn" onclick="filtrarCategoria('presentacion', this)">🎤 Presentación de Casas</button>
+    </div>
+
+    <!-- 📸 CONTENEDOR DE LA GALERÍA -->
+    <div id="galleryGrid" class="smp-gallery-grid">
+      <!-- Las fotos se cargan automáticamente según la categoría seleccionada -->
+    </div>
+
+    <!-- 📋 BOTONERA DE MENÚ INFERIOR -->
+    <div class="smp-menu-grid">
+      <a href="registrar.html" class="smp-menu-btn">
+        <span class="smp-btn-ico">📋</span>
+        <span class="smp-btn-title">Registrar</span>
+        <p class="smp-btn-desc">Análisis de retos y puntuación por áreas</p>
+      </a>
+      <a href="index.html" class="smp-menu-btn">
+        <span class="smp-btn-ico">🏆</span>
+        <span class="smp-btn-title">Puntaje</span>
+        <p class="smp-btn-desc">Marcador consolidado en vivo de la Sede</p>
+      </a>
+      <a href="fixture.html" class="smp-menu-btn">
+        <span class="smp-btn-ico">📊</span>
+        <span class="smp-btn-title">Fixture</span>
+        <p class="smp-btn-desc">Roles de partidos preliminares por recreos</p>
+      </a>
+    </div>
+
+  </div> <!-- CIERRE DE APP-CONTAINER -->
+
+  <!-- 🔍 MODAL VISOR (LIGHTBOX) -->
+  <div id="lightboxModal" class="smp-lightbox-overlay" onclick="cerrarLightbox()">
+    <div class="smp-lightbox-container" onclick="event.stopPropagation()">
+      <button class="smp-lightbox-close" onclick="cerrarLightbox()">✕</button>
+      <img id="lightboxImg" class="smp-lightbox-img" src="" alt="Vista previa">
+      <div id="lightboxTitle" class="smp-lightbox-title"></div>
+    </div>
+  </div>
+
+  <script>
+    // =========================================================================
+    // 📂 BASE DE DATOS DE FOTOS E INFORMACIÓN POR CATEGORÍA
+    // =========================================================================
+    const listaFotos = [
+      { categoria: "convivencia", archivo: "img/aguila.png", titulo: "Normas de Sana Convivencia" },
+      { categoria: "convivencia", archivo: "img/delfin.png", titulo: "Capitanes firmando acuerdos" },
+      { categoria: "revelacion", archivo: "img/caballo.png", titulo: "Revelación Inicial y Primaria" },
+      { categoria: "revelacion", archivo: "img/gaviota.png", titulo: "Revelación Secundaria" },
+      { categoria: "inauguracion", archivo: "img/delfin.png", titulo: "Antorcha Olímpica SMP" },
+      { categoria: "inauguracion", archivo: "img/aguila.png", titulo: "Desfile Oficial 2026" },
+      { categoria: "lideres", archivo: "img/caballo.png", titulo: "Ecolíderes y Capitanes" },
+      { categoria: "lideres", archivo: "img/gaviota.png", titulo: "Reunión de Estudiantes Líderes" },
+      { categoria: "presentacion", archivo: "img/delfin.png", titulo: "Presentación de Dolphins" },
+      { categoria: "presentacion", archivo: "img/aguila.png", titulo: "Presentación de Eagles" }
+    ];
+
+    let categoriaActual = 'todos';
+
+    function cargarGaleria(cat) {
+      categoriaActual = cat;
+      const grid = document.getElementById('galleryGrid');
+      grid.innerHTML = "";
+
+      const fotosFiltradas = cat === 'todos' 
+        ? listaFotos 
+        : listaFotos.filter(f => f.categoria === cat);
+
+      if (fotosFiltradas.length === 0) {
+        grid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; color:var(--text-muted); padding: 40px;">No hay fotos registradas en esta categoría todavía.</p>`;
+        return;
+      }
+
+      fotosFiltradas.forEach((foto) => {
+        const item = document.createElement('div');
+        item.className = 'smp-gallery-item';
+        item.onclick = () => abrirLightbox(foto.archivo, foto.titulo);
+
+        item.innerHTML = `
+          <div class="smp-gallery-thumb">
+            <img src="${foto.archivo}" alt="${foto.titulo}" loading="lazy">
+          </div>
+          <div class="smp-gallery-caption">${foto.titulo}</div>
+        `;
+        grid.appendChild(item);
+      });
+    }
+
+    function filtrarCategoria(cat, boton) {
+      // Cambiar estado activo de los botones
+      document.querySelectorAll('.smp-filter-btn').forEach(btn => btn.classList.remove('active'));
+      boton.classList.add('active');
+      
+      cargarGaleria(cat);
+    }
+
+    function abrirLightbox(src, titulo) {
+      document.getElementById('lightboxImg').src = src;
+      document.getElementById('lightboxTitle').innerText = titulo;
+      document.getElementById('lightboxModal').style.display = 'flex';
+    }
+
+    function cerrarLightbox() {
+      document.getElementById('lightboxModal').style.display = 'none';
+    }
+
+    // Inicializar al cargar
+    document.addEventListener('DOMContentLoaded', () => cargarGaleria('todos'));
+  </script>
+
+</body>
+</html>
