@@ -516,7 +516,7 @@
   </div>
 
   <script>
-    // Lista de fotos de ejemplo para el carrusel (puedes poner las que gustes en tu carpeta img/)
+    
     let fotosActuales = [];
     let indiceActual = 0;
 
@@ -524,11 +524,21 @@
       document.getElementById('modalTitle').innerText = titulo;
       document.getElementById('modalDriveBtn').href = linkDrive;
 
-      // Simulamos un conjunto de fotos destacadas para cada sección
-      if(titulo.includes('Deportes')) {
-        fotosActuales = ['img/delfin.png', 'img/aguila.png', 'img/gaviota.png', 'img/caballo.png'];
-      } else {
-        fotosActuales = ['img/gaviota.png', 'img/delfin.png', 'img/caballo.png'];
+      // 🎯 Asignamos imágenes únicas y específicas para cada álbum
+      if (titulo.includes('Deportes')) {
+        fotosActuales = ['img/delfin.png', 'img/aguila.png', 'img/caballo.png'];
+      } 
+      else if (titulo.includes('Convivencia')) {
+        fotosActuales = ['img/gaviota.png', 'img/delfin.png', 'img/aguila.png'];
+      } 
+      else if (titulo.includes('Bases')) {
+        fotosActuales = ['img/aguila.png', 'img/caballo.png', 'img/gaviota.png'];
+      } 
+      else if (titulo.includes('Ecohouse')) {
+        fotosActuales = ['img/caballo.png', 'img/delfin.png', 'img/gaviota.png'];
+      } 
+      else {
+        fotosActuales = ['img/delfin.png', 'img/gaviota.png'];
       }
 
       indiceActual = 0;
